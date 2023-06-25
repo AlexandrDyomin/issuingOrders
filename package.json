@@ -1,0 +1,23 @@
+{
+  "name": "issuing_orders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "docxtemplater": "^3.37.9",
+    "office-to-pdf": "^4.0.0",
+    "pdf-merger-js": "^4.3.0",
+    "pizzip": "^3.1.4"
+  },
+  "devDependencies": {
+    "pug": "^3.0.2"
+  }
+}

@@ -1,0 +1,270 @@
+//- <!DOCTYPE html>
+//- <html lang="en">
+//- <head>
+//-     <meta charset="UTF-8">
+//-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+//-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//-     <title>Document</title>
+//- </head>
+//- <body>
+//-     <main class="page">
+//-         <form action="" method="post">
+//-             <div class="field">
+//-                 <label>
+//-                     <input type="text">
+//-                     Номер наряда
+//-                 </label>
+//-             </div>
+//-             <div class="field">
+//-                 <fieldset>
+//-                     <legend>Ответственный руководитель работ</legend>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Дёмин А.П. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Сержанков С.Н. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Бахтияров Р.В. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Корнеев А.А. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Аглеев Р.А. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Черенко А.С. гр. V
+//-                     </label>
+//-                 </fieldset>
+//-             </div>
+//-             <div class="field">
+//-                 <fieldset>
+//-                     <legend>Наблюдающий</legend>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Дёмин А.П. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Сержанков С.Н. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Бахтияров Р.В. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Корнеев А.А. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Аглеев Р.А. гр. V
+//-                     </label>
+//-                     <label>
+//-                         <input type="radio" name="leader">
+//-                         Черенко А.С. гр. V
+//-                     </label>
+//-                 </fieldset>
+//-             </div>
+            
+//-         </form>
+//-     </main>
+//- </body>
+//- </html>
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        mete(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body 
+        input(type="button" value="send data")
+        iframe
+        style.
+            iframe {
+                width: 80vw;
+                height: 80vh;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right:0;
+                margin:auto;
+            }
+
+        script.
+            const WORKERS_LINE_1_LENGTH = 77;
+            const WORKERS_LINE_2_LENGTH = 96;
+
+            let values = {
+                number: '',
+                additionalOrder: '',
+                leader: '',
+                allowing: '',
+                foreman: '',
+                watching: '',
+                workers1: '',
+                workers2: '',
+                startDate: '',
+                endDate: '',
+                startTime: '',
+                endTime: '',
+                giving: '',
+                worker1: '',
+                worker2: '',
+                worker3: '',
+                overhedLine: '',
+                support: '',
+                dateIssue: '',
+                timeIssue: ''
+            }  
+
+            let formData = {
+                number: '26',
+                leader: 'Дёмин А.П. гр. V',
+                allowing: 'Дёмин А.П. гр. V',
+                foreman: 'Лунёв В.В. гр. V',
+                watching: 'не назначается',
+                startDate: '19.06.23',
+                endDate: '19.06.23',
+                startTime: '14:40',
+                endTime: '20:00',
+                giving: 'Пшенковский В.А. гр. V',
+                workers: [
+                    '1Мункуев В.С. гр. V', '2Дымбрылов Э.Г. гр. V', '3Лутай Е.В. гр. V',
+                    '4Мункуев В.С. гр. V', '5Мункуев В.С. гр. V', '6Дымбрылов Э.Г. гр. V', '7Лутай Е.В. гр. V',
+                    '8Мункуев В.С. гр. V','9Мункуев В.С. гр. V', '10Дымбрылов Э.Г. гр. V', '11Лутай Е.В. гр. V',
+                    '12Мункуев В.С. гр. V'
+                ],
+                overhedLine: 'ВЛ-6кВ Л 4-1',
+                support: 'оп. № 99-101'
+            }
+
+
+            console.log(processData(formData));
+
+            function processData(data) {
+                let processedData = [];
+                splitWorkers(data.workers);
+                prepareStrings(data.workers);
+                return processedData;
+                
+                function splitWorkers(workers) {
+                    let numberOfWorkerGroups = calcNumberOfWorkerGroups();
+                    for (let i = 0; i < numberOfWorkerGroups; i++) {
+                        if (numberOfWorkerGroups === 1 || i === (numberOfWorkerGroups - 1)) {
+                            let group = workers.slice(i*2).map(deleteGroup);
+                            let obj = createObj(['worker1', 'worker2', 'worker3'], group);
+                            i === numberOfWorkerGroups - 1 && (obj.number = data.number, obj.additionalOrder = 'Дополнительный бланк');
+                            processedData.push({ ...(i === 0 ? data : values),  ...obj });
+                            break;
+                        }
+
+                        let group = data.workers.slice(i*2, i*2+2).map(deleteGroup);
+                        let obj = createObj(['worker1', 'worker2', 'worker3'], group);
+                        obj.worker3 = 'См. дополнительный бланк';
+                        obj.number = data.number;
+                        i !== 0 && (obj.additionalOrder = 'Дополнительный бланк');
+                        processedData.push({ ...(i === 0 ? data : values),  ...obj });
+
+                        i === 0 && delete processedData[i].workers; // move from here
+                    }
+
+                    function calcNumberOfWorkerGroups() {
+                        const maxNumberWorkers = 3;
+                        let numberOfWorkerGroups;
+                        
+                        if (workers.length <= maxNumberWorkers) {
+                            numberOfWorkerGroups = 1;
+                        }
+
+                        numberOfWorkerGroups  = Math.ceil(numberOfWorkerGroups || (workers.length - maxNumberWorkers) / (maxNumberWorkers - 1) + 1);
+                        
+                        return numberOfWorkerGroups;
+                    }
+
+                    function deleteGroup(str) {
+                        return str.replace(/\sгр.\s\D+/, '');
+                    }
+
+                    function createObj(props, values) {
+                        let obj = {};
+                        props.forEach((prop, i) => {
+                            obj[prop] = values[i] || '';
+                        });
+                        return obj;
+                    }
+                }
+                
+                function prepareStrings(arr, start = 0, callCounter = 0) {
+                    let separator = '';
+                    for (var i = start, str1 = '', str2 = '', stop; i < arr.length; i++) {
+                        if (str1.length + arr[i].length + separator.length <= WORKERS_LINE_1_LENGTH) {
+                            separator = ', '
+                            str1 += arr[i] + separator;
+                            continue;
+                        }
+                        stop = i;
+                        separator = '';
+                        for (let i = stop; i < arr.length; i++) {
+                            if (str2.length + arr[i].length + separator.length <= WORKERS_LINE_2_LENGTH) {
+                                str2 += arr[i] + separator;
+                                continue;
+                            }
+                            str2 = 'См. дополнительный бланк';
+                            break;
+                        }
+                        break;
+                    }
+
+                    str1 = str1.replace(/\s$/, '');
+                    if (str2 !== 'См. дополнительный бланк') {
+                        str1 = str1.replace(/(,\s)$/, '');
+                        str2 = str2.replace(/(,\s)$/, '');
+                        addProps(processedData, { workers1: str1, workers2: str2 });
+                        return;
+                    }
+
+                    addProps(processedData, { workers1: str1, workers2: str2 });
+                    prepareStrings(arr, stop, ++callCounter);
+                    
+                    function addProps(dest, source) {
+                        if (dest[callCounter]) {
+                            dest[callCounter] = { ...dest[callCounter], ...source};
+                        } else {
+                            let isFirstOrder = callCounter === 0;
+                            dest.push({
+                                ...values, 
+                                ...source,
+                                number: data.number, 
+                                additionalOrder : isFirstOrder ? '' : 'Дополнительный бланк'
+                            });
+                        }
+                    }
+                }
+            }
+
+
+            let btn = document.querySelector('input[type=button]');
+            btn.onclick = async function sendData() {
+                const data = JSON.stringify(formData);
+                let url = 'http://localhost:8000/order';
+                let res = await fetch(url, {
+                    method: 'POST',
+                    body: data
+                })
+
+                res = await res.blob();
+
+                url = URL.createObjectURL(res);
+                let ifr = document.querySelector('iframe');
+                ifr.src = url;
+            }
