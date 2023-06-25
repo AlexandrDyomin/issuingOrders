@@ -140,16 +140,12 @@ html(lang="en")
                 giving: 'Пшенковский В.А. гр. V',
                 workers: [
                     '1Мункуев В.С. гр. V', '2Дымбрылов Э.Г. гр. V', '3Лутай Е.В. гр. V',
-                    '4Мункуев В.С. гр. V', '5Мункуев В.С. гр. V', '6Дымбрылов Э.Г. гр. V', '7Лутай Е.В. гр. V',
-                    '8Мункуев В.С. гр. V','9Мункуев В.С. гр. V', '10Дымбрылов Э.Г. гр. V', '11Лутай Е.В. гр. V',
-                    '12Мункуев В.С. гр. V'
+                    '4Мункуев В.С. гр. V'
                 ],
                 overhedLine: 'ВЛ-6кВ Л 4-1',
                 support: 'оп. № 99-101'
             }
 
-
-            console.log(processData(formData));
 
             function processData(data) {
                 let processedData = [];
@@ -255,7 +251,7 @@ html(lang="en")
 
             let btn = document.querySelector('input[type=button]');
             btn.onclick = async function sendData() {
-                const data = JSON.stringify(formData);
+                const data = JSON.stringify(processData(formData));
                 let url = 'http://localhost:8000/order';
                 let res = await fetch(url, {
                     method: 'POST',
