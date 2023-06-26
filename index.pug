@@ -168,7 +168,7 @@ html(lang="en")
                         let obj = createObj(['worker1', 'worker2', 'worker3'], group);
                         obj.worker3 = 'См. дополнительный бланк';
                         obj.number = data.number;
-                        i !== 0 && (obj.additionalOrder = 'Дополнительный бланк');
+                        obj.additionalOrder = (i === 0 ? '' : 'Дополнительный бланк');
                         processedData.push({ ...(i === 0 ? data : values),  ...obj });
 
                         i === 0 && delete processedData[i].workers; // move from here

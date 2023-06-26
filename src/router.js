@@ -1,10 +1,11 @@
 const fs = require('fs/promises');
 const path = require('path');
-const generateDocument = require('../utils/generateDocument.js');
-let { renderIndexPage } = require('./compiledPages.js').compiledPages;
 
 const toPdf = require('office-to-pdf');
 const PDFMerger = require('pdf-merger-js');
+
+const generateDocument = require('../utils/generateDocument.js');
+const { renderIndexPage } = require('./compiledPages.js').compiledPages;
 
 let routes = {
     '/order': function postOrder(req, res) {
@@ -41,24 +42,17 @@ function mergeChunks(container) {
 function makeHandlerEnd(res, data) {
     return handleEnd;
     
-    function writeHeaders() {
-        const docxType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-        const pdfType = 'application/pdf';
-        res.setHeader('Content-Type', pdfType);
-        res.writeHead(200);
-    }
-
     async function  handleEnd() {
         try {
             let emptyOrder = await readEmptyOrder();
-            let deserializedData = deserialize(data);
+            let deserializedData = JSON.parse(data.toString());
             let merger = new PDFMerger();
             
             for (let part of deserializedData) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, part);
                 let pdf = await toPdf(order);
-                merger.add(pdf);
+                await merger.add(pdf);
             }
             writeHeaders();
             res.end(await merger.saveAsBuffer());
@@ -68,21 +62,18 @@ function makeHandlerEnd(res, data) {
             res.end(err.message);
         }
     }  
+
+    function writeHeaders() {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.writeHead(200);
+    }
     
     function readEmptyOrder() {
         try {
-            return fs.readFile(path.resolve(process.cwd(), 'src', 'documentsTemplates', 'empty_form.docx'));
+            return fs.readFile(path.resolve(process.cwd(), 'src', 'documentTemplates', 'empty_form.docx'));
         } catch (err) {
             throw err;
         }
-    }
-}
-
-function deserialize(buf) {
-    try {
-        return JSON.parse(buf.toString());
-    } catch (err) {
-        throw err;
     }
 }
 
