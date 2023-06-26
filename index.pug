@@ -139,8 +139,7 @@ html(lang="en")
                 endTime: '20:00',
                 giving: 'Пшенковский В.А. гр. V',
                 workers: [
-                    '1Мункуев В.С. гр. V', '2Дымбрылов Э.Г. гр. V', '3Лутай Е.В. гр. V',
-                    '4Мункуев В.С. гр. V'
+                    'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
                 ],
                 overhedLine: 'ВЛ-6кВ Л 4-1',
                 support: 'оп. № 99-101'
@@ -159,7 +158,8 @@ html(lang="en")
                         if (numberOfWorkerGroups === 1 || i === (numberOfWorkerGroups - 1)) {
                             let group = workers.slice(i*2).map(deleteGroup);
                             let obj = createObj(['worker1', 'worker2', 'worker3'], group);
-                            i === numberOfWorkerGroups - 1 && (obj.number = data.number, obj.additionalOrder = 'Дополнительный бланк');
+                            i === numberOfWorkerGroups - 1 && (obj.number = data.number);
+                            obj.additionalOrder = (i === 0 ? '' : 'Дополнительный бланк');
                             processedData.push({ ...(i === 0 ? data : values),  ...obj });
                             break;
                         }

@@ -54,6 +54,7 @@ function makeHandlerEnd(res, data) {
                 let pdf = await toPdf(order);
                 await merger.add(pdf);
             }
+            
             writeHeaders();
             res.end(await merger.saveAsBuffer());
         } catch (err) {
