@@ -101,32 +101,6 @@ html(lang="en")
             }
 
         script.
-            const WORKERS_LINE_1_LENGTH = 77;
-            const WORKERS_LINE_2_LENGTH = 96;
-
-            let values = {
-                number: '',
-                additionalOrder: '',
-                leader: '',
-                allowing: '',
-                foreman: '',
-                watching: '',
-                workers1: '',
-                workers2: '',
-                startDate: '',
-                endDate: '',
-                startTime: '',
-                endTime: '',
-                giving: '',
-                worker1: '',
-                worker2: '',
-                worker3: '',
-                overhedLine: '',
-                support: '',
-                dateIssue: '',
-                timeIssue: ''
-            }  
-
             let formData = {
                 number: '26',
                 leader: 'Дёмин А.П. гр. V',
@@ -139,112 +113,147 @@ html(lang="en")
                 endTime: '20:00',
                 giving: 'Пшенковский В.А. гр. V',
                 workers: [
-                    'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
+                    'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V', 'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
                 ],
                 overhedLine: 'ВЛ-6кВ Л 4-1',
-                support: 'оп. № 99-101'
+                support: 'оп. № 99-101',
+                dateIssue: '23.06.23',
+                timeIssue: '11:01'
             }
 
 
             function processData(data) {
                 let processedData = [];
-                splitWorkers(data.workers);
-                prepareStrings(data.workers);
-                return processedData;
+                let emptyObj = {
+                    number: '',
+                    additionalOrder: '',
+                    leader: '',
+                    allowing: '',
+                    foreman: '',
+                    watching: '',
+                    workers1: '',
+                    workers2: '',
+                    startDate: '',
+                    endDate: '',
+                    startTime: '',
+                    endTime: '',
+                    giving: '',
+                    worker1: '',
+                    worker2: '',
+                    worker3: '',
+                    overhedLine: '',
+                    support: '',
+                    dateIssue: '',
+                    timeIssue: ''
+                }
+                let groups = prepareDataForTables(data.workers);
+                let strings = prepareStringsWithWorkers(data.workers);
                 
-                function splitWorkers(workers) {
+                for (let i = 0; i < groups.length; i++) {
+                    let group = groups[i];
+                    let str = strings[i] || {};
+                    let firstObj = i === 0 ? data : emptyObj;
+                    let obj = { 
+                        ...firstObj, 
+                        ...group, 
+                        ...str,
+                        number : data.number,
+                        dateIssue: data.dateIssue,
+                        timeIssue: data.timeIssue,
+                        additionalOrder: i === 0 ? '' : 'Дополнительный бланк',
+                        giving: formData.giving
+                    };
+                    processedData.push(obj);
+                }
+                delete processedData[0].workers;
+
+                return processedData; 
+
+
+                function prepareDataForTables(workers, start = 0) {
                     let numberOfWorkerGroups = calcNumberOfWorkerGroups();
-                    for (let i = 0; i < numberOfWorkerGroups; i++) {
-                        if (numberOfWorkerGroups === 1 || i === (numberOfWorkerGroups - 1)) {
-                            let group = workers.slice(i*2).map(deleteGroup);
-                            let obj = createObj(['worker1', 'worker2', 'worker3'], group);
-                            i === numberOfWorkerGroups - 1 && (obj.number = data.number);
-                            obj.additionalOrder = (i === 0 ? '' : 'Дополнительный бланк');
-                            processedData.push({ ...(i === 0 ? data : values),  ...obj });
-                            break;
+                    let groups = [];
+                
+                    (function split(start) {
+                        if (start === numberOfWorkerGroups - 1) {
+                            groups.push(createObj(workers.slice(start*2)));
+                            return;
                         }
-
-                        let group = data.workers.slice(i*2, i*2+2).map(deleteGroup);
-                        let obj = createObj(['worker1', 'worker2', 'worker3'], group);
-                        obj.worker3 = 'См. дополнительный бланк';
-                        obj.number = data.number;
-                        obj.additionalOrder = (i === 0 ? '' : 'Дополнительный бланк');
-                        processedData.push({ ...(i === 0 ? data : values),  ...obj });
-
-                        i === 0 && delete processedData[i].workers; // move from here
-                    }
-
+                
+                        let arr = workers.slice(start*2, start*2+2);
+                        arr.push('См. дополнительный бланк');
+                        groups.push(createObj(arr));
+                        
+                        split(++start);
+                    })(start);
+                
+                    return groups;
+                
                     function calcNumberOfWorkerGroups() {
                         const maxNumberWorkers = 3;
-                        let numberOfWorkerGroups;
-                        
                         if (workers.length <= maxNumberWorkers) {
-                            numberOfWorkerGroups = 1;
+                            var numberOfWorkerGroups = 1;
                         }
-
                         numberOfWorkerGroups  = Math.ceil(numberOfWorkerGroups || (workers.length - maxNumberWorkers) / (maxNumberWorkers - 1) + 1);
-                        
                         return numberOfWorkerGroups;
                     }
-
+                
+                    function createObj(arr) {
+                        let obj = {};
+                        for (let i = 0, prop = 'worker'; i < 3; i++) {
+                            let value = arr[i] ? deleteGroup(arr[i]) : '';
+                            obj[prop + (i + 1)] = value;
+                        }
+                        return obj;
+                    }
+                
                     function deleteGroup(str) {
                         return str.replace(/\sгр.\s\D+/, '');
                     }
-
-                    function createObj(props, values) {
-                        let obj = {};
-                        props.forEach((prop, i) => {
-                            obj[prop] = values[i] || '';
-                        });
-                        return obj;
-                    }
                 }
-                
-                function prepareStrings(arr, start = 0, callCounter = 0) {
-                    let separator = '';
-                    for (var i = start, str1 = '', str2 = '', stop; i < arr.length; i++) {
-                        if (str1.length + arr[i].length + separator.length <= WORKERS_LINE_1_LENGTH) {
-                            separator = ', '
-                            str1 += arr[i] + separator;
-                            continue;
-                        }
-                        stop = i;
-                        separator = '';
-                        for (let i = stop; i < arr.length; i++) {
-                            if (str2.length + arr[i].length + separator.length <= WORKERS_LINE_2_LENGTH) {
-                                str2 += arr[i] + separator;
+
+
+                function prepareStringsWithWorkers(workers, start = 0) {
+                    const WORKERS_LINE_1_LENGTH = 80;
+                    const WORKERS_LINE_2_LENGTH = 105;
+                    let strings = [];
+                    
+                    (function prepare(start) {
+                        let separator = '';
+                        for (var i = start, str1 = '', str2 = '', stop; i < workers.length; i++) {
+                            if (str1.length + workers[i].length + separator.length <= WORKERS_LINE_1_LENGTH) {
+                                separator = ', '
+                                str1 += workers[i] + separator;
                                 continue;
                             }
-                            str2 = 'См. дополнительный бланк';
+                            stop = i;
+                            separator = '';
+                            for (let i = stop; i < workers.length; i++) {
+                                if (str2.length + workers[i].length + separator.length <= WORKERS_LINE_2_LENGTH) {
+                                    separator = ', ';
+                                    str2 += workers[i] + separator;
+                                    continue;
+                                }
+                                str2 = 'См. дополнительный бланк';
+                                break;
+                            }
                             break;
                         }
-                        break;
-                    }
-
-                    str1 = str1.replace(/\s$/, '');
-                    if (str2 !== 'См. дополнительный бланк') {
-                        str1 = str1.replace(/(,\s)$/, '');
-                        str2 = str2.replace(/(,\s)$/, '');
-                        addProps(processedData, { workers1: str1, workers2: str2 });
-                        return;
-                    }
-
-                    addProps(processedData, { workers1: str1, workers2: str2 });
-                    prepareStrings(arr, stop, ++callCounter);
-                    
-                    function addProps(dest, source) {
-                        if (dest[callCounter]) {
-                            dest[callCounter] = { ...dest[callCounter], ...source};
-                        } else {
-                            let isFirstOrder = callCounter === 0;
-                            dest.push({
-                                ...values, 
-                                ...source,
-                                number: data.number, 
-                                additionalOrder : isFirstOrder ? '' : 'Дополнительный бланк'
-                            });
+                        
+                        str1 = str1.replace(/\s$/, '');
+                        if (str2 !== 'См. дополнительный бланк') {
+                            str1 = str2 ? str1 : str1.replace(/,$/, '');
+                
+                            str2 = str2.replace(/(,\s)$/, '');
+                            strings.push({workers1: str1, workers2: str2});
+                            return;
                         }
-                    }
+                        
+                        strings.push({workers1: str1, workers2: str2});
+                        prepare(stop);
+                    })(start)
+                
+                    return strings;
                 }
             }
 
