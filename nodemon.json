@@ -1,0 +1,4 @@
+{
+    "watch": ["index.js", "src", "index.pug", "build.js"],
+    "ext": "js, pug"
+}
