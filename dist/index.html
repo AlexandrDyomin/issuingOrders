@@ -1,1 +1,549 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body> <h1>Hello</h1><p>world!</p></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><mete http-equiv="X-UA-Compatible" content="IE=edge"></mete><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title><style>.plate {
+    border-style : solid;
+    border-top-width: 1rem;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-radius: 0 0 1rem 1rem;
+    border-top-color: rgba(80, 0, 251, 0.7);
+    padding: 2.5rem;
+    padding-top: 1.5rem;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.25);
+}</style><style>.custom-input {
+    width: 100%;
+    height: 2.5rem;
+    display: block;
+    border-style: solid;
+    border-color: #675C5C;
+    border-top-width: 0;
+    border-left-width:0;
+    border-right-width:0;
+    border-bottom-width: 1px;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor:text;
+    -moz-appearance: textfield;
+}
+
+.custom-input:focus {
+    outline: none;
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.custom-input::-webkit-outer-spin-button,
+.custom-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.custom-input::-ms-reveal { 
+    display: none; 
+}</style><style>/* Reset and base styles  */
+* {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Links */
+
+a, a:link, a:visited  {
+    text-decoration: none;
+}
+
+a:hover  {
+    text-decoration: none;
+}
+
+/* Common */
+
+aside, nav, footer, header, section, main {
+    display: block;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+ul, ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+img, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+address {
+font-style: normal;
+}
+
+/* Form */
+
+input, textarea, button, select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button, input[type="submit"] {
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+    background: none;
+    cursor: pointer;
+}
+
+input:focus, input:active,
+button:focus, button:active {
+    outline: none;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+label {
+    cursor: pointer;
+}
+
+legend {
+    display: block;
+}
+
+html {
+    font-family: Roboto Serif;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+body {
+    padding: 1rem;
+}
+
+main {
+    max-width: 100rem;
+    min-width: 32rem;
+    margin: 0 auto;
+}</style><body> <main> <form><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input" type="number" min="1"></label><style>.order-number {
+    display: flex;
+    align-items: end;
+    gap: 2rem;
+}
+
+.title {
+    min-width: max-content;
+    font-size: 1.4rem;
+    font-weight: 500;
+}</style></div><div class="plate"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input" type="date" aria-label="Дата начала работы"><input class="custom-input" type="time" aria-label="Время начала работы"><h3 class="title">Работу закончить</h3><input class="custom-input" type="date" aria-label="Дата окончания работы"><input class="custom-input" type="time" aria-label="Время окончания работы"></div><style>.date-time {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    align-items: end;
+    gap: 2rem;
+}
+</style></div><div class="plate"> <div class="leaders"><h3 class="title leaders__title">Ответственный руководитель работ</h3><div class="leaders__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    line-height: 2.4rem;
+    margin-right: 2rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    line-height: 2.4rem;
+    margin-right: 2rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    line-height: 2.4rem;
+    margin-right: 2rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    line-height: 2.4rem;
+    margin-right: 2rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style></div></div><style>.leaders__title {
+    margin-bottom: 2rem;
+}
+
+.leaders__list {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
+    gap: 2rem 4rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}
+
+
+
+
+</style></div></form></main></body><style>iframe {
+    width: 80vw;
+    height: 80vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    margin:auto;
+}
+</style><script>let formData = {
+    number: '26',
+    leader: 'Дёмин А.П. гр. V',
+    allowing: 'Дёмин А.П. гр. V',
+    foreman: 'Лунёв В.В. гр. V',
+    watching: 'не назначается',
+    startDate: '19.06.23',
+    endDate: '19.06.23',
+    startTime: '14:40',
+    endTime: '20:00',
+    giving: 'Пшенковский В.А. гр. V',
+    workers: [
+        'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V', 'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
+    ],
+    overhedLine: 'ВЛ-6кВ Л 4-1',
+    support: 'оп. № 99-101',
+    dateIssue: '23.06.23',
+    timeIssue: '11:01'
+}
+
+
+function processData(data) {
+    let processedData = [];
+    let emptyObj = {
+        number: '',
+        additionalOrder: '',
+        leader: '',
+        allowing: '',
+        foreman: '',
+        watching: '',
+        workers1: '',
+        workers2: '',
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        giving: '',
+        worker1: '',
+        worker2: '',
+        worker3: '',
+        overhedLine: '',
+        support: '',
+        dateIssue: '',
+        timeIssue: ''
+    }
+    let groups = prepareDataForTables(data.workers);
+    let strings = prepareStringsWithWorkers(data.workers);
+    
+    for (let i = 0; i < groups.length; i++) {
+        let group = groups[i];
+        let str = strings[i] || {};
+        let firstObj = i === 0 ? data : emptyObj;
+        let obj = { 
+            ...firstObj, 
+            ...group, 
+            ...str,
+            number : data.number,
+            dateIssue: data.dateIssue,
+            timeIssue: data.timeIssue,
+            additionalOrder: i === 0 ? '' : 'Дополнительный бланк',
+            giving: formData.giving
+        };
+        processedData.push(obj);
+    }
+    delete processedData[0].workers;
+
+    return processedData; 
+
+
+    function prepareDataForTables(workers, start = 0) {
+        let numberOfWorkerGroups = calcNumberOfWorkerGroups();
+        let groups = [];
+    
+        (function split(start) {
+            if (start === numberOfWorkerGroups - 1) {
+                groups.push(createObj(workers.slice(start*2)));
+                return;
+            }
+    
+            let arr = workers.slice(start*2, start*2+2);
+            arr.push('См. дополнительный бланк');
+            groups.push(createObj(arr));
+            
+            split(++start);
+        })(start);
+    
+        return groups;
+    
+        function calcNumberOfWorkerGroups() {
+            const maxNumberWorkers = 3;
+            if (workers.length <= maxNumberWorkers) {
+                var numberOfWorkerGroups = 1;
+            }
+            numberOfWorkerGroups  = Math.ceil(numberOfWorkerGroups || (workers.length - maxNumberWorkers) / (maxNumberWorkers - 1) + 1);
+            return numberOfWorkerGroups;
+        }
+    
+        function createObj(arr) {
+            let obj = {};
+            for (let i = 0, prop = 'worker'; i < 3; i++) {
+                let value = arr[i] ? deleteGroup(arr[i]) : '';
+                obj[prop + (i + 1)] = value;
+            }
+            return obj;
+        }
+    
+        function deleteGroup(str) {
+            return str.replace(/\sгр.\s\D+/, '');
+        }
+    }
+
+
+    function prepareStringsWithWorkers(workers, start = 0) {
+        const WORKERS_LINE_1_LENGTH = 80;
+        const WORKERS_LINE_2_LENGTH = 105;
+        let strings = [];
+        
+        (function prepare(start) {
+            let separator = '';
+            for (var i = start, str1 = '', str2 = '', stop; i < workers.length; i++) {
+                if (str1.length + workers[i].length + separator.length <= WORKERS_LINE_1_LENGTH) {
+                    separator = ', '
+                    str1 += workers[i] + separator;
+                    continue;
+                }
+                stop = i;
+                separator = '';
+                for (let i = stop; i < workers.length; i++) {
+                    if (str2.length + workers[i].length + separator.length <= WORKERS_LINE_2_LENGTH) {
+                        separator = ', ';
+                        str2 += workers[i] + separator;
+                        continue;
+                    }
+                    str2 = 'См. дополнительный бланк';
+                    break;
+                }
+                break;
+            }
+            
+            str1 = str1.replace(/\s$/, '');
+            if (str2 !== 'См. дополнительный бланк') {
+                str1 = str2 ? str1 : str1.replace(/,$/, '');
+    
+                str2 = str2.replace(/(,\s)$/, '');
+                strings.push({workers1: str1, workers2: str2});
+                return;
+            }
+            
+            strings.push({workers1: str1, workers2: str2});
+            prepare(stop);
+        })(start)
+    
+        return strings;
+    }
+}
+
+
+let btn = document.querySelector('input[type=button]');
+btn.onclick = async function sendData() {
+    const data = JSON.stringify(processData(formData));
+    let url = 'http://localhost:8000/order';
+    let res = await fetch(url, {
+        method: 'POST',
+        body: data
+    })
+
+    res = await res.blob();
+
+    url = URL.createObjectURL(res);
+    let ifr = document.querySelector('iframe');
+    ifr.src = url;
+}</script></head></html>
