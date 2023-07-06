@@ -18,7 +18,9 @@ let routes = {
         try {
             res.setHeader('Content-Type', 'text/html');
             res.writeHead(200);
-            res.end(renderIndexPage());
+            res.end(renderIndexPage({
+                workers: ["Дёмин А.П. гр. V", "Бахтияров Р.В. гр. V", "Сержанков С.Н. гр. V", "Корнеев А.А. гр. V"]
+            }));
         } catch (err) {
             console.log(err);
             res.writeHead(500);

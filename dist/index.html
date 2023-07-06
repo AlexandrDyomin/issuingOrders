@@ -8,10 +8,12 @@
     border-top-color: rgba(80, 0, 251, 0.7);
     padding: 2.5rem;
     padding-top: 1.5rem;
-    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 2px 0 rgba(0, 0, 0, 0.25);
+    background: white;
 }</style><style>.custom-input {
     width: 100%;
     height: 2.5rem;
+    padding: 0 1rem;
     display: block;
     border-style: solid;
     border-color: #675C5C;
@@ -21,6 +23,7 @@
     border-bottom-width: 1px;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.25);
+    font-size: 1.4rem;
     text-align: center;
     cursor:text;
     -moz-appearance: textfield;
@@ -38,8 +41,19 @@
 
 .custom-input::-ms-reveal { 
     display: none; 
-}</style><style>/* Reset and base styles  */
-* {
+}</style><style>.plate {
+    border-style : solid;
+    border-top-width: 1rem;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-radius: 0 0 1rem 1rem;
+    border-top-color: rgba(80, 0, 251, 0.7);
+    padding: 2.5rem;
+    padding-top: 1.5rem;
+    box-shadow: 0 10px 2px 0 rgba(0, 0, 0, 0.25);
+    background: white;
+}</style><style>* {
     padding: 0px;
     margin: 0px;
     border: none;
@@ -136,13 +150,18 @@ html {
 
 body {
     padding: 1rem;
+    background: #45464c;
 }
 
 main {
+    min-width: 33rem;
     max-width: 100rem;
-    min-width: 32rem;
     margin: 0 auto;
-}</style><body> <main> <form><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input" type="number" min="1"></label><style>.order-number {
+}</style><body> <main> <style>form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(33rem, 1fr));
+    gap: 2rem;
+}</style><form><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input" type="number" min="1"></label><style>.order-number {
     display: flex;
     align-items: end;
     gap: 2rem;
@@ -150,18 +169,21 @@ main {
 
 .title {
     min-width: max-content;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 500;
-}</style></div><div class="plate"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input" type="date" aria-label="Дата начала работы"><input class="custom-input" type="time" aria-label="Время начала работы"><h3 class="title">Работу закончить</h3><input class="custom-input" type="date" aria-label="Дата окончания работы"><input class="custom-input" type="time" aria-label="Время окончания работы"></div><style>.date-time {
+}
+</style></div><div class="plate" style="grid-column: 2/4;"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input" type="date" aria-label="Дата начала работы"><input class="custom-input" type="time" aria-label="Время начала работы"><h3 class="title">Работу закончить</h3><input class="custom-input" type="date" aria-label="Дата окончания работы"><input class="custom-input" type="time" aria-label="Время окончания работы"></div><style>.date-time {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
     align-items: end;
     gap: 2rem;
 }
-</style></div><div class="plate"> <div class="leaders"><h3 class="title leaders__title">Ответственный руководитель работ</h3><div class="leaders__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
+</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Ответственный руководитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
     display: flex;
     align-items: center;
     min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
 }
 
 .radio-button__btn {
@@ -185,16 +207,13 @@ main {
 .radio-button__text {
     border-radius: 0.5rem;
     padding: 0 0.5rem;
-    font-size: 1.2rem;
-    line-height: 2.4rem;
-    margin-right: 2rem;
 }
 
 .radio-button__btn:checked + .radio-button__style {
     border: 1px solid #BC9CFF;
 }
 
-.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+.radio-button__btn:focus ~ .radio-button__text{
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
 
@@ -206,10 +225,12 @@ main {
     height: 0.8rem;
     border-radius: 50%;
     background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
-}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
     display: flex;
     align-items: center;
     min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
 }
 
 .radio-button__btn {
@@ -233,16 +254,13 @@ main {
 .radio-button__text {
     border-radius: 0.5rem;
     padding: 0 0.5rem;
-    font-size: 1.2rem;
-    line-height: 2.4rem;
-    margin-right: 2rem;
 }
 
 .radio-button__btn:checked + .radio-button__style {
     border: 1px solid #BC9CFF;
 }
 
-.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+.radio-button__btn:focus ~ .radio-button__text{
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
 
@@ -254,10 +272,12 @@ main {
     height: 0.8rem;
     border-radius: 50%;
     background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
-}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
     display: flex;
     align-items: center;
     min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
 }
 
 .radio-button__btn {
@@ -281,16 +301,13 @@ main {
 .radio-button__text {
     border-radius: 0.5rem;
     padding: 0 0.5rem;
-    font-size: 1.2rem;
-    line-height: 2.4rem;
-    margin-right: 2rem;
 }
 
 .radio-button__btn:checked + .radio-button__style {
     border: 1px solid #BC9CFF;
 }
 
-.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+.radio-button__btn:focus ~ .radio-button__text{
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
 
@@ -302,10 +319,12 @@ main {
     height: 0.8rem;
     border-radius: 50%;
     background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
-}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
     display: flex;
     align-items: center;
     min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
 }
 
 .radio-button__btn {
@@ -329,16 +348,13 @@ main {
 .radio-button__text {
     border-radius: 0.5rem;
     padding: 0 0.5rem;
-    font-size: 1.2rem;
-    line-height: 2.4rem;
-    margin-right: 2rem;
 }
 
 .radio-button__btn:checked + .radio-button__style {
     border: 1px solid #BC9CFF;
 }
 
-.radio-button__btn:focus + .radio-button__style + .radio-button__text{
+.radio-button__btn:focus ~ .radio-button__text{
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
 
@@ -350,22 +366,876 @@ main {
     height: 0.8rem;
     border-radius: 50%;
     background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
-}</style></div></div><style>.leaders__title {
+}</style></div></div><style>.workers__title {
     margin-bottom: 2rem;
 }
 
-.leaders__list {
+.workers__list {
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
     gap: 2rem 4rem;
     padding: 0 2rem;
     font-size: 1.2rem;
+}</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Допускающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
 }
 
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
 
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
 
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
 
-</style></div></form></main></body><style>iframe {
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style></div></div><style>.workers__title {
+    margin-bottom: 2rem;
+}
+
+.workers__list {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+    gap: 2rem 4rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style></div></div><style>.workers__title {
+    margin-bottom: 2rem;
+}
+
+.workers__list {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+    gap: 2rem 4rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">Не назначается</span></label><style>.radio-button {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+}
+
+.radio-button__btn {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.radio-button__style {
+    display: inline-block;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    border-radius: 5rem;
+    border: 1px solid #675C5C;
+}
+
+.radio-button__text {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.radio-button__btn:checked + .radio-button__style {
+    border: 1px solid #BC9CFF;
+}
+
+.radio-button__btn:focus ~ .radio-button__text{
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.radio-button__btn:checked + .radio-button__style::before {
+    content: "";
+    position: absolute;
+    transform: translate(25%, 25%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style></div></div><style>.workers__title {
+    margin-bottom: 2rem;
+}
+
+.workers__list {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+    gap: 2rem 4rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}</style></div><div class="plate" style="grid-column: 2/4;"><div class="workers"><h3 class="title workers__title">Члены бригады</h3><div class="workers__list"><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Дёмин А.П. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Дёмин А.П. гр. V</span></label><style>.checkbox {
+    display: flex;
+    align-items:center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 1rem 1.2rem 2.1rem;
+}
+
+.checkbox__item {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.checkbox__item:checked + .checkbox__style::before {
+    content: "";
+    width: 0.6rem;
+    height: 1.5rem;
+    position: absolute;
+    top: -0.5rem;
+    border-bottom: 0.2rem solid transparent;
+    border-right: 0.2rem solid transparent;
+    transform-origin: right bottom;
+    transform: rotate(45deg);
+    border-image: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+    border-image-slice: 1;
+}
+
+.checkbox__item:checked + .checkbox__style {
+    border: 1px solid #BC9CFF;
+}
+
+.checkbox__item:focus-visible ~ .checkbox__text {
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.checkbox__style {
+    position: absolute; 
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    border-radius: 0.4rem;
+    margin-right: 1rem;
+    margin-left: -2.1rem;
+}
+
+.checkbox__text {
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+}</style><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Бахтияров Р.В. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Бахтияров Р.В. гр. V</span></label><style>.checkbox {
+    display: flex;
+    align-items:center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 1rem 1.2rem 2.1rem;
+}
+
+.checkbox__item {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.checkbox__item:checked + .checkbox__style::before {
+    content: "";
+    width: 0.6rem;
+    height: 1.5rem;
+    position: absolute;
+    top: -0.5rem;
+    border-bottom: 0.2rem solid transparent;
+    border-right: 0.2rem solid transparent;
+    transform-origin: right bottom;
+    transform: rotate(45deg);
+    border-image: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+    border-image-slice: 1;
+}
+
+.checkbox__item:checked + .checkbox__style {
+    border: 1px solid #BC9CFF;
+}
+
+.checkbox__item:focus-visible ~ .checkbox__text {
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.checkbox__style {
+    position: absolute; 
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    border-radius: 0.4rem;
+    margin-right: 1rem;
+    margin-left: -2.1rem;
+}
+
+.checkbox__text {
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+}</style><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Сержанков С.Н. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Сержанков С.Н. гр. V</span></label><style>.checkbox {
+    display: flex;
+    align-items:center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 1rem 1.2rem 2.1rem;
+}
+
+.checkbox__item {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.checkbox__item:checked + .checkbox__style::before {
+    content: "";
+    width: 0.6rem;
+    height: 1.5rem;
+    position: absolute;
+    top: -0.5rem;
+    border-bottom: 0.2rem solid transparent;
+    border-right: 0.2rem solid transparent;
+    transform-origin: right bottom;
+    transform: rotate(45deg);
+    border-image: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+    border-image-slice: 1;
+}
+
+.checkbox__item:checked + .checkbox__style {
+    border: 1px solid #BC9CFF;
+}
+
+.checkbox__item:focus-visible ~ .checkbox__text {
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.checkbox__style {
+    position: absolute; 
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    border-radius: 0.4rem;
+    margin-right: 1rem;
+    margin-left: -2.1rem;
+}
+
+.checkbox__text {
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+}</style><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Корнеев А.А. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Корнеев А.А. гр. V</span></label><style>.checkbox {
+    display: flex;
+    align-items:center;
+    min-width: max-content;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 1rem 1.2rem 2.1rem;
+}
+
+.checkbox__item {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.checkbox__item:checked + .checkbox__style::before {
+    content: "";
+    width: 0.6rem;
+    height: 1.5rem;
+    position: absolute;
+    top: -0.5rem;
+    border-bottom: 0.2rem solid transparent;
+    border-right: 0.2rem solid transparent;
+    transform-origin: right bottom;
+    transform: rotate(45deg);
+    border-image: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+    border-image-slice: 1;
+}
+
+.checkbox__item:checked + .checkbox__style {
+    border: 1px solid #BC9CFF;
+}
+
+.checkbox__item:focus-visible ~ .checkbox__text {
+    box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
+}
+
+.checkbox__style {
+    position: absolute; 
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    border-radius: 0.4rem;
+    margin-right: 1rem;
+    margin-left: -2.1rem;
+}
+
+.checkbox__text {
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+}</style></div></div><style>.workers__title {
+    margin-bottom: 2rem;
+}
+
+.workers__list {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+    gap: 2rem 4rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+}</style></div><div class="plate" style="grid-column: 1/4;"> <label class="mission"><h3 class="title mission__title" style="margin-bottom: 2rem">Поручается выполнить: </h3></label><div class="mission__input" style="margin: 0 2rem"><input class="custom-input" type="text" style="text-align: left;"></div></div></form></main></body><style>iframe {
     width: 80vw;
     height: 80vh;
     position: absolute;

@@ -5,11 +5,14 @@ html(lang="en")
         mete(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
+        //- templates
         include ./src/parts/plate.pug
         include ./src/parts/input.pug
         include ./src/parts/radio-button.pug
+        include ./src/parts/workers.pug
+        include ./src/parts/checkbox-button.pug
+        //- Reset and base styles
         style. 
-            /* Reset and base styles  */
             * {
                 padding: 0px;
                 margin: 0px;
@@ -107,15 +110,22 @@ html(lang="en")
 
             body {
                 padding: 1rem;
+                background: #45464c;
             }
 
             main {
+                min-width: 33rem;
                 max-width: 100rem;
-                min-width: 32rem;
                 margin: 0 auto;
             }
         body 
             main 
+                style. 
+                    form {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(33rem, 1fr));
+                        gap: 2rem;
+                    }
                 form
                     +plate
                         label.order-number 
@@ -130,10 +140,11 @@ html(lang="en")
 
                             .title {
                                 min-width: max-content;
-                                font-size: 1.4rem;
+                                font-size: 1.5rem;
                                 font-weight: 500;
                             }
-                    +plate 
+                    
+                    +plate(style="grid-column: 2/4") 
                         .date-time
                             h3.title Работу начать
                             +input(type='date' aria-label="Дата начала работы")
@@ -149,29 +160,33 @@ html(lang="en")
                                 gap: 2rem;
                             }
                     
-                    - let leaders = ["Дёмин А.П. гр. V", "Бахтияров Р.В. гр. V", "Сержанков С.Н. гр. V", "Корнеев А.А. гр. V"]
-                    +plate 
-                        .leaders
-                            h3.title.leaders__title Ответственный руководитель работ
-                            .leaders__list
-                                each leader in leaders 
-                                    +radio-button(leader)(name='leader')
+                    +workers("Ответственный руководитель работ")
+                        each worker in workers
+                            +radio-button(worker)(name='leader' value=worker)
 
-                        style. 
-                            .leaders__title {
-                                margin-bottom: 2rem;
-                            }
-                            
-                            .leaders__list {
-                                display:grid;
-                                grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
-                                gap: 2rem 4rem;
-                                padding: 0 2rem;
-                                font-size: 1.2rem;
-                            }
-                            
+                    +workers("Допускающий")
+                        each worker in workers
+                            +radio-button(worker)(name='allowing' value=worker)
 
+                    +workers("Производитель работ")
+                        each worker in workers
+                            +radio-button(worker)(name='foreman' value=worker)
 
+                    +workers("Наблюдающий")
+                        each worker in workers
+                            +radio-button(worker)(name='watching' value=worker)
+                        +radio-button("Не назначается")(name='watching' value="Не назначается" checked)
+                    
+                    +workers("Члены бригады")(style="grid-column: 2/4")
+                        each worker in workers
+                            +checkbox-button(worker)(name='workers' value=worker)
+
+                    +plate(style="grid-column: 1/4") 
+                        label.mission
+                            h3.title.mission__title(style="margin-bottom: 2rem") Поручается выполнить: 
+                        .mission__input(style="margin: 0 2rem")
+                            +input(type="text" style="text-align: left")
+                    
 
 
         style.
