@@ -1,4 +1,3 @@
-include ./plate.pug
 mixin workers(title)
     - let workers = ["Дёмин А.П. гр. V", "Бахтияров Р.В. гр. V", "Сержанков С.Н. гр. V", "Корнеев А.А. гр. V"]
     +plate&attributes(attributes)
@@ -8,15 +7,15 @@ mixin workers(title)
                 block
                
 
-        style. 
-            .workers__title {
-                margin-bottom: 2rem;
-            }
-            
-            .workers__list {
-                display:grid;
-                grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
-                gap: 2rem 4rem;
-                padding: 0 2rem;
-                font-size: 1.2rem;
-            }
+style.
+    .workers__title {
+        margin-bottom: 2rem;
+    }
+    
+    .workers__list {
+        display:grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+        gap: 2rem 4rem;
+        padding: 0 2rem;
+        font-size: 1.2rem;
+    }
