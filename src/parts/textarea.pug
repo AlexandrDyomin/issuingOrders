@@ -9,21 +9,22 @@ style.
     }
 
 script. 
-    document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
-
-    function handleDOMContentLoaded() {
-        let textareas = document.querySelectorAll('.textarea');
-        
-        for (let i = 0; i < textareas.length; i++) {
-            textareas[i].addEventListener('input', resize);
+    (() => {
+        document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+        function handleDOMContentLoaded() {
+            let textareas = document.querySelectorAll('.textarea');
             
-            if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
-                resize({ currentTarget: textareas[i] });
+            for (let i = 0; i < textareas.length; i++) {
+                textareas[i].addEventListener('input', resize);
+                
+                if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
+                    resize({ currentTarget: textareas[i] });
+                }
+            }
+
+            function resize({ currentTarget }) {
+                currentTarget.style.height = '2.5rem';
+                currentTarget.style.height = `${currentTarget.scrollHeight}px`;
             }
         }
-
-        function resize({ currentTarget }) {
-            currentTarget.style.height = '2.5rem';
-            currentTarget.style.height = `${currentTarget.scrollHeight}px`;
-        }
-    }
+    })()

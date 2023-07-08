@@ -12,6 +12,8 @@ html(lang="en")
         include ./src/parts/workers.pug
         include ./src/parts/checkbox-button.pug
         include ./src/parts/textarea.pug
+        include ./src/parts/add-btn.pug
+        include ./src/parts/del-btn.pug
         //- Reset and base styles
         style. 
             * {
@@ -134,7 +136,8 @@ html(lang="en")
             }
 
             input:focus,
-            textarea:focus {
+            textarea:focus,
+            button:focus {
                 outline: none;
                 box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
             }
@@ -155,7 +158,22 @@ html(lang="en")
                 font-size: 1.4rem;
                 cursor:text;
             }
-        body 
+
+            .title {
+                min-width: max-content;
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+
+        body
+            template#place
+                +input(name="place" style="margin-left: 1rem;")
+
+            template#action
+                .activities__action 
+                    +input(name='action')
+                    +del-btn
+
             main 
                 style. 
                     form {
@@ -173,12 +191,6 @@ html(lang="en")
                                 display: flex;
                                 align-items: end;
                                 gap: 2rem;
-                            }
-
-                            .title {
-                                min-width: max-content;
-                                font-size: 1.5rem;
-                                font-weight: 500;
                             }
                     
                     +plate(style="grid-column: 2/4") 
@@ -214,16 +226,86 @@ html(lang="en")
                             +radio-button(worker)(name='watching' value=worker)
                         +radio-button("Не назначается")(name='watching' value="Не назначается" checked)
                     
-                    +workers("Члены бригады")(style="grid-column: 2/4")
+                    +workers("Члены бригады")(style="grid-column: 2/4;")
                         each worker in workers
                             +checkbox-button(worker)(name='workers' value=worker)
 
-                    +plate(style="grid-column: 1/4") 
+                    +plate(style="grid-column: 1/4;") 
                         label.mission
-                            h3.title.mission__title(style="margin-bottom: 2rem") Поручается выполнить: 
-                        .mission__textarea(style="margin: 0 2rem")
+                            h3.title.mission__title(style="margin-bottom: 2rem;") Поручается выполнить: 
+                        .mission__textarea(style="margin: 0 2rem;")
                             +textarea
-                    
+
+                    +plate(style="grid-column: 1/4;")
+                        .activities 
+                            h3.title.activities__title Мероприятия по подготовке рабочих мест к выполнению работы
+                            h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
+                            h4.activities__subtitle Что должно быть отключено и где заземлено
+                            +input(name="place" style="margin-left: 1rem;")
+                            +input(name="action" style="width: calc(100% - 15px);")
+                            +add-btn(
+                                style="margin-top: -5px; justify-self: center;"
+                                data-action="add place"
+                            )
+                            +add-btn(
+                                style="margin-top: -5px; justify-self: center;"
+                                data-action="add action"
+                            )
+                        style. 
+                            .activities {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 2rem 4rem;
+                            }
+                            .activities__title {
+                                grid-column: 1/3;
+                            }
+                            .activities__subtitle {
+                                font-weight: 500;
+                                font-size: 1.4rem;
+                                text-align: center;
+                            }
+
+                            .activities__action {
+                                display: flex;
+                                align-items: end;
+                                gap: 0.5rem;
+                            }
+                        
+                        script. 
+                            (() => {
+                                document.addEventListener("DOMContentLoaded", handleDOMContentLoaded)
+                                function handleDOMContentLoaded() {
+                                    let activities = document.querySelector('.activities');
+                                    activities.addEventListener('click', handleClick);
+
+                                    function handleClick(e) {
+                                        let target = e.target;
+
+                                        let actions = {
+                                            "add place": addRow,
+                                            "add action": addRow
+                                        }
+
+                                        let action = target.dataset.action || target.closest('button')?.dataset.action;
+                                        actions[action]?.();
+
+                                        function addRow() {
+                                            let lastIndex = e.currentTarget.children.length -1; 
+                                            let lastInput = e.currentTarget.children[lastIndex-2];
+                                            let cell1 = document.getElementById('place').content.cloneNode(true);
+                                            let cell2 = document.getElementById('action').content.cloneNode(true);
+                                            if (action === "add action") {
+                                                cell1.children[0].style.visibility = "hidden";
+                                            }
+                                            lastInput.after(
+                                                cell1,
+                                                cell2
+                                            );
+                                        }
+                                    }
+                                }
+                            })()
 
 
         style.

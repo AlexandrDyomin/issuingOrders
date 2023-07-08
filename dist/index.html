@@ -104,7 +104,7 @@
     border: 1px solid #BC9CFF;
 }
 
-.checkbox__item:focus-visible ~ .checkbox__text {
+.checkbox__item:focus ~ .checkbox__text {
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
 
@@ -126,24 +126,37 @@
     resize: none;
     overflow: hidden;
 }
-</style><script>document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
-
-function handleDOMContentLoaded() {
-    let textareas = document.querySelectorAll('.textarea');
-    
-    for (let i = 0; i < textareas.length; i++) {
-        textareas[i].addEventListener('input', resize);
+</style><script>(() => {
+    document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+    function handleDOMContentLoaded() {
+        let textareas = document.querySelectorAll('.textarea');
         
-        if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
-            resize({ currentTarget: textareas[i] });
+        for (let i = 0; i < textareas.length; i++) {
+            textareas[i].addEventListener('input', resize);
+            
+            if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
+                resize({ currentTarget: textareas[i] });
+            }
+        }
+
+        function resize({ currentTarget }) {
+            currentTarget.style.height = '2.5rem';
+            currentTarget.style.height = `${currentTarget.scrollHeight}px`;
         }
     }
+})()</script><style>.add-btn {
+    width:max-content;
+}
 
-    function resize({ currentTarget }) {
-        currentTarget.style.height = '2.5rem';
-        currentTarget.style.height = `${currentTarget.scrollHeight}px`;
-    }
-}</script><style>* {
+.add-btn__img {
+    vertical-align: middle;
+}</style><style>.del-btn {
+    width: max-content;
+}
+
+.del-btn__img {
+    vertical-align: middle;
+}</style><style>* {
     padding: 0px;
     margin: 0px;
     border: none;
@@ -263,7 +276,8 @@ input[type="number"]::-ms-reveal {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+button:focus {
     outline: none;
     box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
 }
@@ -283,7 +297,17 @@ textarea:focus {
     box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.25);
     font-size: 1.4rem;
     cursor:text;
-}</style><body> <main> <style>form {
+}
+
+.title {
+    min-width: max-content;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+</style><body><template id="place"><input class="custom-input field" name="place" style="margin-left: 1rem;"></template><template id="action"><div class="activities__action"> <input class="custom-input field" name="action"><button class="del-btn" type="button"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.30322 15.9099L15.9098 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+<path d="M15.9099 15.9099L5.30331 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+</svg></button></div></template><main> <style>form {
     display: grid;
     grid-template-columns: repeat(3, minmax(33rem, 1fr));
     gap: 2rem;
@@ -292,19 +316,72 @@ textarea:focus {
     align-items: end;
     gap: 2rem;
 }
-
-.title {
-    min-width: max-content;
-    font-size: 1.5rem;
-    font-weight: 500;
-}
 </style></div><div class="plate" style="grid-column: 2/4;"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input field" type="date" aria-label="Дата начала работы"><input class="custom-input field" type="time" aria-label="Время начала работы"><h3 class="title">Работу закончить</h3><input class="custom-input field" type="date" aria-label="Дата окончания работы"><input class="custom-input field" type="time" aria-label="Время окончания работы"></div><style>.date-time {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
     align-items: end;
     gap: 2rem;
 }
-</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Ответственный руководитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Допускающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">Не назначается</span></label></div></div></div><div class="plate" style="grid-column: 2/4;"><div class="workers"><h3 class="title workers__title">Члены бригады</h3><div class="workers__list"><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Дёмин А.П. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Дёмин А.П. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Бахтияров Р.В. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Бахтияров Р.В. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Сержанков С.Н. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Сержанков С.Н. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Корнеев А.А. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate" style="grid-column: 1/4;"> <label class="mission"><h3 class="title mission__title" style="margin-bottom: 2rem">Поручается выполнить: </h3></label><div class="mission__textarea" style="margin: 0 2rem"><textarea class="textarea field"></textarea></div></div></form></main></body><style>iframe {
+</style></div><div class="plate"><div class="workers"><h3 class="title workers__title">Ответственный руководитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="leader" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Допускающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><div class="workers__list"><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">Не назначается</span></label></div></div></div><div class="plate" style="grid-column: 2/4;"><div class="workers"><h3 class="title workers__title">Члены бригады</h3><div class="workers__list"><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Дёмин А.П. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Дёмин А.П. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Бахтияров Р.В. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Бахтияров Р.В. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Сержанков С.Н. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Сержанков С.Н. гр. V</span></label><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Корнеев А.А. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Корнеев А.А. гр. V</span></label></div></div></div><div class="plate" style="grid-column: 1/4;"> <label class="mission"><h3 class="title mission__title" style="margin-bottom: 2rem;">Поручается выполнить: </h3></label><div class="mission__textarea" style="margin: 0 2rem;"><textarea class="textarea field"></textarea></div></div><div class="plate" style="grid-column: 1/4;"><div class="activities"> <h3 class="title activities__title">Мероприятия по подготовке рабочих мест к выполнению работы</h3><h4 class="activities__subtitle">Наименование электроустановок, в которых нужно провести отключения и установить заземления</h4><h4 class="activities__subtitle">Что должно быть отключено и где заземлено</h4><input class="custom-input field" name="place" style="margin-left: 1rem;"><input class="custom-input field" name="action" style="width: calc(100% - 15px);"><button class="add-btn" type="button" style="margin-top: -5px; justify-self: center;" data-action="add place"><svg class="add-btn__img" width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 12.5H23" stroke="#5000FB" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+<path d="M12.5 23L12.5 2" stroke="#5000FB" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+</svg></button><button class="add-btn" type="button" style="margin-top: -5px; justify-self: center;" data-action="add action"><svg class="add-btn__img" width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 12.5H23" stroke="#5000FB" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+<path d="M12.5 23L12.5 2" stroke="#5000FB" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
+</svg></button></div><style>.activities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 4rem;
+}
+.activities__title {
+    grid-column: 1/3;
+}
+.activities__subtitle {
+    font-weight: 500;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.activities__action {
+    display: flex;
+    align-items: end;
+    gap: 0.5rem;
+}
+</style><script>(() => {
+    document.addEventListener("DOMContentLoaded", handleDOMContentLoaded)
+    function handleDOMContentLoaded() {
+        let activities = document.querySelector('.activities');
+        activities.addEventListener('click', handleClick);
+
+        function handleClick(e) {
+            let target = e.target;
+
+            let actions = {
+                "add place": addRow,
+                "add action": addRow
+            }
+
+            let action = target.dataset.action || target.closest('button')?.dataset.action;
+            actions[action]?.();
+
+            function addRow() {
+                let lastIndex = e.currentTarget.children.length -1; 
+                let lastInput = e.currentTarget.children[lastIndex-2];
+                let cell1 = document.getElementById('place').content.cloneNode(true);
+                let cell2 = document.getElementById('action').content.cloneNode(true);
+                if (action === "add action") {
+                    cell1.children[0].style.visibility = "hidden";
+                }
+                lastInput.after(
+                    cell1,
+                    cell2
+                );
+            }
+        }
+    }
+})()
+
+</script></div></form></main></body><style>iframe {
     width: 80vw;
     height: 80vh;
     position: absolute;
