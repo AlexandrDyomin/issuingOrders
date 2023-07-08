@@ -239,27 +239,40 @@ html(lang="en")
                     +plate(style="grid-column: 1/4;")
                         .activities 
                             h3.title.activities__title Мероприятия по подготовке рабочих мест к выполнению работы
-                            h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
-                            h4.activities__subtitle Что должно быть отключено и где заземлено
-                            +input(name="place" style="margin-left: 1rem;")
-                            +input(name="action" style="width: calc(100% - 15px);")
-                            +add-btn(
-                                style="margin-top: -5px; justify-self: center;"
-                                data-action="add place"
-                            )
-                            +add-btn(
-                                style="margin-top: -5px; justify-self: center;"
-                                data-action="add action"
-                            )
+                            .activities__subtitles
+                                h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
+                                h4.activities__subtitle Что должно быть отключено и где заземлено
+                            .activities__fields
+                                +input(name="place" style="margin-left: 1rem; text-align: start;")
+                                +input(name="action" style="width: calc(100% - 15px); text-align: start;")
+                            .activities__btns
+                                +add-btn(
+                                    style="justify-self: center;"
+                                    data-action="add place"
+                                )
+                                +add-btn(
+                                    style="justify-self: center;"
+                                    data-action="add action"
+                                )
                         style. 
-                            .activities {
+                            .activities__title,
+                            .activities__subtitles {
+                                margin-bottom: 2rem;
+                            }
+                            .activities__subtitles,
+                            .activities__btns {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 4rem;
+                            }
+
+                            .activities__fields {
                                 display: grid;
                                 grid-template-columns: 1fr 1fr;
                                 gap: 2rem 4rem;
+                                margin-bottom: 1.5rem;
                             }
-                            .activities__title {
-                                grid-column: 1/3;
-                            }
+
                             .activities__subtitle {
                                 font-weight: 500;
                                 font-size: 1.4rem;
@@ -271,10 +284,11 @@ html(lang="en")
                                 align-items: end;
                                 gap: 0.5rem;
                             }
-                        
+
                         script. 
                             (() => {
-                                document.addEventListener("DOMContentLoaded", handleDOMContentLoaded)
+                                document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+                                
                                 function handleDOMContentLoaded() {
                                     let activities = document.querySelector('.activities');
                                     activities.addEventListener('click', handleClick);
@@ -284,24 +298,23 @@ html(lang="en")
 
                                         let actions = {
                                             "add place": addRow,
-                                            "add action": addRow
+                                            "add action": addRow.bind(null, "action")
                                         }
 
                                         let action = target.dataset.action || target.closest('button')?.dataset.action;
                                         actions[action]?.();
 
-                                        function addRow() {
-                                            let lastIndex = e.currentTarget.children.length -1; 
-                                            let lastInput = e.currentTarget.children[lastIndex-2];
-                                            let cell1 = document.getElementById('place').content.cloneNode(true);
-                                            let cell2 = document.getElementById('action').content.cloneNode(true);
-                                            if (action === "add action") {
-                                                cell1.children[0].style.visibility = "hidden";
+                                        function addRow(flag) {
+                                            let fields = e.currentTarget.querySelector('.activities__fields');
+                                            let electricalInstalation = document.getElementById('place').content.cloneNode(true);
+                                            let action = document.getElementById('action').content.cloneNode(true);
+                                            if (flag === "action") {
+                                                electricalInstalation.children[0].style.visibility = "hidden";
                                             }
-                                            lastInput.after(
-                                                cell1,
-                                                cell2
-                                            );
+                                            fields.append(
+                                                electricalInstalation,
+                                                action
+                                            )      
                                         }
                                     }
                                 }
