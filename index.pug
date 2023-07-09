@@ -108,7 +108,7 @@ html(lang="en")
             html {
                 font-family: Roboto Serif;
                 font-size: 10px;
-                font-weight: 400;
+                font-weight: normal;
             }
 
             body {
@@ -166,7 +166,7 @@ html(lang="en")
             .title {
                 min-width: max-content;
                 font-size: 1.5rem;
-                font-weight: 500;
+                font-weight: bold;
             }
 
         body
@@ -198,6 +198,7 @@ html(lang="en")
                             }
                     
                     +plate(style="grid-column: 2/4") 
+                        - let date = '2023-07-09'
                         .date-time
                             h3.title Работу начать
                             +input(type='date' aria-label="Дата начала работы")
@@ -212,6 +213,13 @@ html(lang="en")
                                 align-items: end;
                                 gap: 2rem;
                             }
+                        script. 
+                            (() => {
+                                let date = new Date();
+                                let formatDate = date.toISOString().slice(0, 10);
+                                document.querySelectorAll('.custom-input[type=date]')
+                                    .forEach((el) => el.value = formatDate);
+                            })()
                     
                     +workers("Ответственный руководитель работ")
                         each worker in workers
@@ -233,10 +241,13 @@ html(lang="en")
                     +workers("Члены бригады")(style="grid-column: 2/4;")
                         each worker in workers
                             +checkbox-button(worker)(name='workers' value=worker)
+                    +workers("Выдающий наряд") 
+                        each worker in workers
+                            +radio-button(worker)(name='giving' value=worker)
 
-                    +plate(style="grid-column: 1/4;") 
+                    +plate(style="grid-column: 2/4;") 
                         label.mission
-                            h3.title.mission__title(style="margin-bottom: 2rem;") Поручается выполнить: 
+                            h3.title.mission__title(style="margin-bottom: 2rem;") Поручается выполнить 
                         .mission__textarea(style="margin: 0 2rem;")
                             +textarea
 
@@ -247,8 +258,8 @@ html(lang="en")
                                 h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
                                 h4.activities__subtitle Что должно быть отключено и где заземлено
                             .activities__fields
-                                +input(name="electricalInstalation1" style="margin-left: 1rem; text-align: start;")
-                                .activities__action 
+                                +input(name="electricalInstalation1" style="margin-left: 1rem; text-align: start;" data-group="1")
+                                .activities__action(data-group="1") 
                                     +input(name="action1" style="width: calc(100% - 15px); text-align: start;")
                                     +del-btn(data-action="delete row" disabled)
                             .activities__btns
@@ -306,38 +317,77 @@ html(lang="en")
                                             "delete row": deleteRow
                                         }
 
+                                        let fields = e.currentTarget.querySelector('.activities__fields');
                                         let action = e.target.dataset.action || e.target.closest('button')?.dataset.action;
                                         actions[action]?.();
 
-                                        function addRow(flag) {
-                                            let fields = e.currentTarget.querySelector('.activities__fields');
-                                            let electricalInstalation = document.getElementById('place').content.cloneNode(true);
-                                            let action = document.getElementById('action').content.cloneNode(true);
-                                            if (flag === "action") {
-                                                electricalInstalation.children[0].style.visibility = "hidden";
-                                            } else {
-                                                e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
+                                        function addRow(flag = "electricalInstalation") {
+                                            let electricalInstalationFragment = document.getElementById('place').content.cloneNode(true);
+                                            let actionFragment = document.getElementById('action').content.cloneNode(true);
+                                            let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
+                                            let actionInput = actionFragment.querySelector('.custom-input');
+                                            let activitiesAction = actionFragment.querySelector('.activities__action');
+                                            electricalInstalationInput.name = `electricalInstalation${fields.children.length / 2 + 1}`;
+                                            actionInput.name = `action${fields.children.length / 2 + 1}`;
+                                            let group = +fields.querySelector('.activities__action:last-child').dataset.group;
+                                            
+                                            let conditions = {
+                                                action: () => {
+                                                    electricalInstalationFragment.children[0].style.visibility = "hidden";
+                                                    activitiesAction.dataset.group = group;
+                                                    electricalInstalationInput.dataset.group = group;
+                                                },
+                                                electricalInstalation: () => {
+                                                    e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
+                                                    electricalInstalationInput.dataset.group = group + 1;
+                                                    activitiesAction.dataset.group = group + 1;
+                                                }
                                             }
-
-                                            electricalInstalation.querySelector('.custom-input').name = `electricalInstalation${fields.children.length / 2 + 1}`;
-                                            action.querySelector('.custom-input').name = `action${fields.children.length / 2 + 1}`;
+                                            conditions[flag]();
                                             
                                             fields.append(
-                                                electricalInstalation,
-                                                action
+                                                electricalInstalationFragment,
+                                                actionFragment
                                             )      
                                         }
 
                                         function deleteRow() {
-                                            let action = e.target.closest('.activities__action');
-                                            action.previousElementSibling.remove();
-                                            action.remove();
+                                            let isLastLineOfGroup = !e.target.closest('.activities__action').previousElementSibling.style.visibility;
+                                            if (isLastLineOfGroup) {
+                                                let group = e.target.closest('.activities__action').dataset.group;
+                                                let fields = e.currentTarget.querySelectorAll(`*[data-group="${group}"]`);
+                                                fields.forEach((el) => el.remove());
+                                            } else {
+                                                let action = e.target.closest('.activities__action');
+                                                action.previousElementSibling.remove();
+                                                action.remove();
+                                            }
+
+
+                                            let groups = [...fields.querySelectorAll('*[data-group]')]
+                                                .reduce((acc, el) => {
+                                                    if (!acc.includes(el.dataset.group)) {
+                                                        acc.push(el.dataset.group);
+                                                        return acc;
+                                                    }
+                                                    return acc;
+                                                }, []);
+
+                                            if (groups.length === 1) {
+                                                fields.querySelector('.del-btn').setAttribute('disabled', true);
+                                            }
+
+                                            let electricalInstalations = fields.querySelectorAll('.activities__fields > .custom-input:nth-child(odd)');
+                                            let actions = fields.querySelectorAll('.activities__action > .custom-input');
+                                            electricalInstalations.forEach((el, i) => el.name = `electricalInstalation${i+1}`);
+                                            actions.forEach((el, i) => el.name = `action${i+1}`);
                                         }
 
                                     }
                                 }
                             })()
 
+                    
 
         style.
             iframe {
