@@ -142,6 +142,10 @@ html(lang="en")
                 box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
             }
 
+            button:disabled {
+                opacity: 0.4;
+            }
+
             .field {
                 width: 100%;
                 height: 2.5rem;
@@ -167,12 +171,12 @@ html(lang="en")
 
         body
             template#place
-                +input(name="place" style="margin-left: 1rem;")
+                +input(style="margin-left: 1rem;")
 
             template#action
                 .activities__action 
-                    +input(name='action')
-                    +del-btn
+                    +input
+                    +del-btn(data-action="delete row")
 
             main 
                 style. 
@@ -243,8 +247,10 @@ html(lang="en")
                                 h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
                                 h4.activities__subtitle Что должно быть отключено и где заземлено
                             .activities__fields
-                                +input(name="place" style="margin-left: 1rem; text-align: start;")
-                                +input(name="action" style="width: calc(100% - 15px); text-align: start;")
+                                +input(name="electricalInstalation1" style="margin-left: 1rem; text-align: start;")
+                                .activities__action 
+                                    +input(name="action1" style="width: calc(100% - 15px); text-align: start;")
+                                    +del-btn(data-action="delete row" disabled)
                             .activities__btns
                                 +add-btn(
                                     style="justify-self: center;"
@@ -294,14 +300,13 @@ html(lang="en")
                                     activities.addEventListener('click', handleClick);
 
                                     function handleClick(e) {
-                                        let target = e.target;
-
                                         let actions = {
                                             "add place": addRow,
-                                            "add action": addRow.bind(null, "action")
+                                            "add action": addRow.bind(null, "action"),
+                                            "delete row": deleteRow
                                         }
 
-                                        let action = target.dataset.action || target.closest('button')?.dataset.action;
+                                        let action = e.target.dataset.action || e.target.closest('button')?.dataset.action;
                                         actions[action]?.();
 
                                         function addRow(flag) {
@@ -310,12 +315,25 @@ html(lang="en")
                                             let action = document.getElementById('action').content.cloneNode(true);
                                             if (flag === "action") {
                                                 electricalInstalation.children[0].style.visibility = "hidden";
+                                            } else {
+                                                e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
                                             }
+
+                                            electricalInstalation.querySelector('.custom-input').name = `electricalInstalation${fields.children.length / 2 + 1}`;
+                                            action.querySelector('.custom-input').name = `action${fields.children.length / 2 + 1}`;
+                                            
                                             fields.append(
                                                 electricalInstalation,
                                                 action
                                             )      
                                         }
+
+                                        function deleteRow() {
+                                            let action = e.target.closest('.activities__action');
+                                            action.previousElementSibling.remove();
+                                            action.remove();
+                                        }
+
                                     }
                                 }
                             })()
