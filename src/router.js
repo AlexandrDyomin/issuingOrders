@@ -19,7 +19,8 @@ let routes = {
             res.setHeader('Content-Type', 'text/html');
             res.writeHead(200);
             res.end(renderIndexPage({
-                workers: ["Дёмин А.П. гр. V", "Бахтияров Р.В. гр. V", "Сержанков С.Н. гр. V", "Корнеев А.А. гр. V"]
+                lines: ['ВЛ 6кВ № 2-2', 'ВЛ 6кВ № 2-5', 'ВЛ 6кВ № 4-1', 'ВЛ 6кВ № 5-1', 'ВЛ 6кВ № 5-2', 'ВЛ 6кВ № 5-3'],
+                workers: ['Дёмин А.П. гр. V', 'Бахтияров Р.В. гр. V', 'Сержанков С.Н. гр. V', 'Корнеев А.А. гр. V'],
             }));
         } catch (err) {
             console.log(err);

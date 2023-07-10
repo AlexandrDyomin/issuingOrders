@@ -1,8 +1,9 @@
-mixin radio-button(text)
+mixin radio-button(text="")
     label.radio-button
         input.radio-button__btn(type="radio")&attributes(attributes)
         span.radio-button__style
         span.radio-button__text=text
+        block
 
 style. 
     .radio-button {
@@ -11,6 +12,10 @@ style.
         min-width: max-content;
         font-size: 1.4rem;
         line-height: 2.4rem;
+    }
+
+    .radio-button:hover .radio-button__text{
+        box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
     }
 
     .radio-button__btn {
@@ -34,6 +39,7 @@ style.
     .radio-button__text {
         border-radius: 0.5rem;
         padding: 0 0.5rem;
+        transition: box-shadow .3s linear;
     }
 
     .radio-button__btn:checked + .radio-button__style {

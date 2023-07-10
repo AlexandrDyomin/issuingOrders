@@ -14,6 +14,7 @@ html(lang="en")
         include ./src/parts/textarea.pug
         include ./src/parts/add-btn.pug
         include ./src/parts/del-btn.pug
+        include ./src/parts/button.pug
         //- Reset and base styles
         style. 
             * {
@@ -122,6 +123,12 @@ html(lang="en")
                 margin: 0 auto;
             }
 
+            input,
+            button,
+            textarea {
+                transition: box-shadow .3s linear;
+            }
+
             input[type="number"] {
                 appearance: textfield;
             }
@@ -136,14 +143,27 @@ html(lang="en")
             }
 
             input:focus,
+            input:hover,
             textarea:focus,
-            button:focus {
+            textarea:hover,
+            button:focus,
+            button:hover  {
                 outline: none;
                 box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
             }
 
             button:disabled {
                 opacity: 0.4;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.5rem;
+                background: linear-gradient(#45464c,rgba(80, 0, 251, 0.7), #45464c);
+                color: white;
+                padding: 1.5rem;
+                text-transform: uppercase;
+                letter-spacing: 3px;
             }
 
             .field {
@@ -186,6 +206,7 @@ html(lang="en")
                         gap: 2rem;
                     }
                 form
+                    h1(style="grid-column: 1/4") Выдача наряда-допуска 
                     +plate
                         label.order-number 
                             h3.title № наряда
@@ -198,7 +219,6 @@ html(lang="en")
                             }
                     
                     +plate(style="grid-column: 2/4") 
-                        - let date = '2023-07-09'
                         .date-time
                             h3.title Работу начать
                             +input(type='date' aria-label="Дата начала работы")
@@ -213,43 +233,104 @@ html(lang="en")
                                 align-items: end;
                                 gap: 2rem;
                             }
-                        script. 
-                            (() => {
-                                let date = new Date();
-                                let formatDate = date.toISOString().slice(0, 10);
-                                document.querySelectorAll('.custom-input[type=date]')
-                                    .forEach((el) => el.value = formatDate);
-                            })()
+                        script(defer type="module"). 
+                            let date = new Date();
+                            let formatDate = date.toISOString().slice(0, 10);
+                            document.querySelectorAll('.custom-input[type=date]')
+                                .forEach((el) => el.value = formatDate);
+                            
                     
                     +workers("Ответственный руководитель работ")
                         each worker in workers
-                            +radio-button(worker)(name='leader' value=worker)
+                            li 
+                                +radio-button(worker)(name='leader' value=worker)
 
                     +workers("Допускающий")
                         each worker in workers
-                            +radio-button(worker)(name='allowing' value=worker)
+                            li 
+                                +radio-button(worker)(name='allowing' value=worker)
 
                     +workers("Производитель работ")
                         each worker in workers
-                            +radio-button(worker)(name='foreman' value=worker)
+                            li 
+                                +radio-button(worker)(name='foreman' value=worker)
 
                     +workers("Наблюдающий")
                         each worker in workers
-                            +radio-button(worker)(name='watching' value=worker)
-                        +radio-button("Не назначается")(name='watching' value="Не назначается" checked)
+                            li
+                                +radio-button(worker)(name='watching' value=worker)
+                        li 
+                            +radio-button("Не назначается")(name='watching' value="Не назначается" checked)
                     
                     +workers("Члены бригады")(style="grid-column: 2/4;")
                         each worker in workers
-                            +checkbox-button(worker)(name='workers' value=worker)
-                    +workers("Выдающий наряд") 
-                        each worker in workers
-                            +radio-button(worker)(name='giving' value=worker)
+                            li
+                                +checkbox-button(worker)(name='workers' value=worker)
+                    +plate(style="grid-column: 1/3") 
+                        .workplace 
+                            h3.title Наименование рабочего места и характер работы
+                            h4.workplace__subtitle Воздушные линии
+                            ul.workplace__overhead-lines
+                                each line in lines
+                                    li 
+                                        +radio-button(line)(name="overheadLine" value=line)
+                                li(style="grid-column: 1/4") 
+                                    +input(name="overheadLine" placeholder="Укажите № ВЛ если её нет в списке выше" style="text-align: start;")
+                            label.workplace__supports
+                                h4.workplace__subtitle(style="margin: 0 0 0 2rem;") Номера опор
+                                +input(name="supports" style="text-align: start;")
+                            label.workplace__mission
+                                h4.workplace__subtitle(style="margin: 0 0 0 2rem;") Поручается выполнить 
+                                +textarea(name="mission")
+                        script(defer type="module").
+                            let inputs = document.querySelectorAll("input");
+                        
+                        style. 
+                            .workplace__subtitle {
+                                font-size: 1.4rem;
+                                font-weight: bold;
+                                margin: 2rem 0 2rem 2rem;
+                                min-width: max-content;
+                            }
 
-                    +plate(style="grid-column: 2/4;") 
-                        label.mission
-                            h3.title.mission__title(style="margin-bottom: 2rem;") Поручается выполнить 
-                        .mission__textarea(style="margin: 0 2rem;")
-                            +textarea
+                            .workplace__overhead-lines {
+                                display: grid;
+                                grid-template-columns: repeat(3, 1fr);
+                                gap: 2rem 4rem;
+                                margin-left: 4rem;
+                            }
+
+                            .workplace__supports,
+                            .workplace__mission {
+                                display: flex;
+                                align-items: end;
+                                gap: 2rem;
+                                margin: 2rem 0;
+                            }
+                        script(defer type="module"). 
+                            let lineInput = document.querySelector('.custom-input[name=overheadLine]');
+                            lineInput.addEventListener('focusout', handleFocusout);
+                            let overheadLines = document.querySelector('.workplace__overhead-lines');
+                            overheadLines.addEventListener('change', handleChange);
+                           
+                           function handleChange(e) {
+                                if (e.target.type === 'radio' && lineInput.value) {
+                                    lineInput.value = '';
+                                }
+                            }
+                            function handleFocusout(e) {
+                                if (e.target.value) {
+                                    let checkboxCheked = e.target.closest('.workplace__overhead-lines')
+                                        .querySelector('.radio-button__btn:checked');
+                                    checkboxCheked && (checkboxCheked.checked = false);
+                                }
+                            }
+                    +workers("Выдающий наряд")
+                        each worker in workers
+                            li 
+                                +radio-button(worker)(name='giving' value=worker)
+
+                   
 
                     +plate(style="grid-column: 1/4;")
                         .activities 
@@ -258,9 +339,9 @@ html(lang="en")
                                 h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
                                 h4.activities__subtitle Что должно быть отключено и где заземлено
                             .activities__fields
-                                +input(name="electricalInstalation1" style="margin-left: 1rem; text-align: start;" data-group="1")
+                                +input(name="electricalInstalation1" style="text-align: start;" data-group="1")
                                 .activities__action(data-group="1") 
-                                    +input(name="action1" style="width: calc(100% - 15px); text-align: start;")
+                                    +input(name="action1" style="text-align: start;")
                                     +del-btn(data-action="delete row" disabled)
                             .activities__btns
                                 +add-btn(
@@ -281,6 +362,7 @@ html(lang="en")
                                 display: grid;
                                 grid-template-columns: 1fr 1fr;
                                 gap: 4rem;
+                                margin-left: 2rem;
                             }
 
                             .activities__fields {
@@ -288,10 +370,11 @@ html(lang="en")
                                 grid-template-columns: 1fr 1fr;
                                 gap: 2rem 4rem;
                                 margin-bottom: 1.5rem;
+                                margin-left: 2rem;
                             }
 
                             .activities__subtitle {
-                                font-weight: 500;
+                                font-weight: bold;
                                 font-size: 1.4rem;
                                 text-align: center;
                             }
@@ -302,92 +385,88 @@ html(lang="en")
                                 gap: 0.5rem;
                             }
 
-                        script. 
-                            (() => {
-                                document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
-                                
-                                function handleDOMContentLoaded() {
-                                    let activities = document.querySelector('.activities');
-                                    activities.addEventListener('click', handleClick);
+                        script(defer type="module"). 
+                            let activities = document.querySelector('.activities');
+                            activities.addEventListener('click', handleClick);
 
-                                    function handleClick(e) {
-                                        let actions = {
-                                            "add place": addRow,
-                                            "add action": addRow.bind(null, "action"),
-                                            "delete row": deleteRow
-                                        }
-
-                                        let fields = e.currentTarget.querySelector('.activities__fields');
-                                        let action = e.target.dataset.action || e.target.closest('button')?.dataset.action;
-                                        actions[action]?.();
-
-                                        function addRow(flag = "electricalInstalation") {
-                                            let electricalInstalationFragment = document.getElementById('place').content.cloneNode(true);
-                                            let actionFragment = document.getElementById('action').content.cloneNode(true);
-                                            let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
-                                            let actionInput = actionFragment.querySelector('.custom-input');
-                                            let activitiesAction = actionFragment.querySelector('.activities__action');
-                                            electricalInstalationInput.name = `electricalInstalation${fields.children.length / 2 + 1}`;
-                                            actionInput.name = `action${fields.children.length / 2 + 1}`;
-                                            let group = +fields.querySelector('.activities__action:last-child').dataset.group;
-                                            
-                                            let conditions = {
-                                                action: () => {
-                                                    electricalInstalationFragment.children[0].style.visibility = "hidden";
-                                                    activitiesAction.dataset.group = group;
-                                                    electricalInstalationInput.dataset.group = group;
-                                                },
-                                                electricalInstalation: () => {
-                                                    e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
-                                                    electricalInstalationInput.dataset.group = group + 1;
-                                                    activitiesAction.dataset.group = group + 1;
-                                                }
-                                            }
-                                            conditions[flag]();
-                                            
-                                            fields.append(
-                                                electricalInstalationFragment,
-                                                actionFragment
-                                            )      
-                                        }
-
-                                        function deleteRow() {
-                                            let isLastLineOfGroup = !e.target.closest('.activities__action').previousElementSibling.style.visibility;
-                                            if (isLastLineOfGroup) {
-                                                let group = e.target.closest('.activities__action').dataset.group;
-                                                let fields = e.currentTarget.querySelectorAll(`*[data-group="${group}"]`);
-                                                fields.forEach((el) => el.remove());
-                                            } else {
-                                                let action = e.target.closest('.activities__action');
-                                                action.previousElementSibling.remove();
-                                                action.remove();
-                                            }
-
-
-                                            let groups = [...fields.querySelectorAll('*[data-group]')]
-                                                .reduce((acc, el) => {
-                                                    if (!acc.includes(el.dataset.group)) {
-                                                        acc.push(el.dataset.group);
-                                                        return acc;
-                                                    }
-                                                    return acc;
-                                                }, []);
-
-                                            if (groups.length === 1) {
-                                                fields.querySelector('.del-btn').setAttribute('disabled', true);
-                                            }
-
-                                            let electricalInstalations = fields.querySelectorAll('.activities__fields > .custom-input:nth-child(odd)');
-                                            let actions = fields.querySelectorAll('.activities__action > .custom-input');
-                                            electricalInstalations.forEach((el, i) => el.name = `electricalInstalation${i+1}`);
-                                            actions.forEach((el, i) => el.name = `action${i+1}`);
-                                        }
-
-                                    }
+                            function handleClick(e) {
+                                let actions = {
+                                    "add place": addRow,
+                                    "add action": addRow.bind(null, "action"),
+                                    "delete row": deleteRow
                                 }
-                            })()
 
+                                let fields = e.currentTarget.querySelector('.activities__fields');
+                                let action = e.target.dataset.action || e.target.closest('button')?.dataset.action;
+                                actions[action]?.();
+
+                                function addRow(flag = "electricalInstalation") {
+                                    let electricalInstalationFragment = document.getElementById('place').content.cloneNode(true);
+                                    let actionFragment = document.getElementById('action').content.cloneNode(true);
+                                    let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
+                                    let actionInput = actionFragment.querySelector('.custom-input');
+                                    let activitiesAction = actionFragment.querySelector('.activities__action');
+                                    electricalInstalationInput.name = `electricalInstalation${fields.children.length / 2 + 1}`;
+                                    actionInput.name = `action${fields.children.length / 2 + 1}`;
+                                    let group = +fields.querySelector('.activities__action:last-child').dataset.group;
+                                    
+                                    let conditions = {
+                                        action: () => {
+                                            electricalInstalationFragment.children[0].style.visibility = "hidden";
+                                            activitiesAction.dataset.group = group;
+                                            electricalInstalationInput.dataset.group = group;
+                                        },
+                                        electricalInstalation: () => {
+                                            e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
+                                            electricalInstalationInput.dataset.group = group + 1;
+                                            activitiesAction.dataset.group = group + 1;
+                                        }
+                                    }
+                                    conditions[flag]();
+                                    
+                                    fields.append(
+                                        electricalInstalationFragment,
+                                        actionFragment
+                                    )      
+                                }
+
+                                function deleteRow() {
+                                    let isLastLineOfGroup = !e.target.closest('.activities__action').previousElementSibling.style.visibility;
+                                    if (isLastLineOfGroup) {
+                                        let group = e.target.closest('.activities__action').dataset.group;
+                                        let fields = e.currentTarget.querySelectorAll(`*[data-group="${group}"]`);
+                                        fields.forEach((el) => el.remove());
+                                    } else {
+                                        let action = e.target.closest('.activities__action');
+                                        action.previousElementSibling.remove();
+                                        action.remove();
+                                    }
+
+
+                                    let groups = [...fields.querySelectorAll('*[data-group]')]
+                                        .reduce((acc, el) => {
+                                            if (!acc.includes(el.dataset.group)) {
+                                                acc.push(el.dataset.group);
+                                                return acc;
+                                            }
+                                            return acc;
+                                        }, []);
+
+                                    if (groups.length === 1) {
+                                        fields.querySelector('.del-btn').setAttribute('disabled', true);
+                                    }
+
+                                    let electricalInstalations = fields.querySelectorAll('.activities__fields > .custom-input:nth-child(odd)');
+                                    let actions = fields.querySelectorAll('.activities__action > .custom-input');
+                                    electricalInstalations.forEach((el, i) => el.name = `electricalInstalation${i+1}`);
+                                    actions.forEach((el, i) => el.name = `action${i+1}`);
+                                }
+
+                            }
                     
+                    +button("Очистить форму")(type ="reset" style="grid-column: 1/2")
+                    +button("Выдать наряд-допуск")(style="grid-column: 3/4")
+
 
         style.
             iframe {
@@ -401,7 +480,7 @@ html(lang="en")
                 margin:auto;
             }
 
-        script.
+        script(defer type="module").
             let formData = {
                 number: '26',
                 leader: 'Дёмин А.П. гр. V',
@@ -559,7 +638,7 @@ html(lang="en")
             }
 
 
-            let btn = document.querySelector('input[type=button]');
+            let btn = document.querySelector('.custom-button[type=button]');
             btn.onclick = async function sendData() {
                 const data = JSON.stringify(processData(formData));
                 let url = 'http://localhost:8000/order';
@@ -569,8 +648,7 @@ html(lang="en")
                 })
 
                 res = await res.blob();
-
                 url = URL.createObjectURL(res);
-                let ifr = document.querySelector('iframe');
-                ifr.src = url;
+                window.open(url, 'order');
+              
             }
