@@ -7,6 +7,14 @@ mixin del-btn
 style. 
     .del-btn {
         width: max-content;
+        padding: 2px;
+        border-radius: 3px;
+        transition: background .3s linear;
+    }
+
+    .del-btn:focus,
+    .del-btn:hover {
+        background: #45464c30;
     }
 
     .del-btn__img {

@@ -113,7 +113,7 @@ html(lang="en")
             }
 
             body {
-                padding: 1rem;
+                padding: 1rem 1rem 2rem 1rem;
                 background: #45464c;
             }
 
@@ -145,9 +145,7 @@ html(lang="en")
             input:focus,
             input:hover,
             textarea:focus,
-            textarea:hover,
-            button:focus,
-            button:hover  {
+            textarea:hover {
                 outline: none;
                 box-shadow: 0px 4px 2px -2px rgba(80, 0, 251, 0.4);
             }
@@ -159,7 +157,7 @@ html(lang="en")
             h1 {
                 text-align: center;
                 font-size: 2.5rem;
-                background: linear-gradient(#45464c,rgba(80, 0, 251, 0.7), #45464c);
+                background: linear-gradient(to left, #45464c, black , #45464c);
                 color: white;
                 padding: 1.5rem;
                 text-transform: uppercase;
@@ -191,7 +189,7 @@ html(lang="en")
 
         body
             template#place
-                +input(style="margin-left: 1rem;")
+                +input()
 
             template#action
                 .activities__action 
@@ -240,12 +238,21 @@ html(lang="en")
                                 .forEach((el) => el.value = formatDate);
                             
                     
-                    +workers("Ответственный руководитель работ")
+                    +workers("Ответственный руководитель работ")(class="leaders")
                         each worker in workers
                             li 
                                 +radio-button(worker)(name='leader' value=worker)
+                    script(defer type="module"). 
+                        let leaders = document.querySelector('.leaders');
+                        leaders.addEventListener('change', handleChange);
 
-                    +workers("Допускающий")
+                        function handleChange(e) {
+                            let value = e.target.value;
+                            let leader = document.querySelector(`.allowing .radio-button__btn[value="${value}"]`);
+                            leader.checked = true;
+                        }
+                        
+                    +workers("Допускающий")(class="allowing")
                         each worker in workers
                             li 
                                 +radio-button(worker)(name='allowing' value=worker)
@@ -280,7 +287,7 @@ html(lang="en")
                                 h4.workplace__subtitle(style="margin: 0 0 0 2rem;") Номера опор
                                 +input(name="supports" style="text-align: start;")
                             label.workplace__mission
-                                h4.workplace__subtitle(style="margin: 0 0 0 2rem;") Поручается выполнить 
+                                h4.workplace__subtitle(style="margin: 6px 0 0 2rem;") Поручается выполнить 
                                 +textarea(name="mission")
                         script(defer type="module").
                             let inputs = document.querySelectorAll("input");
@@ -307,15 +314,37 @@ html(lang="en")
                                 gap: 2rem;
                                 margin: 2rem 0;
                             }
+
+                            .workplace__mission {
+                                align-items: start;
+                            }
+
                         script(defer type="module"). 
                             let lineInput = document.querySelector('.custom-input[name=overheadLine]');
                             lineInput.addEventListener('focusout', handleFocusout);
                             let overheadLines = document.querySelector('.workplace__overhead-lines');
                             overheadLines.addEventListener('change', handleChange);
-                           
+                            let supports = document.querySelector('.workplace__supports .custom-input');
+                            supports.addEventListener('change', handleSupportsChange);
+                            let mission = document.querySelector('.workplace__mission .textarea');
+                            
+                            function handleSupportsChange(e) {
+                                let firstSupport = e.target.value.match(/\d+\s*-\s*\d*|\d+/)[0];
+                                mission.value = mission.value.replace(/ оп. № \d+\s*-\s*\d*| оп. № \d+|^$|$/i, ` оп. № ${firstSupport}`);
+                            }
+
                            function handleChange(e) {
                                 if (e.target.type === 'radio' && lineInput.value) {
                                     lineInput.value = '';
+                                }
+
+                                if (e.target.type === 'radio') {
+                                    mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
+                                }
+
+                                if (e.target.type === 'text' && /\d+кВ № \d+\s*-\s*\d+/.test(e.target.value)) {
+                                    console.log(111)
+                                    mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
                             }
                             function handleFocusout(e) {
