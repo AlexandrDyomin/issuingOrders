@@ -119,7 +119,7 @@ html(lang="en")
 
             main {
                 min-width: 33rem;
-                max-width: 100rem;
+                max-width: 110rem;
                 margin: 0 auto;
             }
 
@@ -189,11 +189,11 @@ html(lang="en")
 
         body
             template#place
-                +input()
+                +input()(style="text-align: start")
 
             template#action
                 .activities__action 
-                    +input
+                    +input(style="text-align: start")
                     +del-btn(data-action="delete row")
 
             main 
@@ -203,12 +203,12 @@ html(lang="en")
                         grid-template-columns: repeat(3, minmax(33rem, 1fr));
                         gap: 2rem;
                     }
-                form
+                form(name="data")
                     h1(style="grid-column: 1/4") Выдача наряда-допуска 
                     +plate
                         label.order-number 
                             h3.title № наряда
-                            +input(type='number' min='1')
+                            +input(type='number' min='1' name="number")
                         style. 
                             .order-number {
                                 display: flex;
@@ -219,11 +219,11 @@ html(lang="en")
                     +plate(style="grid-column: 2/4") 
                         .date-time
                             h3.title Работу начать
-                            +input(type='date' aria-label="Дата начала работы")
-                            +input(type="time" aria-label="Время начала работы")  
+                            +input(type='date' aria-label="Дата начала работы" name="startDate")
+                            +input(type="time" aria-label="Время начала работы" name="startTime")  
                             h3.title Работу закончить
-                            +input(type='date'  aria-label="Дата окончания работы")
-                            +input(type="time" aria-label="Время окончания работы")
+                            +input(type='date'  aria-label="Дата окончания работы" name="endDate")
+                            +input(type="time" aria-label="Время окончания работы" name="endTime")
                         style. 
                             .date-time {
                                 display: grid;
@@ -267,7 +267,7 @@ html(lang="en")
                             li
                                 +radio-button(worker)(name='watching' value=worker)
                         li 
-                            +radio-button("Не назначается")(name='watching' value="Не назначается" checked)
+                            +radio-button("не назначается")(name='watching' value="Не назначается" checked)
                     
                     +workers("Члены бригады")(style="grid-column: 2/4;")
                         each worker in workers
@@ -343,7 +343,6 @@ html(lang="en")
                                 }
 
                                 if (e.target.type === 'text' && /\d+кВ № \d+\s*-\s*\d+/.test(e.target.value)) {
-                                    console.log(111)
                                     mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
                             }
@@ -497,48 +496,18 @@ html(lang="en")
                     +button("Выдать наряд-допуск")(style="grid-column: 3/4")
 
 
-        style.
-            iframe {
-                width: 80vw;
-                height: 80vh;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right:0;
-                margin:auto;
-            }
-
         script(defer type="module").
-            let formData = {
-                number: '26',
-                leader: 'Дёмин А.П. гр. V',
-                allowing: 'Дёмин А.П. гр. V',
-                foreman: 'Лунёв В.В. гр. V',
-                watching: 'не назначается',
-                startDate: '19.06.23',
-                endDate: '19.06.23',
-                startTime: '14:40',
-                endTime: '20:00',
-                giving: 'Пшенковский В.А. гр. V',
-                workers: [
-                    'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V', 'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
-                ],
-                overhedLine: 'ВЛ-6кВ Л 4-1',
-                support: 'оп. № 99-101',
-                dateIssue: '23.06.23',
-                timeIssue: '11:01'
-            }
-
-
             function processData(data) {
                 let processedData = [];
                 let emptyObj = {
                     number: '',
                     additionalOrder: '',
                     leader: '',
+                    leaderInitials: '',
                     allowing: '',
+                    alowingInitials:'',
                     foreman: '',
+                    foremanInitials: '',
                     watching: '',
                     workers1: '',
                     workers2: '',
@@ -547,37 +516,75 @@ html(lang="en")
                     startTime: '',
                     endTime: '',
                     giving: '',
+                    givingInitials:'',
                     worker1: '',
                     worker2: '',
                     worker3: '',
-                    overhedLine: '',
-                    support: '',
+                    overheadLine: '',
+                    supports: '',
                     dateIssue: '',
-                    timeIssue: ''
+                    timeIssue: '',
+                    mission1: '',
+                    mission2: '',
+                    mission3: '',
+                    mission4: '',
+                    electricalInstalation1: '',
+                    electricalInstalation2: '',
+                    electricalInstalation3: '',
+                    electricalInstalation4: '',
+                    electricalInstalation5: '',
+                    electricalInstalation6: '',
+                    electricalInstalation7: '',
+                    action1: '',
+                    action2: '',
+                    action3: '',
+                    action4: '',
+                    action5: '',
+                    action6: '',
+                    action7: ''
                 }
+
+                data = { 
+                    ...emptyObj, 
+                    ...data,
+                    ...{
+                        leaderInitials: deleteGroup(data.leader),
+                        allowingInitials: deleteGroup(data.allowing),
+                        foremanInitials: deleteGroup(data.foreman),
+                        givingInitials: deleteGroup(data.leader),
+                    }
+                }
+
                 let groups = prepareDataForTables(data.workers);
                 let strings = prepareStringsWithWorkers(data.workers);
-                
+                let mission = arrayOfArraysToArrayOfObjects(
+                    splitString(data.mission, [95, 110, 110, 110]),
+                    ['mission1', 'mission2', 'mission3', 'mission4']
+                );
+
                 for (let i = 0; i < groups.length; i++) {
                     let group = groups[i];
                     let str = strings[i] || {};
+                    let missionParts = mission[i] || {}
                     let firstObj = i === 0 ? data : emptyObj;
                     let obj = { 
                         ...firstObj, 
                         ...group, 
                         ...str,
+                        ...missionParts,
                         number : data.number,
                         dateIssue: data.dateIssue,
                         timeIssue: data.timeIssue,
                         additionalOrder: i === 0 ? '' : 'Дополнительный бланк',
-                        giving: formData.giving
+                        givingInitial: data.givingInitial
                     };
                     processedData.push(obj);
                 }
+                
                 delete processedData[0].workers;
+                delete processedData[0].mission;
 
                 return processedData; 
-
 
                 function prepareDataForTables(workers, start = 0) {
                     let numberOfWorkerGroups = calcNumberOfWorkerGroups();
@@ -588,7 +595,6 @@ html(lang="en")
                             groups.push(createObj(workers.slice(start*2)));
                             return;
                         }
-                
                         let arr = workers.slice(start*2, start*2+2);
                         arr.push('См. дополнительный бланк');
                         groups.push(createObj(arr));
@@ -616,15 +622,16 @@ html(lang="en")
                         return obj;
                     }
                 
-                    function deleteGroup(str) {
-                        return str.replace(/\sгр.\s\D+/, '');
-                    }
+                }
+
+                function deleteGroup(str) {
+                    return str.replace(/\s*гр.\s*\D+/, '');
                 }
 
 
                 function prepareStringsWithWorkers(workers, start = 0) {
-                    const WORKERS_LINE_1_LENGTH = 80;
-                    const WORKERS_LINE_2_LENGTH = 105;
+                    const WORKERS_LINE_1_LENGTH = 88;
+                    const WORKERS_LINE_2_LENGTH = 98;
                     let strings = [];
                     
                     (function prepare(start) {
@@ -664,12 +671,96 @@ html(lang="en")
                 
                     return strings;
                 }
+
+                function splitString(str, lengths, start = 0, stop = start + lengths[0], res = []) {
+                    let strings = [];
+
+                    if (str.length <= lengths[0]) {
+                        strings.push(str);
+                        for (let i = 0; i < lengths.length - 1; i++) {
+                            strings.push('');
+                        }
+                        res.push(strings);
+                        return res;
+                    }
+
+                    for (let i = 0; i < lengths.length; i++) {
+                        if (str[stop] === ' ') {
+                            var strPart = str.slice(start, stop);
+                            start = i === 2 ? start : stop + 1;
+                            stop = lengths[i+1] ? stop + lengths[i+1] : stop + lengths[0];
+                            
+                        } else {
+                            let idx = str.lastIndexOf(' ', stop);
+                            stop = lengths[i+1] ? idx + lengths[i+1] : stop + lengths[0];
+                            strPart = str.slice(start, idx);
+                            start = i === lengths.length - 1 ? start : idx + 1;
+                        }
+                        if (i === lengths.length - 1 && strings[i-1] && stop <= str.length) {
+                            strPart = 'См. дополнительный бланк';
+                            stop -= lengths[0];
+                        }
+                        strings.push(strPart);	
+                    }
+
+                    res.push(strings)
+                    if (stop <= str.length) {
+                        return splitString(str, lengths, start, stop, res);
+                    }
+
+                    let lastStrindex;
+                    let lastStr = strings.findLast((str, i) => {
+                        lastStrindex = i;
+                        return str.length > 0 && str !== 'См. дополнительный бланк';
+                    });
+                    
+                    let rest = str.slice(start);
+                    if ((lastStr + rest).length < lengths[lastStrindex]) {
+                        strings[lastStrindex] = lastStr + ' ' + rest;
+                    } else {
+                        strings[lastStrindex + 1] = rest;
+                    }
+
+                    return 	res;
+                }
+
+
+                function arrayOfArraysToArrayOfObjects(arr, props) {
+                    let res = [];
+                    for (let i = 0; i < arr.length; i++) {
+                        res.push({});
+                        for (let k = 0; k < arr[i].length; k++) {
+                            res[i][props[k]] = arr[i][k];
+                        }
+                    }
+                    return res;
+                }
             }
+
 
 
             let btn = document.querySelector('.custom-button[type=button]');
             btn.onclick = async function sendData() {
-                const data = JSON.stringify(processData(formData));
+                let formData = new FormData(document.forms.data);
+                let data = {};
+               
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+
+                data.workers = [];
+                for (let worker of formData.getAll('workers')) {
+                    data.workers.push(worker);
+                }
+
+                data.overheadLine = formData.get('overheadLine');
+                data.supports = `оп. № ${data.supports}`;
+                
+                let date = new Date();
+                data.timeIssue = date.toLocaleTimeString().slice(0, 5);
+                data.dateIssue = date.toLocaleDateString();
+                data = JSON.stringify(processData(data));
+                
                 let url = 'http://localhost:8000/order';
                 let res = await fetch(url, {
                     method: 'POST',
@@ -679,5 +770,4 @@ html(lang="en")
                 res = await res.blob();
                 url = URL.createObjectURL(res);
                 window.open(url, 'order');
-              
             }

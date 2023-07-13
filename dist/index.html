@@ -132,7 +132,7 @@
     border-radius: 0.5rem;
     transition: box-shadow .3s linear;
 }</style><style>.textarea {
-    padding: 1rem;
+    padding: 0 1rem;
     resize: none;
     overflow: hidden;
 }
@@ -296,7 +296,7 @@ body {
 
 main {
     min-width: 33rem;
-    max-width: 100rem;
+    max-width: 110rem;
     margin: 0 auto;
 }
 
@@ -363,19 +363,19 @@ h1 {
     font-size: 1.5rem;
     font-weight: bold;
 }
-</style><body><template id="place"><input class="custom-input field"></template><template id="action"><div class="activities__action"> <input class="custom-input field"><button class="del-btn" type="button" data-action="delete row"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+</style><body><template id="place"><input class="custom-input field" style="text-align: start;"></template><template id="action"><div class="activities__action"> <input class="custom-input field" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.30322 15.9099L15.9098 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 <path d="M15.9099 15.9099L5.30331 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 </svg></button></div></template><main> <style>form {
     display: grid;
     grid-template-columns: repeat(3, minmax(33rem, 1fr));
     gap: 2rem;
-}</style><form><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1"></label><style>.order-number {
+}</style><form name="data"><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1" name="number"></label><style>.order-number {
     display: flex;
     align-items: end;
     gap: 2rem;
 }
-</style></div><div class="plate" style="grid-column: 2/4;"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input field" type="date" aria-label="Дата начала работы"><input class="custom-input field" type="time" aria-label="Время начала работы"><h3 class="title">Работу закончить</h3><input class="custom-input field" type="date" aria-label="Дата окончания работы"><input class="custom-input field" type="time" aria-label="Время окончания работы"></div><style>.date-time {
+</style></div><div class="plate" style="grid-column: 2/4;"> <div class="date-time"><h3 class="title">Работу начать</h3><input class="custom-input field" type="date" aria-label="Дата начала работы" name="startDate"><input class="custom-input field" type="time" aria-label="Время начала работы" name="startTime"><h3 class="title">Работу закончить</h3><input class="custom-input field" type="date" aria-label="Дата окончания работы" name="endDate"><input class="custom-input field" type="time" aria-label="Время окончания работы" name="endTime"></div><style>.date-time {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
     align-items: end;
@@ -393,7 +393,7 @@ function handleChange(e) {
     let leader = document.querySelector(`.allowing .radio-button__btn[value="${value}"]`);
     leader.checked = true;
 }
-</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">Не назначается</span></label></li></ul></div></div><div class="plate" style="grid-column: 2/4;"><div class="workers"><h3 class="title workers__title">Члены бригады</h3><ul class="workers__list"><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Дёмин А.П. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Дёмин А.П. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Бахтияров Р.В. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Сержанков С.Н. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Сержанков С.Н. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Корнеев А.А. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate" style="grid-column: 1/3;"> <div class="workplace"> <h3 class="title">Наименование рабочего места и характер работы</h3><h4 class="workplace__subtitle">Воздушные линии</h4><ul class="workplace__overhead-lines"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 2-2"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 2-2</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 2-5"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 2-5</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 4-1"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 4-1</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-1"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-1</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-2"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-2</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-3"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-3</span></label></li><li style="grid-column: 1/4"> <input class="custom-input field" name="overheadLine" placeholder="Укажите № ВЛ если её нет в списке выше" style="text-align: start;"></li></ul><label class="workplace__supports"><h4 class="workplace__subtitle" style="margin: 0 0 0 2rem;">Номера опор</h4><input class="custom-input field" name="supports" style="text-align: start;"></label><label class="workplace__mission"><h4 class="workplace__subtitle" style="margin: 6px 0 0 2rem;">Поручается выполнить </h4><textarea class="textarea field" name="mission"></textarea></label></div><script defer type="module">let inputs = document.querySelectorAll("input");
+</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">не назначается</span></label></li></ul></div></div><div class="plate" style="grid-column: 2/4;"><div class="workers"><h3 class="title workers__title">Члены бригады</h3><ul class="workers__list"><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Дёмин А.П. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Дёмин А.П. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Бахтияров Р.В. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Сержанков С.Н. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Сержанков С.Н. гр. V</span></label></li><li><label class="checkbox"><input class="checkbox__item" type="checkbox" name="workers" value="Корнеев А.А. гр. V"><span class="checkbox__style"></span><span class="checkbox__text">Корнеев А.А. гр. V</span></label></li></ul></div></div><div class="plate" style="grid-column: 1/3;"> <div class="workplace"> <h3 class="title">Наименование рабочего места и характер работы</h3><h4 class="workplace__subtitle">Воздушные линии</h4><ul class="workplace__overhead-lines"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 2-2"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 2-2</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 2-5"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 2-5</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 4-1"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 4-1</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-1"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-1</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-2"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-2</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="overheadLine" value="ВЛ 6кВ № 5-3"><span class="radio-button__style"></span><span class="radio-button__text">ВЛ 6кВ № 5-3</span></label></li><li style="grid-column: 1/4"> <input class="custom-input field" name="overheadLine" placeholder="Укажите № ВЛ если её нет в списке выше" style="text-align: start;"></li></ul><label class="workplace__supports"><h4 class="workplace__subtitle" style="margin: 0 0 0 2rem;">Номера опор</h4><input class="custom-input field" name="supports" style="text-align: start;"></label><label class="workplace__mission"><h4 class="workplace__subtitle" style="margin: 6px 0 0 2rem;">Поручается выполнить </h4><textarea class="textarea field" name="mission"></textarea></label></div><script defer type="module">let inputs = document.querySelectorAll("input");
 </script><style>.workplace__subtitle {
     font-size: 1.4rem;
     font-weight: bold;
@@ -442,7 +442,6 @@ function handleChange(e) {
      }
 
      if (e.target.type === 'text' && /\d+кВ № \d+\s*-\s*\d+/.test(e.target.value)) {
-         console.log(111)
          mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
      }
  }
@@ -569,45 +568,17 @@ function handleClick(e) {
     }
 
 }
-</script></div><button class="custom-button" type="reset" style="grid-column: 1/2;">Очистить форму</button><button class="custom-button" type="button" style="grid-column: 3/4;">Выдать наряд-допуск</button></form></main></body><style>iframe {
-    width: 80vw;
-    height: 80vh;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right:0;
-    margin:auto;
-}
-</style><script defer type="module">let formData = {
-    number: '26',
-    leader: 'Дёмин А.П. гр. V',
-    allowing: 'Дёмин А.П. гр. V',
-    foreman: 'Лунёв В.В. гр. V',
-    watching: 'не назначается',
-    startDate: '19.06.23',
-    endDate: '19.06.23',
-    startTime: '14:40',
-    endTime: '20:00',
-    giving: 'Пшенковский В.А. гр. V',
-    workers: [
-        'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V', 'Мункуев В.С. гр. V', 'Дымбрылов Э.Г. гр. V', 'Лутай Е.В. гр. V'
-    ],
-    overhedLine: 'ВЛ-6кВ Л 4-1',
-    support: 'оп. № 99-101',
-    dateIssue: '23.06.23',
-    timeIssue: '11:01'
-}
-
-
-function processData(data) {
+</script></div><button class="custom-button" type="reset" style="grid-column: 1/2;">Очистить форму</button><button class="custom-button" type="button" style="grid-column: 3/4;">Выдать наряд-допуск</button></form></main></body><script defer type="module">function processData(data) {
     let processedData = [];
     let emptyObj = {
         number: '',
         additionalOrder: '',
         leader: '',
+        leaderInitials: '',
         allowing: '',
+        alowingInitials:'',
         foreman: '',
+        foremanInitials: '',
         watching: '',
         workers1: '',
         workers2: '',
@@ -616,37 +587,75 @@ function processData(data) {
         startTime: '',
         endTime: '',
         giving: '',
+        givingInitials:'',
         worker1: '',
         worker2: '',
         worker3: '',
-        overhedLine: '',
-        support: '',
+        overheadLine: '',
+        supports: '',
         dateIssue: '',
-        timeIssue: ''
+        timeIssue: '',
+        mission1: '',
+        mission2: '',
+        mission3: '',
+        mission4: '',
+        electricalInstalation1: '',
+        electricalInstalation2: '',
+        electricalInstalation3: '',
+        electricalInstalation4: '',
+        electricalInstalation5: '',
+        electricalInstalation6: '',
+        electricalInstalation7: '',
+        action1: '',
+        action2: '',
+        action3: '',
+        action4: '',
+        action5: '',
+        action6: '',
+        action7: ''
     }
+
+    data = { 
+        ...emptyObj, 
+        ...data,
+        ...{
+            leaderInitials: deleteGroup(data.leader),
+            allowingInitials: deleteGroup(data.allowing),
+            foremanInitials: deleteGroup(data.foreman),
+            givingInitials: deleteGroup(data.leader),
+        }
+    }
+
     let groups = prepareDataForTables(data.workers);
     let strings = prepareStringsWithWorkers(data.workers);
-    
+    let mission = arrayOfArraysToArrayOfObjects(
+        splitString(data.mission, [95, 110, 110, 110]),
+        ['mission1', 'mission2', 'mission3', 'mission4']
+    );
+
     for (let i = 0; i < groups.length; i++) {
         let group = groups[i];
         let str = strings[i] || {};
+        let missionParts = mission[i] || {}
         let firstObj = i === 0 ? data : emptyObj;
         let obj = { 
             ...firstObj, 
             ...group, 
             ...str,
+            ...missionParts,
             number : data.number,
             dateIssue: data.dateIssue,
             timeIssue: data.timeIssue,
             additionalOrder: i === 0 ? '' : 'Дополнительный бланк',
-            giving: formData.giving
+            givingInitial: data.givingInitial
         };
         processedData.push(obj);
     }
+    
     delete processedData[0].workers;
+    delete processedData[0].mission;
 
     return processedData; 
-
 
     function prepareDataForTables(workers, start = 0) {
         let numberOfWorkerGroups = calcNumberOfWorkerGroups();
@@ -657,7 +666,6 @@ function processData(data) {
                 groups.push(createObj(workers.slice(start*2)));
                 return;
             }
-    
             let arr = workers.slice(start*2, start*2+2);
             arr.push('См. дополнительный бланк');
             groups.push(createObj(arr));
@@ -685,15 +693,16 @@ function processData(data) {
             return obj;
         }
     
-        function deleteGroup(str) {
-            return str.replace(/\sгр.\s\D+/, '');
-        }
+    }
+
+    function deleteGroup(str) {
+        return str.replace(/\s*гр.\s*\D+/, '');
     }
 
 
     function prepareStringsWithWorkers(workers, start = 0) {
-        const WORKERS_LINE_1_LENGTH = 80;
-        const WORKERS_LINE_2_LENGTH = 105;
+        const WORKERS_LINE_1_LENGTH = 88;
+        const WORKERS_LINE_2_LENGTH = 98;
         let strings = [];
         
         (function prepare(start) {
@@ -733,12 +742,96 @@ function processData(data) {
     
         return strings;
     }
+
+    function splitString(str, lengths, start = 0, stop = start + lengths[0], res = []) {
+        let strings = [];
+
+        if (str.length <= lengths[0]) {
+            strings.push(str);
+            for (let i = 0; i < lengths.length - 1; i++) {
+                strings.push('');
+            }
+            res.push(strings);
+            return res;
+        }
+
+        for (let i = 0; i < lengths.length; i++) {
+            if (str[stop] === ' ') {
+                var strPart = str.slice(start, stop);
+                start = i === 2 ? start : stop + 1;
+                stop = lengths[i+1] ? stop + lengths[i+1] : stop + lengths[0];
+                
+            } else {
+                let idx = str.lastIndexOf(' ', stop);
+                stop = lengths[i+1] ? idx + lengths[i+1] : stop + lengths[0];
+                strPart = str.slice(start, idx);
+                start = i === lengths.length - 1 ? start : idx + 1;
+            }
+            if (i === lengths.length - 1 && strings[i-1] && stop <= str.length) {
+                strPart = 'См. дополнительный бланк';
+                stop -= lengths[0];
+            }
+            strings.push(strPart);	
+        }
+
+        res.push(strings)
+        if (stop <= str.length) {
+            return splitString(str, lengths, start, stop, res);
+        }
+
+        let lastStrindex;
+        let lastStr = strings.findLast((str, i) => {
+            lastStrindex = i;
+            return str.length > 0 && str !== 'См. дополнительный бланк';
+        });
+        
+        let rest = str.slice(start);
+        if ((lastStr + rest).length < lengths[lastStrindex]) {
+            strings[lastStrindex] = lastStr + ' ' + rest;
+        } else {
+            strings[lastStrindex + 1] = rest;
+        }
+
+        return 	res;
+    }
+
+
+    function arrayOfArraysToArrayOfObjects(arr, props) {
+        let res = [];
+        for (let i = 0; i < arr.length; i++) {
+            res.push({});
+            for (let k = 0; k < arr[i].length; k++) {
+                res[i][props[k]] = arr[i][k];
+            }
+        }
+        return res;
+    }
 }
+
 
 
 let btn = document.querySelector('.custom-button[type=button]');
 btn.onclick = async function sendData() {
-    const data = JSON.stringify(processData(formData));
+    let formData = new FormData(document.forms.data);
+    let data = {};
+   
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+
+    data.workers = [];
+    for (let worker of formData.getAll('workers')) {
+        data.workers.push(worker);
+    }
+
+    data.overheadLine = formData.get('overheadLine');
+    data.supports = `оп. № ${data.supports}`;
+    
+    let date = new Date();
+    data.timeIssue = date.toLocaleTimeString().slice(0, 5);
+    data.dateIssue = date.toLocaleDateString();
+    data = JSON.stringify(processData(data));
+    
     let url = 'http://localhost:8000/order';
     let res = await fetch(url, {
         method: 'POST',
@@ -748,5 +841,4 @@ btn.onclick = async function sendData() {
     res = await res.blob();
     url = URL.createObjectURL(res);
     window.open(url, 'order');
-  
 }</script></head></html>
