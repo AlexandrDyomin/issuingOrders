@@ -239,9 +239,9 @@ html(lang="en")
                             
                     
                     +workers("Ответственный руководитель работ")(class="leaders")
-                        each worker in workers
+                        each worker in masters
                             li 
-                                +radio-button(worker)(name='leader' value=worker)
+                                +radio-button(`${worker.name} ${worker.group}`)(name='leader' value=`${worker.name} ${worker.group}`)
                     script(defer type="module"). 
                         let leaders = document.querySelector('.leaders');
                         leaders.addEventListener('change', handleChange);
@@ -250,29 +250,109 @@ html(lang="en")
                             let value = e.target.value;
                             let leader = document.querySelector(`.allowing .radio-button__btn[value="${value}"]`);
                             leader.checked = true;
+                            leader.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                         
                     +workers("Допускающий")(class="allowing")
-                        each worker in workers
+                        each worker in [...masters, ...workersWithFouthGroup]
                             li 
-                                +radio-button(worker)(name='allowing' value=worker)
+                                +radio-button(`${worker.name} ${worker.group}`)(name='allowing' value=`${worker.name} ${worker.group}`)
 
                     +workers("Производитель работ")
-                        each worker in workers
+                        each worker in [...masters, ...workersWithFouthGroup]
                             li 
-                                +radio-button(worker)(name='foreman' value=worker)
+                                +radio-button(`${worker.name} ${worker.group}`)(name='foreman' value=`${worker.name} ${worker.group}`)
 
-                    +workers("Наблюдающий")
-                        each worker in workers
+                    +workers("Наблюдающий")(style="grid-column: 1/4;" class="watching")
+                        each worker in [...masters, ...electricians]
                             li
-                                +radio-button(worker)(name='watching' value=worker)
+                                +radio-button(`${worker.name} ${worker.group}`)(name='watching' value=`${worker.name} ${worker.group}`)
                         li 
                             +radio-button("не назначается")(name='watching' value="Не назначается" checked)
                     
-                    +workers("Члены бригады")(style="grid-column: 2/4;")
-                        each worker in workers
+                    script(defer type="module"). 
+                        document.forms.data.addEventListener('change', handleFormChange);
+                        let disabledInputs = [];
+                        let statistics = {};
+
+                        function handleFormChange(e) {
+                            let conditions = {
+                                watching: () => {
+                                    let inputs = Array.from(document.querySelectorAll(`input[value="${e.target.value}"]`))
+                                        .filter((worker) => worker.name !== 'watching');
+                                    
+
+                                    for (let input of disabledInputs) {
+                                        input.disabled = false;
+                                    }
+
+                                    for (let input of inputs) {
+                                        input.disabled = true;
+                                        input.checked = false;
+                                        disabledInputs.push(input);
+                                    }
+
+                                },
+                                leader: control,
+                                allowing: control,
+                                foreman: control,
+                                giving: control
+                            }
+                            conditions[e.target.name]?.();
+                            
+                            function control() {
+                                let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
+                                    .filter((input) => input.name !== 'watching');
+                                
+                                let watching = document.querySelectorAll('.watching input');
+                                for (let input of watching) {
+                                    for (let checkedInput of checkedInputs) {
+                                        if (input.value === checkedInput.value) {
+                                            input.disabled = true;
+                                            break;
+                                        } else {
+                                            input.disabled = false;
+                                        }
+                                    }
+                                }
+                               
+
+                               
+                                statistics[e.target.value] ? statistics[e.target.value] += 1 : statistics[e.target.value] = 1;
+                                let checkedValues = checkedInputs.reduce((acc, item) => {
+                                    if (acc.includes(item.value)) {
+                                        return acc;
+                                    }
+                                    acc.push(item.value);
+                                    return acc;
+                                }, []);
+
+                                for (let key in statistics) {
+                                    if (key !== e.target.value) {
+                                        //- statistics[key] -= 1;
+                                    }
+
+                                    if (!checkedValues.includes(key)) {
+                                        delete statistics[key];
+                                    }
+
+                                }
+                                
+                                for (let key in statistics) {
+                                    if (statistics[key] > 1) {
+                                        let notChecked = document.querySelectorAll(`input[value="${key}"]:not(:checked)`);
+                                    }
+                                }
+                                console.log(statistics)
+                            }
+                        }
+
+
+
+                    +workers("Члены бригады")(style="grid-column: 1/4;" class="workers")
+                        each worker in electricians
                             li
-                                +checkbox-button(worker)(name='workers' value=worker)
+                                +checkbox-button(`${worker.name} ${worker.group}`)(name='workers' value=`${worker.name} ${worker.group}`)
                     +plate(style="grid-column: 1/3") 
                         .workplace 
                             h3.title Наименование рабочего места и характер работы
@@ -354,9 +434,9 @@ html(lang="en")
                                 }
                             }
                     +workers("Выдающий наряд")
-                        each worker in workers
+                        each worker in bosses
                             li 
-                                +radio-button(worker)(name='giving' value=worker)
+                                +radio-button(`${worker.name} ${worker.group}`)(name='giving' value=`${worker.name} ${worker.group}` checked=worker.name === 'Пшенковский В.А.' && true)
 
                    
 

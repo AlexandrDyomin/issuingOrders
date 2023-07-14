@@ -26,6 +26,16 @@ style.
         overflow: hidden;
     }
 
+    .radio-button__btn:disabled ~ .radio-button__style,
+    .radio-button__btn:disabled ~ .radio-button__text {
+        opacity: 0.5;
+    }
+
+    .radio-button__btn:disabled:hover ~ .radio-button__text {
+        box-shadow: none;
+        cursor: default;
+    }
+
     .radio-button__style {
         display: inline-block;
         position: relative;
