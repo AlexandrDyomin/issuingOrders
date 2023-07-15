@@ -6,6 +6,8 @@ const PDFMerger = require('pdf-merger-js');
 
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
+const { processData } = require('../utils/processData.js');
+let dataFromDb = require('../utils/loadDataFromDb.js').loadDataFromDb();
 
 let routes = {
     '/order': function postOrder(req, res) {
@@ -14,14 +16,11 @@ let routes = {
         req.on('end', () => mergeChunks(body));
         req.addListener('end', makeHandlerEnd(res, body));
     },
-    '/': function postIndexPage(req, res) {
+    '/': async function postIndexPage(req, res) {
         try {
             res.setHeader('Content-Type', 'text/html');
             res.writeHead(200);
-            res.end(renderIndexPage({
-                lines: ['ВЛ 6кВ № 2-2', 'ВЛ 6кВ № 2-5', 'ВЛ 6кВ № 4-1', 'ВЛ 6кВ № 5-1', 'ВЛ 6кВ № 5-2', 'ВЛ 6кВ № 5-3'],
-                workers: ['Дёмин А.П. гр. V', 'Бахтияров Р.В. гр. V', 'Сержанков С.Н. гр. V', 'Корнеев А.А. гр. V'],
-            }));
+            res.end(renderIndexPage(await dataFromDb));
         } catch (err) {
             console.log(err);
             res.writeHead(500);
@@ -42,13 +41,13 @@ function mergeChunks(container) {
     return Buffer.concat(container);
 }
 
-function makeHandlerEnd(res, data) {
+function makeHandlerEnd(res, dataFromClient) {
     return handleEnd;
     
     async function  handleEnd() {
         try {
             let emptyOrder = await readEmptyOrder();
-            let deserializedData = JSON.parse(data.toString());
+            let deserializedData = processData(JSON.parse(dataFromClient.toString()));
             let merger = new PDFMerger();
             
             for (let part of deserializedData) {

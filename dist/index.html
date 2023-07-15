@@ -410,11 +410,16 @@ leaders.addEventListener('change', handleChange);
 
 function handleChange(e) {
     let value = e.target.value;
-    let leader = document.querySelector(`.allowing .radio-button__btn[value="${value}"]`);
-    leader.checked = true;
-    leader.dispatchEvent(new Event('change', { bubbles: true }));
+    let allowing = document.querySelector(`.allowing .radio-button__btn[value="${value}"]`);
+    if (!allowing.checked) {
+        if (document.querySelectorAll(`input[value="${allowing.value}"]:checked:not(.watching input)`).length < 2) {
+            allowing.checked = true;
+            allowing.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
 }
-</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate watching" style="grid-column: 1/4;"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ступников В.В. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ступников В.В. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дымбрылов Э.Г. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Дымбрылов Э.Г. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Желтов Е.Е. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Желтов Е.Е. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ардинцев М.А. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ардинцев М.А. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Барсуков А.А гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Барсуков А.А гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Леонов Д.С. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Леонов Д.С. гр. III</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">не назначается</span></label></li></ul></div></div><script defer type="module">document.forms.data.addEventListener('change', handleFormChange);
+</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate watching" style="grid-column: 1/4;"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ступников В.В. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ступников В.В. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дымбрылов Э.Г. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Дымбрылов Э.Г. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Желтов Е.Е. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Желтов Е.Е. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ардинцев М.А. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ардинцев М.А. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Барсуков А.А гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Барсуков А.А гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Леонов Д.С. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Леонов Д.С. гр. III</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">не назначается</span></label></li></ul></div></div><script defer type="module">document.forms.data.addEventListener('change', handleFormChange);
 let disabledInputs = [];
 let statistics = {};
 
@@ -424,7 +429,6 @@ function handleFormChange(e) {
             let inputs = Array.from(document.querySelectorAll(`input[value="${e.target.value}"]`))
                 .filter((worker) => worker.name !== 'watching');
             
-
             for (let input of disabledInputs) {
                 input.disabled = false;
             }
@@ -459,8 +463,6 @@ function handleFormChange(e) {
             }
         }
        
-
-       
         statistics[e.target.value] ? statistics[e.target.value] += 1 : statistics[e.target.value] = 1;
         let checkedValues = checkedInputs.reduce((acc, item) => {
             if (acc.includes(item.value)) {
@@ -471,22 +473,21 @@ function handleFormChange(e) {
         }, []);
 
         for (let key in statistics) {
-            if (key !== e.target.value) {
-                //- statistics[key] -= 1;
-            }
-
             if (!checkedValues.includes(key)) {
                 delete statistics[key];
             }
 
+            statistics[key] = document.querySelectorAll(`input[value="${key}"]:checked`).length;
+
+            let notChecked = document.querySelectorAll(`input[value="${key}"]:not(:checked):not(.watching input)`);
+            notChecked?.forEach((input) => {
+                if (statistics[input.value] > 1) {
+                    input.disabled = true;
+                } else {
+                    input.disabled = false;
+                }
+            });
         }
-        
-        for (let key in statistics) {
-            if (statistics[key] > 1) {
-                let notChecked = document.querySelectorAll(`input[value="${key}"]:not(:checked)`);
-            }
-        }
-        console.log(statistics)
     }
 }
 
@@ -666,249 +667,7 @@ function handleClick(e) {
     }
 
 }
-</script></div><button class="custom-button" type="reset" style="grid-column: 1/2;">Очистить форму</button><button class="custom-button" type="button" style="grid-column: 3/4;">Выдать наряд-допуск</button></form></main></body><script defer type="module">function processData(data) {
-    let processedData = [];
-    let emptyObj = {
-        number: '',
-        additionalOrder: '',
-        leader: '',
-        leaderInitials: '',
-        allowing: '',
-        alowingInitials:'',
-        foreman: '',
-        foremanInitials: '',
-        watching: '',
-        workers1: '',
-        workers2: '',
-        startDate: '',
-        endDate: '',
-        startTime: '',
-        endTime: '',
-        giving: '',
-        givingInitials:'',
-        worker1: '',
-        worker2: '',
-        worker3: '',
-        overheadLine: '',
-        supports: '',
-        dateIssue: '',
-        timeIssue: '',
-        mission1: '',
-        mission2: '',
-        mission3: '',
-        mission4: '',
-        electricalInstalation1: '',
-        electricalInstalation2: '',
-        electricalInstalation3: '',
-        electricalInstalation4: '',
-        electricalInstalation5: '',
-        electricalInstalation6: '',
-        electricalInstalation7: '',
-        action1: '',
-        action2: '',
-        action3: '',
-        action4: '',
-        action5: '',
-        action6: '',
-        action7: ''
-    }
-
-    data = { 
-        ...emptyObj, 
-        ...data,
-        ...{
-            leaderInitials: deleteGroup(data.leader),
-            allowingInitials: deleteGroup(data.allowing),
-            foremanInitials: deleteGroup(data.foreman),
-            givingInitials: deleteGroup(data.leader),
-        }
-    }
-
-    let groups = prepareDataForTables(data.workers);
-    let strings = prepareStringsWithWorkers(data.workers);
-    let mission = arrayOfArraysToArrayOfObjects(
-        splitString(data.mission, [95, 110, 110, 110]),
-        ['mission1', 'mission2', 'mission3', 'mission4']
-    );
-
-    for (let i = 0; i < groups.length; i++) {
-        let group = groups[i];
-        let str = strings[i] || {};
-        let missionParts = mission[i] || {}
-        let firstObj = i === 0 ? data : emptyObj;
-        let obj = { 
-            ...firstObj, 
-            ...group, 
-            ...str,
-            ...missionParts,
-            number : data.number,
-            dateIssue: data.dateIssue,
-            timeIssue: data.timeIssue,
-            additionalOrder: i === 0 ? '' : 'Дополнительный бланк',
-            givingInitial: data.givingInitial
-        };
-        processedData.push(obj);
-    }
-    
-    delete processedData[0].workers;
-    delete processedData[0].mission;
-
-    return processedData; 
-
-    function prepareDataForTables(workers, start = 0) {
-        let numberOfWorkerGroups = calcNumberOfWorkerGroups();
-        let groups = [];
-    
-        (function split(start) {
-            if (start === numberOfWorkerGroups - 1) {
-                groups.push(createObj(workers.slice(start*2)));
-                return;
-            }
-            let arr = workers.slice(start*2, start*2+2);
-            arr.push('См. дополнительный бланк');
-            groups.push(createObj(arr));
-            
-            split(++start);
-        })(start);
-    
-        return groups;
-    
-        function calcNumberOfWorkerGroups() {
-            const maxNumberWorkers = 3;
-            if (workers.length <= maxNumberWorkers) {
-                var numberOfWorkerGroups = 1;
-            }
-            numberOfWorkerGroups  = Math.ceil(numberOfWorkerGroups || (workers.length - maxNumberWorkers) / (maxNumberWorkers - 1) + 1);
-            return numberOfWorkerGroups;
-        }
-    
-        function createObj(arr) {
-            let obj = {};
-            for (let i = 0, prop = 'worker'; i < 3; i++) {
-                let value = arr[i] ? deleteGroup(arr[i]) : '';
-                obj[prop + (i + 1)] = value;
-            }
-            return obj;
-        }
-    
-    }
-
-    function deleteGroup(str) {
-        return str.replace(/\s*гр.\s*\D+/, '');
-    }
-
-
-    function prepareStringsWithWorkers(workers, start = 0) {
-        const WORKERS_LINE_1_LENGTH = 88;
-        const WORKERS_LINE_2_LENGTH = 98;
-        let strings = [];
-        
-        (function prepare(start) {
-            let separator = '';
-            for (var i = start, str1 = '', str2 = '', stop; i < workers.length; i++) {
-                if (str1.length + workers[i].length + separator.length <= WORKERS_LINE_1_LENGTH) {
-                    separator = ', '
-                    str1 += workers[i] + separator;
-                    continue;
-                }
-                stop = i;
-                separator = '';
-                for (let i = stop; i < workers.length; i++) {
-                    if (str2.length + workers[i].length + separator.length <= WORKERS_LINE_2_LENGTH) {
-                        separator = ', ';
-                        str2 += workers[i] + separator;
-                        continue;
-                    }
-                    str2 = 'См. дополнительный бланк';
-                    break;
-                }
-                break;
-            }
-            
-            str1 = str1.replace(/\s$/, '');
-            if (str2 !== 'См. дополнительный бланк') {
-                str1 = str2 ? str1 : str1.replace(/,$/, '');
-    
-                str2 = str2.replace(/(,\s)$/, '');
-                strings.push({workers1: str1, workers2: str2});
-                return;
-            }
-            
-            strings.push({workers1: str1, workers2: str2});
-            prepare(stop);
-        })(start)
-    
-        return strings;
-    }
-
-    function splitString(str, lengths, start = 0, stop = start + lengths[0], res = []) {
-        let strings = [];
-
-        if (str.length <= lengths[0]) {
-            strings.push(str);
-            for (let i = 0; i < lengths.length - 1; i++) {
-                strings.push('');
-            }
-            res.push(strings);
-            return res;
-        }
-
-        for (let i = 0; i < lengths.length; i++) {
-            if (str[stop] === ' ') {
-                var strPart = str.slice(start, stop);
-                start = i === 2 ? start : stop + 1;
-                stop = lengths[i+1] ? stop + lengths[i+1] : stop + lengths[0];
-                
-            } else {
-                let idx = str.lastIndexOf(' ', stop);
-                stop = lengths[i+1] ? idx + lengths[i+1] : stop + lengths[0];
-                strPart = str.slice(start, idx);
-                start = i === lengths.length - 1 ? start : idx + 1;
-            }
-            if (i === lengths.length - 1 && strings[i-1] && stop <= str.length) {
-                strPart = 'См. дополнительный бланк';
-                stop -= lengths[0];
-            }
-            strings.push(strPart);	
-        }
-
-        res.push(strings)
-        if (stop <= str.length) {
-            return splitString(str, lengths, start, stop, res);
-        }
-
-        let lastStrindex;
-        let lastStr = strings.findLast((str, i) => {
-            lastStrindex = i;
-            return str.length > 0 && str !== 'См. дополнительный бланк';
-        });
-        
-        let rest = str.slice(start);
-        if ((lastStr + rest).length < lengths[lastStrindex]) {
-            strings[lastStrindex] = lastStr + ' ' + rest;
-        } else {
-            strings[lastStrindex + 1] = rest;
-        }
-
-        return 	res;
-    }
-
-
-    function arrayOfArraysToArrayOfObjects(arr, props) {
-        let res = [];
-        for (let i = 0; i < arr.length; i++) {
-            res.push({});
-            for (let k = 0; k < arr[i].length; k++) {
-                res[i][props[k]] = arr[i][k];
-            }
-        }
-        return res;
-    }
-}
-
-
-
-let btn = document.querySelector('.custom-button[type=button]');
+</script></div><button class="custom-button" type="reset" style="grid-column: 1/2;">Очистить форму</button><button class="custom-button" type="button" style="grid-column: 3/4;">Выдать наряд-допуск</button></form></main></body><script defer type="module">let btn = document.querySelector('.custom-button[type=button]');
 btn.onclick = async function sendData() {
     let formData = new FormData(document.forms.data);
     let data = {};
@@ -928,8 +687,7 @@ btn.onclick = async function sendData() {
     let date = new Date();
     data.timeIssue = date.toLocaleTimeString().slice(0, 5);
     data.dateIssue = date.toLocaleDateString();
-    data = JSON.stringify(processData(data));
-    
+    data = JSON.stringify(data);
     let url = 'http://localhost:8000/order';
     let res = await fetch(url, {
         method: 'POST',
