@@ -9,17 +9,23 @@ style.
     }
 
 script(defer type="module"). 
-    let textareas = document.querySelectorAll('.textarea');
-    
-    for (let i = 0; i < textareas.length; i++) {
-        textareas[i].addEventListener('input', resize);
-        
-        if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
-            resize({ currentTarget: textareas[i] });
-        }
-    }
+    (async () =>  {
+        let debounce = (await import('../utils/debounce.js')).default;
+        let debouncedResize = debounce(resize, 800);
 
-    function resize({ currentTarget }) {
-        currentTarget.style.height = '2.5rem';
-        currentTarget.style.height = `${currentTarget.scrollHeight}px`;
-    }
+        let textareas = document.querySelectorAll('.textarea');
+        for (let i = 0; i < textareas.length; i++) {
+            textareas[i].addEventListener('input', debouncedResize);
+            
+            if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
+                resize(textareas[i]);
+            }
+        }
+        
+        function resize(e) {
+            let target = e.target ? e.target : e;
+            target.style.height = '2.5rem';
+            target.style.height = `${target.scrollHeight}px`;
+        }
+    })();
+    

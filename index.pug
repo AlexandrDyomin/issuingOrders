@@ -277,6 +277,7 @@ html(lang="en")
                     
                     script(defer type="module"). 
                         document.forms.data.addEventListener('change', handleFormChange);
+
                         let disabledInputs = [];
                         let statistics = {};
 
@@ -300,14 +301,16 @@ html(lang="en")
                                 leader: control,
                                 allowing: control,
                                 foreman: control,
-                                giving: control
+                                giving: control,
+                                workers: () => {
+                                    let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
+                                        .filter((input) => input.name !== 'watching');
+                                    disabledWatching(checkedInputs);
+                                }
                             }
                             conditions[e.target.name]?.();
-                            
-                            function control() {
-                                let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
-                                    .filter((input) => input.name !== 'watching');
-                                
+
+                            function disabledWatching(checkedInputs) {
                                 let watching = document.querySelectorAll('.watching input');
                                 for (let input of watching) {
                                     for (let checkedInput of checkedInputs) {
@@ -319,6 +322,12 @@ html(lang="en")
                                         }
                                     }
                                 }
+                            }
+                            
+                            function control() {
+                                let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
+                                    .filter((input) => input.name !== 'watching');
+                                disabledWatching(checkedInputs);
                                
                                 statistics[e.target.value] ? statistics[e.target.value] += 1 : statistics[e.target.value] = 1;
                                 let checkedValues = checkedInputs.reduce((acc, item) => {
@@ -350,7 +359,7 @@ html(lang="en")
 
 
 
-                    +workers("Члены бригады")(style="grid-column: 1/4;" class="workers")
+                    +workers("Члены бригады")(style="grid-column: 1/4;" class="electricians")
                         each worker in electricians
                             li
                                 +checkbox-button(`${worker.name} ${worker.group}`)(name='workers' value=`${worker.name} ${worker.group}`)
@@ -370,8 +379,6 @@ html(lang="en")
                             label.workplace__mission
                                 h4.workplace__subtitle(style="margin: 6px 0 0 2rem;") Поручается выполнить 
                                 +textarea(name="mission")
-                        script(defer type="module").
-                            let inputs = document.querySelectorAll("input");
                         
                         style. 
                             .workplace__subtitle {
