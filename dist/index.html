@@ -687,6 +687,7 @@ btn.onclick = async function sendData() {
     let date = new Date();
     data.timeIssue = date.toLocaleTimeString().slice(0, 5);
     data.dateIssue = date.toLocaleDateString();
+    console.log(data.dateIssue)
     data = JSON.stringify(data);
     let url = 'http://localhost:8000/order';
     let res = await fetch(url, {
