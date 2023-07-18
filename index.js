@@ -11,7 +11,9 @@ async function handleRequest(req, res) {
     res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    routes[req.url] ? routes[req.url](req, res) : routes.default(req, res);
+    let url = new URL(`${req.headers.host}${req.url}`);
+    let pathname = url.pathname.match(/\/.*/)[0];
+    routes[pathname] ? routes[pathname](req, res) : routes.default(req, res);
 }
 
 function handleConnection() {

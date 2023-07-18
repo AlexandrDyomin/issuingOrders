@@ -370,7 +370,7 @@ html(lang="en")
                             ul.workplace__overhead-lines
                                 each line in lines
                                     li 
-                                        +radio-button(line)(name="overheadLine" value=line)
+                                        +radio-button(line.name)(name="overheadLine" value=line.name)
                                 li(style="grid-column: 1/4") 
                                     +input(name="overheadLine" placeholder="Укажите № ВЛ если её нет в списке выше" style="text-align: start;")
                             label.workplace__supports
@@ -409,19 +409,32 @@ html(lang="en")
 
                         script(defer type="module"). 
                             let lineInput = document.querySelector('.custom-input[name=overheadLine]');
-                            lineInput.addEventListener('focusout', handleFocusout);
+                            lineInput.addEventListener('focusout', handlelineInputFocusout);
                             let overheadLines = document.querySelector('.workplace__overhead-lines');
-                            overheadLines.addEventListener('change', handleChange);
+                            overheadLines.addEventListener('change', handleOverheadLinesChange);
                             let supports = document.querySelector('.workplace__supports .custom-input');
                             supports.addEventListener('change', handleSupportsChange);
                             let mission = document.querySelector('.workplace__mission .textarea');
                             
+
+                            
+                            
+                            async function getActivities(url, line) {
+                                try {
+                                    let res = await fetch(`${url}?line=${line}`);
+                                    let data = await res.json();
+                                    return data;
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            }
+
                             function handleSupportsChange(e) {
                                 let firstSupport = e.target.value.match(/\d+\s*-\s*\d*|\d+/)[0];
                                 mission.value = mission.value.replace(/ оп. № \d+\s*-\s*\d*| оп. № \d+|^$|$/i, ` оп. № ${firstSupport}`);
                             }
 
-                           function handleChange(e) {
+                            async function handleOverheadLinesChange(e) {
                                 if (e.target.type === 'radio' && lineInput.value) {
                                     lineInput.value = '';
                                 }
@@ -433,8 +446,32 @@ html(lang="en")
                                 if (e.target.type === 'text' && /\d+кВ № \d+\s*-\s*\d+/.test(e.target.value)) {
                                     mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
+
+                                let delBtns = document.querySelectorAll('.activities__action .del-btn');
+                                for (let i = 0; i < delBtns.length; i++) {
+                                    if(!delBtns[i].disabled) {
+                                        delBtns[i].click();
+                                    }
+                                }
+                                
+                                let activities = await getActivities('http://localhost:8000/activities', e.target.value);
+                                let electricalInstalation = document.querySelector('.custom-input[name^="electricalInstalation"]');
+                                electricalInstalation && (electricalInstalation.value = activities.substation.name);
+                                let field = document.querySelector('.activities__action .custom-input[name^="action"]');
+                                let addAction = document.querySelector('.add-btn[data-action="add action"]');
+                                let addPlace = document.querySelector('.add-btn[data-action="add place"]');
+                                for (let i = 0; i <  activities.substation.actions.length; i++) {
+                                    field && (field.value = activities.substation.actions[i]);
+                                    if (i !== activities.substation.actions.length - 1) {
+                                        addAction.click();
+                                        field = document.querySelector('.activities__action:last-child .custom-input[name^="action"]');
+                                    } else {
+                                        addPlace.click();
+                                    }
+                                }
                             }
-                            function handleFocusout(e) {
+
+                            function handlelineInputFocusout(e) {
                                 if (e.target.value) {
                                     let checkboxCheked = e.target.closest('.workplace__overhead-lines')
                                         .querySelector('.radio-button__btn:checked');
@@ -557,7 +594,6 @@ html(lang="en")
                                         action.previousElementSibling.remove();
                                         action.remove();
                                     }
-
 
                                     let groups = [...fields.querySelectorAll('*[data-group]')]
                                         .reduce((acc, el) => {

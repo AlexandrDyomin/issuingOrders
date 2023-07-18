@@ -28,4 +28,4 @@ function debounce(fn, delay, immediately = false) {
 	}	
 }
 
-export default debounce;
+// exports.debounce = debounce

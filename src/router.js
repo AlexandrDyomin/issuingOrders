@@ -7,9 +7,16 @@ const PDFMerger = require('pdf-merger-js');
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
 const { processData } = require('../utils/processData.js');
-let dataFromDb = require('../utils/loadDataFromDb.js').loadDataFromDb();
+let { dataForTemplate } = require('../utils/loadDataFromDb.js');
 
 let routes = {
+    '/activities': async function postActivities(req, res) {
+        let url = new URL(`${req.headers.host}${req.url}`);
+        let line = url.searchParams.get('line');
+        let activities = JSON.stringify((await dataForTemplate).activities[line]);
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(activities);
+    },
     '/order': function postOrder(req, res) {
         let body = []; 
         req.on('data', (chunk) => accumulateChunks(body, chunk));
@@ -20,7 +27,7 @@ let routes = {
         try {
             res.setHeader('Content-Type', 'text/html');
             res.writeHead(200);
-            res.end(renderIndexPage(await dataFromDb));
+            res.end(renderIndexPage(await dataForTemplate));
         } catch (err) {
             console.log(err);
             res.writeHead(500);

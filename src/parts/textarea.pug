@@ -7,25 +7,22 @@ style.
         resize: none;
         overflow: hidden;
     }
-
+script
+    include ../../utils/debounce.js
 script(defer type="module"). 
-    (async () =>  {
-        let debounce = (await import('../utils/debounce.js')).default;
-        let debouncedResize = debounce(resize, 800);
+    let debouncedResize = debounce(resize, 800);
 
-        let textareas = document.querySelectorAll('.textarea');
-        for (let i = 0; i < textareas.length; i++) {
-            textareas[i].addEventListener('input', debouncedResize);
-            
-            if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
-                resize(textareas[i]);
-            }
-        }
+    let textareas = document.querySelectorAll('.textarea');
+    for (let i = 0; i < textareas.length; i++) {
+        textareas[i].addEventListener('input', debouncedResize);
         
-        function resize(e) {
-            let target = e.target ? e.target : e;
-            target.style.height = '2.5rem';
-            target.style.height = `${target.scrollHeight}px`;
+        if (textareas[i].scrollHeight > textareas[i].offsetHeight) {
+            resize(textareas[i]);
         }
-    })();
+    }
     
+    function resize(e) {
+        let target = e.target ? e.target : e;
+        target.style.height = '2.5rem';
+        target.style.height = `${target.scrollHeight}px`;
+    }

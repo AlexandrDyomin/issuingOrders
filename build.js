@@ -12,12 +12,24 @@ fs.mkdir(path.resolve(__dirname, 'dist'), {recursive: true});
     let electricians = selectAll(workers, 'jobTitle', 'электромонтёр');
     let bosses = selectAll(workers, 'jobTitle', 'начальник участка');
     let workersWithFouthGroup = selectAll(workers, 'group', 'гр. IV');
+    
+    let info = await fs.readFile('./src/db/overheadLines.csv', 'utf-8');
+    let lines = CSVParse(info, ['name']);
+
+    let activities = {};
+    for (let item of CSVParse(info, ['line', 'substation', 'box', 'actions'])) {
+        activities[item.line] = {
+            electricalInstalation: `${item.substation}, ${item.box}`,
+            actions: item.actions.split(';')
+        };
+    }
 
     fs.writeFile(path.resolve(__dirname, 'dist', 'index.html'), renderIndexPage({
         masters,
         electricians,
         bosses,
         workersWithFouthGroup,
-        lines: ['ВЛ 6кВ № 2-2', 'ВЛ 6кВ № 2-5', 'ВЛ 6кВ № 4-1', 'ВЛ 6кВ № 5-1', 'ВЛ 6кВ № 5-2', 'ВЛ 6кВ № 5-3']
+        lines,
+        activities
     }));
 })()
