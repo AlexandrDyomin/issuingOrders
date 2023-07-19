@@ -13,6 +13,7 @@ script(defer type="module").
     let input = dropdown.firstElementChild;
     input.addEventListener('click', openDropdown);
     dropdown.addEventListener('click', selectValue);
+    dropdown.addEventListener('click', highlightItem);
     input.addEventListener('blur', closeDropdown);
     input.addEventListener('input', closeDropdown);
   }
@@ -22,6 +23,18 @@ script(defer).
     e.stopPropagation();
     let dropdownContainer = e.target.nextElementSibling;
     dropdownContainer.style.display = 'block';
+  }
+
+  function highlightItem(e) {
+    let items = e.currentTarget.querySelectorAll('.dropdown li');
+    let input = e.currentTarget.querySelector('.custom-input');
+    let selectedItem = e.target;
+    for (let item of items) {
+      item.classList.remove('dropdown__item_selected');
+      if (input.value === item.textContent) {
+        item.classList.add('dropdown__item_selected');
+      }
+    }
   }
 
   function selectValue(e) {
@@ -68,6 +81,10 @@ style.
     border-radius: 4px;
     background-color: white; 
   }   
+
+  .dropdown__item_selected {
+    background: rgba(80, 0, 251, 0.4);
+  }
 
   
 
