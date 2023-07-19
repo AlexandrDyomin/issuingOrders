@@ -52,7 +52,7 @@ function processData(dataFromClient) {
             leaderInitials: deleteGroup(dataFromClient.leader),
             allowingInitials: deleteGroup(dataFromClient.allowing),
             foremanInitials: deleteGroup(dataFromClient.foreman),
-            givingInitials: deleteGroup(dataFromClient.leader),
+            givingInitials: deleteGroup(dataFromClient.giving),
         },
         startDate: `${dataFromClient.startDate.slice(-2)}.${dataFromClient.startDate.slice(-5, -3)}.${dataFromClient.startDate.slice(0, 4)}`,
         endDate: `${dataFromClient.endDate.slice(-2)}.${dataFromClient.endDate.slice(-5, -3)}.${dataFromClient.endDate.slice(0, 4)}`
@@ -60,9 +60,9 @@ function processData(dataFromClient) {
 
     let exeptions = ['Лутай Е.В.'];
     for (let key of ['leader', 'allowing', 'foreman', 'watching']) {
-        let name = data[key].match(/(\D+)\s[А-Я]\.[А-Я]\./);
+        let name = data[key].match(/(\D+)(\s[А-Я]\.[А-Я])\./);
         data[key] = exeptions.includes(name[0]) ? 
-            data[key] : data[key].replace(name[0], name[1] + 'y');
+            data[key] : data[key].replace(name[0], name[1] + 'y' + name[2]);
     }
 
     let groups = prepareDataForTables(data.workers);

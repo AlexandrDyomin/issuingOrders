@@ -27,7 +27,7 @@ async function loadDataFromDb() {
             substation: electricalInstalation
         };
     }
-
+    
     return {
         masters,
         electricians,

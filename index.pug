@@ -15,6 +15,7 @@ html(lang="en")
         include ./src/parts/add-btn.pug
         include ./src/parts/del-btn.pug
         include ./src/parts/button.pug
+        include ./src/parts/dropdown.pug
         //- Reset and base styles
         style. 
             * {
@@ -189,7 +190,11 @@ html(lang="en")
 
         body
             template#place
-                +input()(style="text-align: start")
+                +dropdown
+                    - for (let [key, value] of Object.entries(activities))
+                        - for (let [k, v] of Object.entries(value))
+                            li(data-line=key)=v.name
+                
 
             template#action
                 .activities__action 
@@ -204,6 +209,11 @@ html(lang="en")
                         gap: 2rem;
                     }
                 form(name="data")
+                    .plate
+                        +dropdown
+                            - for (let [key, value] of Object.entries(activities))
+                                - for (let [k, v] of Object.entries(value))
+                                    li=v.name
                     h1(style="grid-column: 1/4") Выдача наряда-допуска 
                     +plate
                         label.order-number 
@@ -406,19 +416,7 @@ html(lang="en")
                             .workplace__mission {
                                 align-items: start;
                             }
-
-                        script(defer type="module"). 
-                            let lineInput = document.querySelector('.custom-input[name=overheadLine]');
-                            lineInput.addEventListener('focusout', handlelineInputFocusout);
-                            let overheadLines = document.querySelector('.workplace__overhead-lines');
-                            overheadLines.addEventListener('change', handleOverheadLinesChange);
-                            let supports = document.querySelector('.workplace__supports .custom-input');
-                            supports.addEventListener('change', handleSupportsChange);
-                            let mission = document.querySelector('.workplace__mission .textarea');
-                            
-
-                            
-                            
+                        script. 
                             async function getActivities(url, line) {
                                 try {
                                     let res = await fetch(`${url}?line=${line}`);
@@ -428,6 +426,16 @@ html(lang="en")
                                     console.log(e);
                                 }
                             }
+                        script(defer type="module"). 
+                            let lineInput = document.querySelector('.custom-input[name=overheadLine]');
+                            lineInput.addEventListener('focusout', handlelineInputFocusout);
+                            let overheadLines = document.querySelector('.workplace__overhead-lines');
+                            overheadLines.addEventListener('change', handleOverheadLinesChange);
+                            let supports = document.querySelector('.workplace__supports .custom-input');
+                            supports.addEventListener('change', handleSupportsChange);
+                            let mission = document.querySelector('.workplace__mission .textarea');
+     
+                            
 
                             function handleSupportsChange(e) {
                                 let firstSupport = e.target.value.match(/\d+\s*-\s*\d*|\d+/)[0];
@@ -447,28 +455,14 @@ html(lang="en")
                                     mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
 
-                                let delBtns = document.querySelectorAll('.activities__action .del-btn');
-                                for (let i = 0; i < delBtns.length; i++) {
-                                    if(!delBtns[i].disabled) {
-                                        delBtns[i].click();
-                                    }
-                                }
-                                
                                 let activities = await getActivities('http://localhost:8000/activities', e.target.value);
-                                let electricalInstalation = document.querySelector('.custom-input[name^="electricalInstalation"]');
-                                electricalInstalation && (electricalInstalation.value = activities.substation.name);
-                                let field = document.querySelector('.activities__action .custom-input[name^="action"]');
-                                let addAction = document.querySelector('.add-btn[data-action="add action"]');
-                                let addPlace = document.querySelector('.add-btn[data-action="add place"]');
-                                for (let i = 0; i <  activities.substation.actions.length; i++) {
-                                    field && (field.value = activities.substation.actions[i]);
-                                    if (i !== activities.substation.actions.length - 1) {
-                                        addAction.click();
-                                        field = document.querySelector('.activities__action:last-child .custom-input[name^="action"]');
-                                    } else {
-                                        addPlace.click();
-                                    }
+                                let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
+                                let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
+                                dropdownList.innerHTML = '';
+                                for(let value of Object.values(activities)) {
+                                    dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
                                 }
+                                dropdownList.firstChild.click();
                             }
 
                             function handlelineInputFocusout(e) {
@@ -492,7 +486,10 @@ html(lang="en")
                                 h4.activities__subtitle Наименование электроустановок, в которых нужно провести отключения и установить заземления
                                 h4.activities__subtitle Что должно быть отключено и где заземлено
                             .activities__fields
-                                +input(name="electricalInstalation1" style="text-align: start;" data-group="1")
+                                +dropdown(data-group="1")
+                                    - for (let [key, value] of Object.entries(activities))
+                                        - for (let [k, v] of Object.entries(value))
+                                            li(data-line=key)=v.name
                                 .activities__action(data-group="1") 
                                     +input(name="action1" style="text-align: start;")
                                     +del-btn(data-action="delete row" disabled)
@@ -522,6 +519,7 @@ html(lang="en")
                                 display: grid;
                                 grid-template-columns: 1fr 1fr;
                                 gap: 2rem 4rem;
+                                align-items: baseline;
                                 margin-bottom: 1.5rem;
                                 margin-left: 2rem;
                             }
@@ -541,6 +539,46 @@ html(lang="en")
                         script(defer type="module"). 
                             let activities = document.querySelector('.activities');
                             activities.addEventListener('click', handleClick);
+                            activities.addEventListener('custom-select', fillActions);
+
+
+                            
+                            async function fillActions(e) {
+                                let activities = await getActivities('http://localhost:8000/activities', e.detail.line);
+                                let actions;
+                                for (let v of Object.values(activities)) {
+                                    if (v.name === e.detail.target.value) {
+                                        actions = v.actions;
+                                    }
+                                }
+                                
+
+                                let group = e.detail.target.closest('.dropdown').dataset.group;
+                                let actionInput = document.querySelector(`.activities__action[data-group="${group}"] .custom-input`);
+                                let addPlace = document.querySelector('.add-btn[data-action="add place"]');
+                                let addAction = document.querySelector('.add-btn[data-action="add action"]');
+                                for (let i = 0; i < actions.length; i++) {
+                                    let nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
+                                    if (!nextActionInput) {
+                                        if (i === actions.length - 1) {
+                                            addPlace.click();
+                                        } else {
+                                            addAction.click();
+                                        }
+                                        nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
+                                    }
+
+                                    actionInput.value = actions[i];
+                                    actionInput = nextActionInput;
+                                }
+
+                                let activitiesActions = document.querySelectorAll(`.activities__action[data-group="${group}"]`);
+                                for (let i = 0; i < activitiesActions.length; i++) {
+                                    if (!actions[i]) {
+                                        activitiesActions[i].children[1].click();
+                                    }
+                                }
+                            }
 
                             function handleClick(e) {
                                 let actions = {
@@ -556,6 +594,15 @@ html(lang="en")
                                 function addRow(flag = "electricalInstalation") {
                                     let electricalInstalationFragment = document.getElementById('place').content.cloneNode(true);
                                     let actionFragment = document.getElementById('action').content.cloneNode(true);
+                                    let dropdown = electricalInstalationFragment.querySelector('.dropdown')
+                                    let input = dropdown.firstElementChild;
+                                    input.addEventListener('click', openDropdown);
+                                    dropdown.addEventListener('click', selectValue);
+                                    input.addEventListener('blur', closeDropdown);
+
+
+
+
                                     let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
                                     let actionInput = actionFragment.querySelector('.custom-input');
                                     let activitiesAction = actionFragment.querySelector('.activities__action');
@@ -567,11 +614,11 @@ html(lang="en")
                                         action: () => {
                                             electricalInstalationFragment.children[0].style.visibility = "hidden";
                                             activitiesAction.dataset.group = group;
-                                            electricalInstalationInput.dataset.group = group;
+                                            electricalInstalationInput.closest('.dropdown').dataset.group = group;
                                         },
                                         electricalInstalation: () => {
                                             e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
-                                            electricalInstalationInput.dataset.group = group + 1;
+                                            electricalInstalationInput.closest('.dropdown').dataset.group = group + 1;
                                             activitiesAction.dataset.group = group + 1;
                                         }
                                     }
@@ -595,6 +642,31 @@ html(lang="en")
                                         action.remove();
                                     }
 
+
+                                    let electricalInstalations = fields.querySelectorAll('.dropdown  .custom-input');
+                                    let group = 1;
+                                    electricalInstalations.forEach((el, i) => {
+                                        el.name = `electricalInstalation${i+1}`;
+                                        if (el.parentElement.style.visibility === 'hidden') {
+                                            el.parentElement.dataset.group = group - 1;
+                                        } else {
+                                            el.parentElement.dataset.group = i === 0 ? group++ : group++;
+                                        }
+                                    });
+                                    
+                                    let actions = fields.querySelectorAll('.activities__action  .custom-input');
+                                    group = 1;
+                                    actions.forEach((el, i) => {
+                                        el.name = `action${i+1}`;
+
+                                        
+                                        if (el.parentElement.previousElementSibling.style.visibility === 'hidden') {
+                                            el.parentElement.dataset.group = group - 1;
+                                        } else {
+                                            el.parentElement.dataset.group = i === 0 ? group++ : group++;
+                                        }
+                                    });
+
                                     let groups = [...fields.querySelectorAll('*[data-group]')]
                                         .reduce((acc, el) => {
                                             if (!acc.includes(el.dataset.group)) {
@@ -607,11 +679,6 @@ html(lang="en")
                                     if (groups.length === 1) {
                                         fields.querySelector('.del-btn').setAttribute('disabled', true);
                                     }
-
-                                    let electricalInstalations = fields.querySelectorAll('.activities__fields > .custom-input:nth-child(odd)');
-                                    let actions = fields.querySelectorAll('.activities__action > .custom-input');
-                                    electricalInstalations.forEach((el, i) => el.name = `electricalInstalation${i+1}`);
-                                    actions.forEach((el, i) => el.name = `action${i+1}`);
                                 }
 
                             }

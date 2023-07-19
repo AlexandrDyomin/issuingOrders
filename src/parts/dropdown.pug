@@ -1,0 +1,73 @@
+include ./input.pug 
+
+mixin dropdown
+  .dropdown&attributes(attributes)
+    +input(class="dropdown__input" style="margin-bottom: 5px; text-align: start" name="electricalInstalation1")
+    .dropdown__container
+      ul.dropdown__list
+        block
+
+script(defer type="module"). 
+  let dropdowns = document.querySelectorAll('.dropdown');
+  for (let dropdown of dropdowns) {
+    let input = dropdown.firstElementChild;
+    input.addEventListener('click', openDropdown);
+    dropdown.addEventListener('click', selectValue);
+    input.addEventListener('blur', closeDropdown);
+  }
+
+script(defer). 
+  function openDropdown(e) {
+    e.stopPropagation();
+    let dropdownContainer = e.target.nextElementSibling;
+    dropdownContainer.style.display = 'block';
+  }
+
+  function selectValue(e) {
+    if (e.target.tagName === 'LI') {
+      let input = e.target.closest('.dropdown').querySelector('.custom-input');
+      input.value = e.target.textContent;
+      let activities = document.querySelector('.activities');
+      activities.dispatchEvent(new CustomEvent('custom-select', { 
+        detail: { 
+          line: e.target.dataset.line,
+          target: input 
+        } 
+      }));
+    }
+  }
+
+  function closeDropdown(e) {
+    let dropdownContainer = e.target.nextElementSibling;
+    setTimeout(() => dropdownContainer.style.display = 'none', 100);
+  }
+
+style. 
+  .dropdown {
+    width: 100%;
+    position: relative;
+  }
+
+  .dropdown__container {
+    display: none;
+    overflow: hidden;
+    position:absolute;
+    width: 100%;
+    z-index: 1000;
+   }
+
+  .dropdown__container_visible {
+    display:block;
+  }
+
+  .dropdown__list {
+    padding: 7px 7px 10px 10px;
+    border: 1px solid #1F204180;
+    border-top: none;
+    border-radius: 4px;
+    background-color: white; 
+  }   
+
+  
+
+

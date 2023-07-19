@@ -17,10 +17,17 @@ fs.mkdir(path.resolve(__dirname, 'dist'), {recursive: true});
     let lines = CSVParse(info, ['name']);
 
     let activities = {};
-    for (let item of CSVParse(info, ['line', 'substation', 'box', 'actions'])) {
-        activities[item.line] = {
-            electricalInstalation: `${item.substation}, ${item.box}`,
+    for (let item of CSVParse(info, ['line', 'electricalInstalation', 'box', 'actions'])) {
+        let electricalInstalation = {
+            name: `${item.electricalInstalation} ${item.box}`,
             actions: item.actions.split(';')
+        };
+        if (activities[item.line]) {
+            activities[item.line].pcp = electricalInstalation;
+            continue;
+        }
+        activities[item.line] = {
+            substation: electricalInstalation
         };
     }
 

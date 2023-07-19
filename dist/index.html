@@ -74,6 +74,18 @@
     height: 0.8rem;
     border-radius: 50%;
     background: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
+}</style><style>.plate {
+    border-style : solid;
+    border-top-width: 1.5rem;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-radius: 0 0 1rem 1rem;
+    border-top-color: black;
+    padding: 2.5rem;
+    padding-top: 1.5rem;
+    box-shadow: 0 10px 2px 0 rgba(0, 0, 0, 0.25);
+    background: white;
 }</style><style>.workers__title {
     margin-bottom: 2rem;
 }
@@ -245,7 +257,63 @@ function resize(e) {
 .custom-button:hover {
     background: white;
     color: rgba(80, 0, 251, 0.7);
-}</style><style>* {
+}</style><style>.custom-input {
+    text-align: center;
+}</style><script defer type="module">let dropdowns = document.querySelectorAll('.dropdown');
+for (let dropdown of dropdowns) {
+  let input = dropdown.firstElementChild;
+  input.addEventListener('click', openDropdown);
+  dropdown.addEventListener('click', selectValue);
+  input.addEventListener('blur', closeDropdown);
+}
+</script><script defer>function openDropdown(e) {
+  e.stopPropagation();
+  let dropdownContainer = e.target.nextElementSibling;
+  dropdownContainer.style.display = 'block';
+}
+
+function selectValue(e) {
+  if (e.target.tagName === 'LI') {
+    let input = e.target.closest('.dropdown').querySelector('.custom-input');
+    input.value = e.target.textContent;
+    let activities = document.querySelector('.activities');
+    activities.dispatchEvent(new CustomEvent('custom-select', { 
+      detail: { 
+        line: e.target.dataset.line,
+        target: input 
+      } 
+    }));
+  }
+}
+
+function closeDropdown(e) {
+  let dropdownContainer = e.target.nextElementSibling;
+  setTimeout(() => dropdownContainer.style.display = 'none', 100);
+}
+</script><style>.dropdown {
+  width: 100%;
+  position: relative;
+}
+
+.dropdown__container {
+  display: none;
+  overflow: hidden;
+  position:absolute;
+  width: 100%;
+  z-index: 1000;
+ }
+
+.dropdown__container_visible {
+  display:block;
+}
+
+.dropdown__list {
+  padding: 7px 7px 10px 10px;
+  border: 1px solid #1F204180;
+  border-top: none;
+  border-radius: 4px;
+  background-color: white; 
+}   </style><style>* {
     padding: 0px;
     margin: 0px;
     border: none;
@@ -414,14 +482,14 @@ h1 {
     font-size: 1.5rem;
     font-weight: bold;
 }
-</style><body><template id="place"><input class="custom-input field" style="text-align: start;"></template><template id="action"><div class="activities__action"> <input class="custom-input field" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+</style><body><template id="place"><div class="dropdown"><input class="custom-input field dropdown__input" style="margin-bottom: 5px; text-align: start;" name="electricalInstalation1"><div class="dropdown__container"><ul class="dropdown__list"><li data-line="Вл 6кВ № 2-2">подстанция &quot;Рембаза&quot; ячейка № 2</li><li data-line="ВЛ 6кВ № 2-5">подстанция &quot;Рембаза&quot; ячейка № 3</li><li data-line="ВЛ 6кВ № 2-5">ПП-2-5 </li><li data-line="ВЛ 6кВ № 4-1">подстанция &quot;Карьерная&quot; ячейка № 4</li><li data-line="ВЛ 6кВ № 5-2">подстанция &quot;Горная&quot; ячейка № 5</li><li data-line="ВЛ 6кВ № 5-5">подстанция &quot;Горная&quot; ячейка № 6</li><li data-line="ВЛ 6кВ № 5-1">подстанция &quot;Горная&quot; ячейка № 7</li></ul></div></div></template><template id="action"><div class="activities__action"> <input class="custom-input field" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.30322 15.9099L15.9098 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 <path d="M15.9099 15.9099L5.30331 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 </svg></button></div></template><main> <style>form {
     display: grid;
     grid-template-columns: repeat(3, minmax(33rem, 1fr));
     gap: 2rem;
-}</style><form name="data"><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1" name="number"></label><style>.order-number {
+}</style><form name="data"><div class="plate"><div class="dropdown"><input class="custom-input field dropdown__input" style="margin-bottom: 5px; text-align: start;" name="electricalInstalation1"><div class="dropdown__container"><ul class="dropdown__list"><li>подстанция &quot;Рембаза&quot; ячейка № 2</li><li>подстанция &quot;Рембаза&quot; ячейка № 3</li><li>ПП-2-5 </li><li>подстанция &quot;Карьерная&quot; ячейка № 4</li><li>подстанция &quot;Горная&quot; ячейка № 5</li><li>подстанция &quot;Горная&quot; ячейка № 6</li><li>подстанция &quot;Горная&quot; ячейка № 7</li></ul></div></div></div><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1" name="number"></label><style>.order-number {
     display: flex;
     align-items: end;
     gap: 2rem;
@@ -556,8 +624,15 @@ function handleFormChange(e) {
 
 .workplace__mission {
     align-items: start;
-}
-</style><script defer type="module">let lineInput = document.querySelector('.custom-input[name=overheadLine]');
+}</style><script>async function getActivities(url, line) {
+    try {
+        let res = await fetch(`${url}?line=${line}`);
+        let data = await res.json();
+        return data;
+    } catch (e) {
+        console.log(e);
+    }
+}</script><script defer type="module">let lineInput = document.querySelector('.custom-input[name=overheadLine]');
 lineInput.addEventListener('focusout', handlelineInputFocusout);
 let overheadLines = document.querySelector('.workplace__overhead-lines');
 overheadLines.addEventListener('change', handleOverheadLinesChange);
@@ -566,17 +641,6 @@ supports.addEventListener('change', handleSupportsChange);
 let mission = document.querySelector('.workplace__mission .textarea');
 
 
-
-
-async function getActivities(url, line) {
-    try {
-        let res = await fetch(`${url}?line=${line}`);
-        let data = await res.json();
-        return data;
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 function handleSupportsChange(e) {
     let firstSupport = e.target.value.match(/\d+\s*-\s*\d*|\d+/)[0];
@@ -596,28 +660,14 @@ async function handleOverheadLinesChange(e) {
         mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
     }
 
-    let delBtns = document.querySelectorAll('.activities__action .del-btn');
-    for (let i = 0; i < delBtns.length; i++) {
-        if(!delBtns[i].disabled) {
-            delBtns[i].click();
-        }
-    }
-    
     let activities = await getActivities('http://localhost:8000/activities', e.target.value);
-    let electricalInstalation = document.querySelector('.custom-input[name^="electricalInstalation"]');
-    electricalInstalation && (electricalInstalation.value = activities.substation.name);
-    let field = document.querySelector('.activities__action .custom-input[name^="action"]');
-    let addAction = document.querySelector('.add-btn[data-action="add action"]');
-    let addPlace = document.querySelector('.add-btn[data-action="add place"]');
-    for (let i = 0; i <  activities.substation.actions.length; i++) {
-        field && (field.value = activities.substation.actions[i]);
-        if (i !== activities.substation.actions.length - 1) {
-            addAction.click();
-            field = document.querySelector('.activities__action:last-child .custom-input[name^="action"]');
-        } else {
-            addPlace.click();
-        }
+    let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
+    let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
+    dropdownList.innerHTML = '';
+    for(let value of Object.values(activities)) {
+        dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
     }
+    dropdownList.firstChild.click();
 }
 
 function handlelineInputFocusout(e) {
@@ -626,7 +676,7 @@ function handlelineInputFocusout(e) {
             .querySelector('.radio-button__btn:checked');
         checkboxCheked && (checkboxCheked.checked = false);
     }
-}</script></div><div class="plate"><div class="workers"><h3 class="title workers__title">Выдающий наряд</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="giving" value="Пшенковский В.А. гр. V" checked><span class="radio-button__style"></span><span class="radio-button__text">Пшенковский В.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="giving" value="Платонов А.Г. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Платонов А.Г. гр. V</span></label></li></ul></div></div><div class="plate" style="grid-column: 1/4;"><div class="activities"> <h3 class="title activities__title">Мероприятия по подготовке рабочих мест к выполнению работы</h3><div class="activities__subtitles"><h4 class="activities__subtitle">Наименование электроустановок, в которых нужно провести отключения и установить заземления</h4><h4 class="activities__subtitle">Что должно быть отключено и где заземлено</h4></div><div class="activities__fields"><input class="custom-input field" name="electricalInstalation1" style="text-align: start;" data-group="1"><div class="activities__action" data-group="1"> <input class="custom-input field" name="action1" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row" disabled><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+}</script></div><div class="plate"><div class="workers"><h3 class="title workers__title">Выдающий наряд</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="giving" value="Пшенковский В.А. гр. V" checked><span class="radio-button__style"></span><span class="radio-button__text">Пшенковский В.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="giving" value="Платонов А.Г. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Платонов А.Г. гр. V</span></label></li></ul></div></div><div class="plate" style="grid-column: 1/4;"><div class="activities"> <h3 class="title activities__title">Мероприятия по подготовке рабочих мест к выполнению работы</h3><div class="activities__subtitles"><h4 class="activities__subtitle">Наименование электроустановок, в которых нужно провести отключения и установить заземления</h4><h4 class="activities__subtitle">Что должно быть отключено и где заземлено</h4></div><div class="activities__fields"><div class="dropdown" data-group="1"><input class="custom-input field dropdown__input" style="margin-bottom: 5px; text-align: start;" name="electricalInstalation1"><div class="dropdown__container"><ul class="dropdown__list"><li data-line="Вл 6кВ № 2-2">подстанция &quot;Рембаза&quot; ячейка № 2</li><li data-line="ВЛ 6кВ № 2-5">подстанция &quot;Рембаза&quot; ячейка № 3</li><li data-line="ВЛ 6кВ № 2-5">ПП-2-5 </li><li data-line="ВЛ 6кВ № 4-1">подстанция &quot;Карьерная&quot; ячейка № 4</li><li data-line="ВЛ 6кВ № 5-2">подстанция &quot;Горная&quot; ячейка № 5</li><li data-line="ВЛ 6кВ № 5-5">подстанция &quot;Горная&quot; ячейка № 6</li><li data-line="ВЛ 6кВ № 5-1">подстанция &quot;Горная&quot; ячейка № 7</li></ul></div></div><div class="activities__action" data-group="1"> <input class="custom-input field" name="action1" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row" disabled><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.30322 15.9099L15.9098 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 <path d="M15.9099 15.9099L5.30331 5.30334" stroke="#FB0000" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round"/>
 </svg></button></div></div><div class="activities__btns"><button class="add-btn" type="button" style="justify-self: center;" data-action="add place"><svg class="add-btn__img" width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -651,6 +701,7 @@ function handlelineInputFocusout(e) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem 4rem;
+    align-items: baseline;
     margin-bottom: 1.5rem;
     margin-left: 2rem;
 }
@@ -668,6 +719,46 @@ function handlelineInputFocusout(e) {
 }
 </style><script defer type="module">let activities = document.querySelector('.activities');
 activities.addEventListener('click', handleClick);
+activities.addEventListener('custom-select', fillActions);
+
+
+
+async function fillActions(e) {
+    let activities = await getActivities('http://localhost:8000/activities', e.detail.line);
+    let actions;
+    for (let v of Object.values(activities)) {
+        if (v.name === e.detail.target.value) {
+            actions = v.actions;
+        }
+    }
+    
+
+    let group = e.detail.target.closest('.dropdown').dataset.group;
+    let actionInput = document.querySelector(`.activities__action[data-group="${group}"] .custom-input`);
+    let addPlace = document.querySelector('.add-btn[data-action="add place"]');
+    let addAction = document.querySelector('.add-btn[data-action="add action"]');
+    for (let i = 0; i < actions.length; i++) {
+        let nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
+        if (!nextActionInput) {
+            if (i === actions.length - 1) {
+                addPlace.click();
+            } else {
+                addAction.click();
+            }
+            nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
+        }
+
+        actionInput.value = actions[i];
+        actionInput = nextActionInput;
+    }
+
+    let activitiesActions = document.querySelectorAll(`.activities__action[data-group="${group}"]`);
+    for (let i = 0; i < activitiesActions.length; i++) {
+        if (!actions[i]) {
+            activitiesActions[i].children[1].click();
+        }
+    }
+}
 
 function handleClick(e) {
     let actions = {
@@ -683,6 +774,15 @@ function handleClick(e) {
     function addRow(flag = "electricalInstalation") {
         let electricalInstalationFragment = document.getElementById('place').content.cloneNode(true);
         let actionFragment = document.getElementById('action').content.cloneNode(true);
+        let dropdown = electricalInstalationFragment.querySelector('.dropdown')
+        let input = dropdown.firstElementChild;
+        input.addEventListener('click', openDropdown);
+        dropdown.addEventListener('click', selectValue);
+        input.addEventListener('blur', closeDropdown);
+
+
+
+
         let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
         let actionInput = actionFragment.querySelector('.custom-input');
         let activitiesAction = actionFragment.querySelector('.activities__action');
@@ -694,11 +794,11 @@ function handleClick(e) {
             action: () => {
                 electricalInstalationFragment.children[0].style.visibility = "hidden";
                 activitiesAction.dataset.group = group;
-                electricalInstalationInput.dataset.group = group;
+                electricalInstalationInput.closest('.dropdown').dataset.group = group;
             },
             electricalInstalation: () => {
                 e.currentTarget.querySelector('.del-btn').removeAttribute('disabled');
-                electricalInstalationInput.dataset.group = group + 1;
+                electricalInstalationInput.closest('.dropdown').dataset.group = group + 1;
                 activitiesAction.dataset.group = group + 1;
             }
         }
@@ -722,6 +822,31 @@ function handleClick(e) {
             action.remove();
         }
 
+
+        let electricalInstalations = fields.querySelectorAll('.dropdown  .custom-input');
+        let group = 1;
+        electricalInstalations.forEach((el, i) => {
+            el.name = `electricalInstalation${i+1}`;
+            if (el.parentElement.style.visibility === 'hidden') {
+                el.parentElement.dataset.group = group - 1;
+            } else {
+                el.parentElement.dataset.group = i === 0 ? group++ : group++;
+            }
+        });
+        
+        let actions = fields.querySelectorAll('.activities__action  .custom-input');
+        group = 1;
+        actions.forEach((el, i) => {
+            el.name = `action${i+1}`;
+
+            
+            if (el.parentElement.previousElementSibling.style.visibility === 'hidden') {
+                el.parentElement.dataset.group = group - 1;
+            } else {
+                el.parentElement.dataset.group = i === 0 ? group++ : group++;
+            }
+        });
+
         let groups = [...fields.querySelectorAll('*[data-group]')]
             .reduce((acc, el) => {
                 if (!acc.includes(el.dataset.group)) {
@@ -734,11 +859,6 @@ function handleClick(e) {
         if (groups.length === 1) {
             fields.querySelector('.del-btn').setAttribute('disabled', true);
         }
-
-        let electricalInstalations = fields.querySelectorAll('.activities__fields > .custom-input:nth-child(odd)');
-        let actions = fields.querySelectorAll('.activities__action > .custom-input');
-        electricalInstalations.forEach((el, i) => el.name = `electricalInstalation${i+1}`);
-        actions.forEach((el, i) => el.name = `action${i+1}`);
     }
 
 }
