@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     min-width: max-content;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 2.4rem;
 }
 
@@ -100,7 +100,7 @@
     display: flex;
     align-items:center;
     min-width: max-content;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 2.4rem;
     padding: 0 0 0 2.1rem;
 }
@@ -265,6 +265,7 @@ for (let dropdown of dropdowns) {
   input.addEventListener('click', openDropdown);
   dropdown.addEventListener('click', selectValue);
   input.addEventListener('blur', closeDropdown);
+  input.addEventListener('input', closeDropdown);
 }
 </script><script defer>function openDropdown(e) {
   e.stopPropagation();
@@ -273,15 +274,15 @@ for (let dropdown of dropdowns) {
 }
 
 function selectValue(e) {
-  if (e.target.tagName === 'LI') {
+  if (e.target.tagName === 'LI' || e.target.closest('li')) {
     let input = e.target.closest('.dropdown').querySelector('.custom-input');
     input.value = e.target.textContent;
-    let activities = document.querySelector('.activities');
-    activities.dispatchEvent(new CustomEvent('custom-select', { 
+    input.dispatchEvent(new CustomEvent('custom-select', { 
       detail: { 
         line: e.target.dataset.line,
         target: input 
-      } 
+      },
+      bubbles: true 
     }));
   }
 }
@@ -473,13 +474,13 @@ h1 {
     border-bottom-width: 1px;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.25);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     cursor:text;
 }
 
 .title {
     min-width: max-content;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
 }
 </style><body><template id="place"><div class="dropdown"><input class="custom-input field dropdown__input" style="margin-bottom: 5px; text-align: start;" name="electricalInstalation1"><div class="dropdown__container"><ul class="dropdown__list"><li data-line="Вл 6кВ № 2-2">подстанция &quot;Рембаза&quot; ячейка № 2</li><li data-line="ВЛ 6кВ № 2-5">подстанция &quot;Рембаза&quot; ячейка № 3</li><li data-line="ВЛ 6кВ № 2-5">ПП-2-5 </li><li data-line="ВЛ 6кВ № 4-1">подстанция &quot;Карьерная&quot; ячейка № 4</li><li data-line="ВЛ 6кВ № 5-2">подстанция &quot;Горная&quot; ячейка № 5</li><li data-line="ВЛ 6кВ № 5-5">подстанция &quot;Горная&quot; ячейка № 6</li><li data-line="ВЛ 6кВ № 5-1">подстанция &quot;Горная&quot; ячейка № 7</li></ul></div></div></template><template id="action"><div class="activities__action"> <input class="custom-input field" style="text-align: start;"><button class="del-btn" type="button" data-action="delete row"><svg class="del-btn__img" width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -489,7 +490,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, minmax(33rem, 1fr));
     gap: 2rem;
-}</style><form name="data"><div class="plate"><div class="dropdown"><input class="custom-input field dropdown__input" style="margin-bottom: 5px; text-align: start;" name="electricalInstalation1"><div class="dropdown__container"><ul class="dropdown__list"><li>подстанция &quot;Рембаза&quot; ячейка № 2</li><li>подстанция &quot;Рембаза&quot; ячейка № 3</li><li>ПП-2-5 </li><li>подстанция &quot;Карьерная&quot; ячейка № 4</li><li>подстанция &quot;Горная&quot; ячейка № 5</li><li>подстанция &quot;Горная&quot; ячейка № 6</li><li>подстанция &quot;Горная&quot; ячейка № 7</li></ul></div></div></div><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1" name="number"></label><style>.order-number {
+}</style><form name="data"><h1 style="grid-column: 1/4">Выдача наряда-допуска </h1><div class="plate"><label class="order-number"> <h3 class="title">№ наряда</h3><input class="custom-input field" type="number" min="1" name="number"></label><style>.order-number {
     display: flex;
     align-items: end;
     gap: 2rem;
@@ -518,7 +519,7 @@ function handleChange(e) {
     }
 
 }
-</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate watching" style="grid-column: 1/4;"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ступников В.В. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ступников В.В. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дымбрылов Э.Г. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Дымбрылов Э.Г. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Желтов Е.Е. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Желтов Е.Е. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ардинцев М.А. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ардинцев М.А. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Барсуков А.А гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Барсуков А.А гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Леонов Д.С. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Леонов Д.С. гр. III</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">не назначается</span></label></li></ul></div></div><script defer type="module">document.forms.data.addEventListener('change', handleFormChange);
+</script><div class="plate allowing"><div class="workers"><h3 class="title workers__title">Допускающий</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="allowing" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate foreman"><div class="workers"><h3 class="title workers__title">Производитель работ</h3><ul class="workers__list"><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="foreman" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li></ul></div></div><div class="plate watching" style="grid-column: 1/4;"><div class="workers"><h3 class="title workers__title">Наблюдающий</h3><ul class="workers__list"><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Бахтияров Р.В. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Бахтияров Р.В. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Сержанков С.Н. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Сержанков С.Н. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Корнеев А.А. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Корнеев А.А. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дёмин А.П. гр. V"><span class="radio-button__style"></span><span class="radio-button__text">Дёмин А.П. гр. V</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Строев А.А. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Строев А.А. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Мункуев В.С. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Мункуев В.С. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лутай Е.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лутай Е.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Лунёв В.В. гр. IV"><span class="radio-button__style"></span><span class="radio-button__text">Лунёв В.В. гр. IV</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ступников В.В. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ступников В.В. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Дымбрылов Э.Г. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Дымбрылов Э.Г. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Желтов Е.Е. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Желтов Е.Е. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Ардинцев М.А. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Ардинцев М.А. гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Барсуков А.А гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Барсуков А.А гр. III</span></label></li><li><label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="Леонов Д.С. гр. III"><span class="radio-button__style"></span><span class="radio-button__text">Леонов Д.С. гр. III</span></label></li><li> <label class="radio-button"><input class="radio-button__btn" type="radio" name="watching" value="не назначается" checked><span class="radio-button__style"></span><span class="radio-button__text">не назначается</span></label></li></ul></div></div><script defer type="module">document.forms.data.addEventListener('change', handleFormChange);
 
 let disabledInputs = [];
 let statistics = {};
@@ -547,14 +548,20 @@ function handleFormChange(e) {
         workers: () => {
             let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
                 .filter((input) => input.name !== 'watching');
-            disabledWatching(checkedInputs);
+            disable(checkedInputs, '.watching input');
+            disable(document.querySelectorAll(`.electricians input:checked`), '.foreman input');
+
         }
     }
     conditions[e.target.name]?.();
 
-    function disabledWatching(checkedInputs) {
-        let watching = document.querySelectorAll('.watching input');
-        for (let input of watching) {
+    function disable(checkedInputs, selector) {
+        let target = document.querySelectorAll(selector);
+        for (let input of target) {
+            if (!checkedInputs.length) {
+                input.disabled = false;
+            }
+
             for (let checkedInput of checkedInputs) {
                 if (input.value === checkedInput.value) {
                     input.disabled = true;
@@ -569,7 +576,9 @@ function handleFormChange(e) {
     function control() {
         let checkedInputs = Array.from(document.querySelectorAll(`.workers input:checked`))
             .filter((input) => input.name !== 'watching');
-        disabledWatching(checkedInputs);
+        disable(checkedInputs, '.watching input');
+        disable(document.querySelectorAll(`.foreman input:checked`), '.electricians input');
+
        
         statistics[e.target.value] ? statistics[e.target.value] += 1 : statistics[e.target.value] = 1;
         let checkedValues = checkedInputs.reduce((acc, item) => {
@@ -587,7 +596,7 @@ function handleFormChange(e) {
 
             statistics[key] = document.querySelectorAll(`input[value="${key}"]:checked`).length;
 
-            let notChecked = document.querySelectorAll(`input[value="${key}"]:not(:checked):not(.watching input)`);
+            let notChecked = document.querySelectorAll(`input[value="${key}"]:not(:checked):not(.watching input):not(.electricians input)`);
             notChecked?.forEach((input) => {
                 if (statistics[input.value] > 1) {
                     input.disabled = true;
@@ -708,7 +717,7 @@ function handlelineInputFocusout(e) {
 
 .activities__subtitle {
     font-weight: bold;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     text-align: center;
 }
 
@@ -717,11 +726,30 @@ function handlelineInputFocusout(e) {
     align-items: end;
     gap: 0.5rem;
 }
+
+.activities__fields .dropdown li{
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: background .3s linear;
+}
+
+.activities__fields .dropdown li:hover {
+    background: rgba(80, 0, 251, 0.4);
+}
+
+
 </style><script defer type="module">let activities = document.querySelector('.activities');
 activities.addEventListener('click', handleClick);
 activities.addEventListener('custom-select', fillActions);
 
-
+activities.addEventListener('custom-select', selectOverheadLine);
+function selectOverheadLine(e) {
+    let line = e.detail.line;
+    let overheadLineRadio = document.querySelector(`.workplace__overhead-lines .radio-button__btn[value="${line}"]`);
+    overheadLineRadio.checked = true;
+    overheadLineRadio.dispatchEvent(new Event('change', { bubbles: true }));
+}
 
 async function fillActions(e) {
     let activities = await getActivities('http://localhost:8000/activities', e.detail.line);
@@ -737,22 +765,32 @@ async function fillActions(e) {
     let actionInput = document.querySelector(`.activities__action[data-group="${group}"] .custom-input`);
     let addPlace = document.querySelector('.add-btn[data-action="add place"]');
     let addAction = document.querySelector('.add-btn[data-action="add action"]');
+    
+    let activitiesActions = document.querySelectorAll(`.activities__action[data-group="${group}"]`);
+    let lastActivitiesAction = activitiesActions[activitiesActions.length - 1];
+    let dropdownFragment = document.getElementById('place');
+    
     for (let i = 0; i < actions.length; i++) {
-        let nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
-        if (!nextActionInput) {
-            if (i === actions.length - 1) {
-                addPlace.click();
-            } else {
-                addAction.click();
-            }
-            nextActionInput = actionInput?.parentElement?.nextElementSibling?.nextElementSibling.firstElementChild;
+        if (activitiesActions[i]) {
+            activitiesActions[i].children[0].value = actions[i];
+        } else {
+            let number = +lastActivitiesAction.children[0].name.at(-1) + 1;
+            let dropdown = dropdownFragment.content.cloneNode(true).children[0];
+            dropdown.style.visibility = 'hidden';
+            dropdown.dataset.group = group;
+            dropdown.children[0].name = `electricalInstalation${number}`;
+            let activitiesAction = lastActivitiesAction.cloneNode(true);
+            activitiesAction.dataset.group = group;
+            activitiesAction.children[0].value = actions[i];
+            activitiesAction.children[1].removeAttribute('disabled');
+            activitiesAction.children[0].name = `action${number}`;
+            lastActivitiesAction.after(dropdown);
+            dropdown.after(activitiesAction);
+            lastActivitiesAction = activitiesAction;
         }
-
-        actionInput.value = actions[i];
-        actionInput = nextActionInput;
     }
 
-    let activitiesActions = document.querySelectorAll(`.activities__action[data-group="${group}"]`);
+    activitiesActions = document.querySelectorAll(`.activities__action[data-group="${group}"]`);
     for (let i = 0; i < activitiesActions.length; i++) {
         if (!actions[i]) {
             activitiesActions[i].children[1].click();

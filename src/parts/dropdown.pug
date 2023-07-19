@@ -14,6 +14,7 @@ script(defer type="module").
     input.addEventListener('click', openDropdown);
     dropdown.addEventListener('click', selectValue);
     input.addEventListener('blur', closeDropdown);
+    input.addEventListener('input', closeDropdown);
   }
 
 script(defer). 
@@ -24,15 +25,15 @@ script(defer).
   }
 
   function selectValue(e) {
-    if (e.target.tagName === 'LI') {
+    if (e.target.tagName === 'LI' || e.target.closest('li')) {
       let input = e.target.closest('.dropdown').querySelector('.custom-input');
       input.value = e.target.textContent;
-      let activities = document.querySelector('.activities');
-      activities.dispatchEvent(new CustomEvent('custom-select', { 
+      input.dispatchEvent(new CustomEvent('custom-select', { 
         detail: { 
           line: e.target.dataset.line,
           target: input 
-        } 
+        },
+        bubbles: true 
       }));
     }
   }

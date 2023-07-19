@@ -6,7 +6,7 @@ function processData(dataFromClient) {
         leader: '',
         leaderInitials: '',
         allowing: '',
-        alowingInitials:'',
+        allowingInitials:'',
         foreman: '',
         foremanInitials: '',
         watching: '',
@@ -44,7 +44,6 @@ function processData(dataFromClient) {
         action6: '',
         action7: ''
     }
-
     data = { 
         ...emptyObj, 
         ...dataFromClient,
@@ -61,8 +60,8 @@ function processData(dataFromClient) {
     let exeptions = ['Лутай Е.В.'];
     for (let key of ['leader', 'allowing', 'foreman', 'watching']) {
         let name = data[key].match(/(\D+)(\s[А-Я]\.[А-Я])\./);
-        data[key] = exeptions.includes(name[0]) ? 
-            data[key] : data[key].replace(name[0], name[1] + 'y' + name[2]);
+        data[key] = exeptions.includes(name?.[0]) ? 
+            data[key] : data[key].replace(name?.[0], name?.[1] + 'y' + name?.[2]);
     }
 
     let groups = prepareDataForTables(data.workers);
@@ -90,7 +89,7 @@ function processData(dataFromClient) {
         };
         processedData.push(obj);
     }
-    
+
     delete processedData[0].workers;
     delete processedData[0].mission;
 
@@ -135,7 +134,11 @@ function processData(dataFromClient) {
     }
 
     function deleteGroup(str) {
-        return str.replace(/\s*гр.\s*\D+/, '');
+        try {
+            return str.replace(/\s*гр.\s*\D+/, '');
+        } catch (e) {
+            return '';
+        }
     }
 
 
