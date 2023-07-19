@@ -559,10 +559,11 @@ html(lang="en")
 
                             activities.addEventListener('custom-select', selectOverheadLine);
                             function selectOverheadLine(e) {
-                                let line = e.detail.line;
-                                let overheadLineRadio = document.querySelector(`.workplace__overhead-lines .radio-button__btn[value="${line}"]`);
-                                overheadLineRadio.checked = true;
-                                overheadLineRadio.dispatchEvent(new Event('change', { bubbles: true }));
+                                if (e.target.name === 'electricalInstalation1') {
+                                    let line = e.detail.line;
+                                    let overheadLineRadio = document.querySelector(`.workplace__overhead-lines .radio-button__btn[value="${line}"]`);
+                                    overheadLineRadio.checked = true;
+                                }
                             }
                             
                             async function fillActions(e) {
@@ -631,9 +632,7 @@ html(lang="en")
                                     input.addEventListener('click', openDropdown);
                                     dropdown.addEventListener('click', selectValue);
                                     input.addEventListener('blur', closeDropdown);
-
-
-
+                                    input.addEventListener('input', closeDropdown);
 
                                     let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
                                     let actionInput = actionFragment.querySelector('.custom-input');
