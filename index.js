@@ -1,7 +1,7 @@
 const http = require('http');
 let { routes } = require('./src/router.js');
 const HOST = 'localhost';
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const server = http.createServer();
 server.on('request', handleRequest);
