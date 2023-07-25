@@ -1,11 +1,11 @@
 const http = require('http');
 let { routes } = require('./src/router.js');
-const HOST = '0.0.0.0';
+const HOST = 'localhost';
 const PORT = process.env.PORT || 8000;
 
 const server = http.createServer();
 server.on('request', handleRequest);
-server.listen(PORT, handleConnection);
+server.listen(PORT, HOST, handleConnection);
 
 async function handleRequest(req, res) {  
     res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
