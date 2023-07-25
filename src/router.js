@@ -11,10 +11,10 @@ let { dataForTemplate } = require('../utils/loadDataFromDb.js');
 
 let routes = {
     '/activities': async function postActivities(req, res) {
-        // let url = new URL(req.headers.host + req.url);
-        // let line = url.searchParams.get('line');
-        // let activities = JSON.stringify((await dataForTemplate).activities[line]);
-        // res.writeHead(200, {'Content-Type': 'application/json'})
+        let url = new URL(req.headers.host + req.url);
+        let line = decodeURI(url.searchParams.get('line'));
+        let activities = JSON.stringify((await dataForTemplate).activities[line]);
+        res.writeHead(200, {'Content-Type': 'application/json'})
         let activities = JSON.stringify([1, 2, 3])
         res.end(activities);
     },
