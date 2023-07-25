@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 8000;
 
 const server = http.createServer();
 server.on('request', handleRequest);
-server.listen();
+server.listen(PORT);
 
 async function handleRequest(req, res) {  
     res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
