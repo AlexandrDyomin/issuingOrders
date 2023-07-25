@@ -11,12 +11,12 @@ async function handleRequest(req, res) {
     // res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
     res.setHeader('Access-Control-Allow-Origin', `*`);
     // res.setHeader('Vary', 'Origin');
-    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     // let url = new URL(`${req.headers.host}${req.url}`);
     // let pathname = url.pathname.match(/\/.*/)[0];
     // routes[pathname] ? routes[pathname](req, res) : routes.default(req, res);
-    // let url = new URL(req.headers.host);
-    res.end(req.url)
+    routes[req.url](req, res);
+    
 }
 
 function handleConnection() {
