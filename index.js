@@ -15,8 +15,8 @@ async function handleRequest(req, res) {
     // let url = new URL(`${req.headers.host}${req.url}`);
     // let pathname = url.pathname.match(/\/.*/)[0];
     // routes[pathname] ? routes[pathname](req, res) : routes.default(req, res);
-    let url = new URL(req.headers.host);
-    routes['/'](req, res);
+    // let url = new URL(req.headers.host);
+    res.end(req.headers.host)
 }
 
 function handleConnection() {
