@@ -1,11 +1,11 @@
 const http = require('http');
 let { routes } = require('./src/router.js');
-const HOST = process.env.HOST || 'localhost';
+// const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8000;
 
 const server = http.createServer();
 server.on('request', handleRequest);
-server.listen(PORT, HOST, handleConnection);
+server.listen(PORT, handleConnection);
 
 async function handleRequest(req, res) {  
     res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
@@ -17,7 +17,9 @@ async function handleRequest(req, res) {
 }
 
 function handleConnection() {
-    console.log(`Server is running on http://${HOST}:${PORT}`);
+    // console.log(`Server is running on http://${HOST}:${PORT}`);
+    console.log(`Server is running on PORT: ${PORT}`);
+    
 }
 
 if (process.env.NODE_ENV === 'dev') {
