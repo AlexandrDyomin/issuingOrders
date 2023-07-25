@@ -15,7 +15,6 @@ let routes = {
         let line = decodeURI(url.searchParams.get('line'));
         let activities = JSON.stringify((await dataForTemplate).activities[line]);
         res.writeHead(200, {'Content-Type': 'application/json'})
-        let activities = JSON.stringify([1, 2, 3])
         res.end(activities);
     },
     '/order': function postOrder(req, res) {
