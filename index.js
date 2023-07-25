@@ -8,7 +8,8 @@ server.on('request', handleRequest);
 server.listen(PORT, handleConnection);
 
 async function handleRequest(req, res) {  
-    res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
+    // res.setHeader('Access-Control-Allow-Origin', `http://${HOST}:${PORT}`);
+    res.setHeader('Access-Control-Allow-Origin', `*`);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     let url = new URL(`${req.headers.host}${req.url}`);
