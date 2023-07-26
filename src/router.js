@@ -11,7 +11,7 @@ let { dataForTemplate } = require('../utils/loadDataFromDb.js');
 
 let routes = {
     '/activities': async function postActivities(req, res) {
-        let url = new URL(req.url, 'https' + req.headers.host);
+        let url = new URL(req.url, 'https://' + req.headers.host);
         let line = decodeURI(url.searchParams.get('line'));
         let activities = JSON.stringify((await dataForTemplate).activities[line]);
         res.writeHead(200, {'Content-Type': 'application/json'})
