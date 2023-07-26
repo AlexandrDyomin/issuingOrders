@@ -458,7 +458,7 @@ html(lang="en")
                                     mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
                                 
-                                let activities = await getActivities('http://localhost:8000/activities', e.target.value);
+                                let activities = await getActivities('https://orders-bjzw.onrender.com/activities', e.target.value);
                                 let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
                                 let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
                                 dropdownList.innerHTML = '';
@@ -571,7 +571,7 @@ html(lang="en")
                             }
                             
                             async function fillActions(e) {
-                                let activities = await getActivities('http://localhost:8000/activities', e.detail.line);
+                                let activities = await getActivities('https://orders-bjzw.onrender.com/activities', e.detail.line);
                                 let actions;
                                 for (let v of Object.values(activities)) {
                                     if (v.name === e.detail.target.value) {
@@ -746,7 +746,7 @@ html(lang="en")
                 data.timeIssue = date.toLocaleTimeString().slice(0, 5);
                 data.dateIssue = date.toLocaleDateString();
                 data = JSON.stringify(data);
-                let url = 'http://localhost:8000/order';
+                let url = 'https://orders-bjzw.onrender.com/order';
                 let res = await fetch(url, {
                     method: 'POST',
                     body: data
