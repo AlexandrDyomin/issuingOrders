@@ -59,8 +59,8 @@ function makeHandlerEnd(res, dataFromClient) {
             for (let i = 0; i < deserializedData.length; i++) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
-                await fs.writeFile(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), order);
-                let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
+                await fs.writeFile(path.resolve(process.cwd(), 'src/tmp', `order${i}.docx`), order);
+                let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'src/tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'src/tmp'));
                 let pdfBuf = await fs.readFile(pathOutput);
                 await merger.add(pdfBuf);
             }
