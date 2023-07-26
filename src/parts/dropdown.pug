@@ -11,6 +11,9 @@ script(defer type="module").
   let dropdowns = document.querySelectorAll('.dropdown');
   for (let dropdown of dropdowns) {
     let input = dropdown.firstElementChild;
+    input.addEventListener('pointerdown', openDropdown);
+    dropdown.addEventListener('pointerdown', selectValue);
+    dropdown.addEventListener('pointerdown', highlightItem);
     input.addEventListener('click', openDropdown);
     dropdown.addEventListener('click', selectValue);
     dropdown.addEventListener('click', highlightItem);

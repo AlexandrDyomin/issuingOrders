@@ -457,11 +457,12 @@ html(lang="en")
                                 if (e.target.type === 'text' && /\d+кВ № \d+\s*-\s*\d+/.test(e.target.value)) {
                                     mission.value = mission.value.replace(/на ВЛ \d+кВ № \d+\s*-\s*\d+|^$|^/i, `на ${e.target.value}`);
                                 }
-
-                                let activities = await getActivities('https://orders-bjzw.onrender.com/activities', e.target.value);
+                                
+                                let activities = await getActivities('http://localhost:8000/activities', e.target.value);
                                 let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
                                 let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
                                 dropdownList.innerHTML = '';
+                                console.log(activities)
                                 for(let value of Object.values(activities)) {
                                     dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
                                 }
@@ -556,6 +557,7 @@ html(lang="en")
 
                         script(defer type="module"). 
                             let activities = document.querySelector('.activities');
+                            activities.addEventListener('pointerdown', handleClick);
                             activities.addEventListener('click', handleClick);
                             activities.addEventListener('custom-select', fillActions);
 
@@ -569,7 +571,7 @@ html(lang="en")
                             }
                             
                             async function fillActions(e) {
-                                let activities = await getActivities('https://orders-bjzw.onrender.com/activities', e.detail.line);
+                                let activities = await getActivities('http://localhost:8000/activities', e.detail.line);
                                 let actions;
                                 for (let v of Object.values(activities)) {
                                     if (v.name === e.detail.target.value) {
@@ -631,11 +633,11 @@ html(lang="en")
                                     let actionFragment = document.getElementById('action').content.cloneNode(true);
                                     let dropdown = electricalInstalationFragment.querySelector('.dropdown')
                                     let input = dropdown.firstElementChild;
-                                    input.addEventListener('click', openDropdown);
-                                    dropdown.addEventListener('click', selectValue);
+                                    input.addEventListener('pointerdown', openDropdown);
+                                    dropdown.addEventListener('pointerdown', selectValue);
                                     input.addEventListener('blur', closeDropdown);
                                     input.addEventListener('input', closeDropdown);
-                                    dropdown.addEventListener('click', highlightItem);
+                                    dropdown.addEventListener('pointerdown', highlightItem);
 
 
                                     let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
@@ -743,9 +745,8 @@ html(lang="en")
                 let date = new Date();
                 data.timeIssue = date.toLocaleTimeString().slice(0, 5);
                 data.dateIssue = date.toLocaleDateString();
-                console.log(data.dateIssue)
                 data = JSON.stringify(data);
-                let url = 'https://orders-bjzw.onrender.com/order';
+                let url = 'http://localhost:8000/order';
                 let res = await fetch(url, {
                     method: 'POST',
                     body: data

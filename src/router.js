@@ -1,8 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-const toPdf = require('office-to-pdf');
 const PDFMerger = require('pdf-merger-js');
+const { convertWordFiles } = require('convert-multiple-files-ul');
 
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
@@ -12,7 +12,7 @@ let { dataForTemplate } = require('../utils/loadDataFromDb.js');
 let routes = {
     '/activities': async function postActivities(req, res) {
         let url = new URL(req.headers.host + req.url);
-        let line = url.searchParams.get('line');
+        let line = decodeURI(url.searchParams.get('line'));
         let activities = JSON.stringify((await dataForTemplate).activities[line]);
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(activities);
@@ -56,14 +56,14 @@ function makeHandlerEnd(res, dataFromClient) {
             let emptyOrder = await readEmptyOrder();
             let deserializedData = processData(JSON.parse(dataFromClient.toString()));
             let merger = new PDFMerger();
-            
-            for (let part of deserializedData) {
+            for (let i = 0; i < deserializedData.length; i++) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
-                let order = await generateDocument(emptyOrderCopy, part);
-                let pdf = await toPdf(order);
-                await merger.add(pdf);
+                let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
+                await fs.writeFile(path.resolve(__dirname, '../tmp', `order${i}.docx`), order);
+                let pathOutput = await convertWordFiles(path.resolve(__dirname, '../tmp', `order${i}.docx`), 'pdf', path.resolve(__dirname, '../tmp'));
+                let pdfBuf = await fs.readFile(pathOutput);
+                await merger.add(pdfBuf);
             }
-            
             writeHeaders();
             res.end(await merger.saveAsBuffer());
         } catch (err) {

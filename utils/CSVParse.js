@@ -4,7 +4,7 @@ function CSVParse(str, props) {
         .map(ArrayToObject.bind(null, props));
 
     function splitIntoRows(str) {
-        return str.split('\n');
+        return str.split('\r\n');
     }
 
     function splitIntoCells(row) {
