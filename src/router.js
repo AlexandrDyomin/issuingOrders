@@ -66,7 +66,7 @@ function makeHandlerEnd(res, dataFromClient) {
                 // let pdfBuf = await fs.readFile(pathOutput);
                 converter.generatePdf(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), (err, result) => {
                     writeHeaders();
-                    res.end(result.outputFile);
+                    res.end(result);
                 })
                     
                 // let pdfBuf = await fs.readFile(path.resolve(process.cwd(), 'tmp', `order${i}.pdf`));
@@ -75,7 +75,7 @@ function makeHandlerEnd(res, dataFromClient) {
             }
             // writeHeaders();
             // res.end(await merger.saveAsBuffer());
-            res.end(path.resolve(process.cwd(), 'tmp', `order${0}.docx`))
+            // res.end(path.resolve(process.cwd(), 'tmp', `order${0}.docx`))
         } catch (err) {
             console.log(err);
             res.writeHead(500);
