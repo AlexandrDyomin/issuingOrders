@@ -63,7 +63,7 @@ function makeHandlerEnd(res, dataFromClient) {
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
                 let orderPath = path.resolve(process.cwd(), 'tmp', `order${i}.docx`);
                 await fs.writeFile(orderPath, order);
-                // docx.insertDocxSync(orderPath); 
+                docx.insertDocxSync(orderPath); 
                 // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
                 // let pdfBuf = await fs.readFile(pathOutput);
                 // await merger.add(pdfBuf);
