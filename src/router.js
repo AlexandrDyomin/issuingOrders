@@ -68,7 +68,7 @@ function makeHandlerEnd(res, dataFromClient) {
                 // let pdfBuf = await fs.readFile(pathOutput);
                 // await merger.add(pdfBuf);
             }
-            writeHeaders();
+            // writeHeaders();
             // res.end(await merger.saveAsBuffer());
             // let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order.docx`);
             // docx.save(pdfOrderPath, function(err){
