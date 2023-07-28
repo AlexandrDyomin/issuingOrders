@@ -3,6 +3,8 @@ const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
 // const { convertWordFiles } = require('convert-multiple-files-ul');
+var builder = require('docx-builder');
+var docx = new builder.Document();
 
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
