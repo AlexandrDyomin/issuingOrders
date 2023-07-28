@@ -62,15 +62,13 @@ function makeHandlerEnd(res, dataFromClient) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
                 await fs.writeFile(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), order);
-
-                // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
-                // let pdfBuf = await fs.readFile(pathOutput);
-                // await merger.add(pdfBuf);
+                let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
+                let pdfBuf = await fs.readFile(pathOutput);
+                await merger.add(pdfBuf);
             }
-            // writeHeaders();
-            // res.end(await merger.saveAsBuffer());
+            writeHeaders();
+            res.end(await merger.saveAsBuffer());
             res.end(path.resolve(process.cwd(), 'tmp', `order${0}.docx`))
-            // res.end(process.cwd());
         } catch (err) {
             console.log(err);
             res.writeHead(500);
