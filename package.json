@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "awesome-unoconv": "^1.0.1",
     "convert-multiple-files-ul": "^1.0.1",
     "docxtemplater": "^3.37.9",
     "office-to-pdf": "^4.0.0",
