@@ -70,7 +70,7 @@ function makeHandlerEnd(res, dataFromClient) {
             // writeHeaders();
             // res.end(await merger.saveAsBuffer());
             let d = f.readdirSync(".", { withFileTypes: true })
-            res.end(d.toString())
+            res.end(JSON.stringify(d))
             // res.end(process.cwd());
         } catch (err) {
             console.log(err);
