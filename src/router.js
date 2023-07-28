@@ -1,4 +1,6 @@
 const fs = require('fs/promises');
+const f = require('fs');
+
 const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
@@ -61,14 +63,14 @@ function makeHandlerEnd(res, dataFromClient) {
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
                 await fs.writeFile(path.resolve(process.cwd(), 'src/tmp', `order${i}.docx`), order);
 
-                // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'src/tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'src/tmp'));
+                // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
                 // let pdfBuf = await fs.readFile(pathOutput);
                 // await merger.add(pdfBuf);
             }
             // writeHeaders();
             // res.end(await merger.saveAsBuffer());
-            let f = fs.readdirSync(".", { withFileTypes: true })
-            console.log(f.toString())
+            let f = f.readdirSync(".", { withFileTypes: true })
+            res.end(f.toString())
             // res.end(process.cwd());
         } catch (err) {
             console.log(err);
