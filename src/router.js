@@ -67,8 +67,9 @@ function makeHandlerEnd(res, dataFromClient) {
             }
             // writeHeaders();
             // res.end(await merger.saveAsBuffer());
-            // fs.readdirSync(".", { withFileTypes: true })
-            res.end(process.cwd());
+            let f = fs.readdirSync(".", { withFileTypes: true })
+            console.log(f.toString())
+            // res.end(process.cwd());
         } catch (err) {
             console.log(err);
             res.writeHead(500);
