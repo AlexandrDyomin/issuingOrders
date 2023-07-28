@@ -5,8 +5,7 @@ const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
 // const { convertWordFiles } = require('convert-multiple-files-ul');
-const unoconv = require('awesome-unoconv');
-
+var converter = require('office-converter')();
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
 const { processData } = require('../utils/processData.js');
@@ -63,15 +62,19 @@ function makeHandlerEnd(res, dataFromClient) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
                 await fs.writeFile(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), order);
-                await unoconv(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), path.resolve(process.cwd(), 'tmp', `order${i}.pdf`))
                 // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
                 // let pdfBuf = await fs.readFile(pathOutput);
-                let pdfBuf = await fs.readFile(path.resolve(process.cwd(), 'tmp', `order${i}.pdf`));
+                converter.generatePdf(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), (err, result) => {
+                    writeHeaders();
+                    res.end(result);
+                })
+                    
+                // let pdfBuf = await fs.readFile(path.resolve(process.cwd(), 'tmp', `order${i}.pdf`));
 
-                await merger.add(pdfBuf);
+                // await merger.add(pdfBuf);
             }
-            writeHeaders();
-            res.end(await merger.saveAsBuffer());
+            // writeHeaders();
+            // res.end(await merger.saveAsBuffer());
             res.end(path.resolve(process.cwd(), 'tmp', `order${0}.docx`))
         } catch (err) {
             console.log(err);
