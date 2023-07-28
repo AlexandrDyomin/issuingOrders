@@ -1,12 +1,8 @@
 const fs = require('fs/promises');
-const f = require('fs');
-
 const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
 const { convertWordFiles } = require('convert-multiple-files-ul');
-
-const msopdf = require('node-msoffice-pdf');
 
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
@@ -15,7 +11,7 @@ let { dataForTemplate } = require('../utils/loadDataFromDb.js');
 
 let routes = {
     '/activities': async function postActivities(req, res) {
-        let url = new URL(req.url, 'https://' + req.headers.host);
+        let url = new URL(req.headers.host + req.url);
         let line = decodeURI(url.searchParams.get('line'));
         let activities = JSON.stringify((await dataForTemplate).activities[line]);
         res.writeHead(200, {'Content-Type': 'application/json'})
@@ -64,28 +60,8 @@ function makeHandlerEnd(res, dataFromClient) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
                 await fs.writeFile(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), order);
-                // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
-                // let pdfBuf = await fs.readFile(pathOutput);
-
-
-                msopdf(null, function(error, office) { 
-                    if (error) { 
-                        console.log("Init failed", error);
-                        return;
-                    }
-                    
-                    office.word({input: path.resolve(process.cwd(), 'tmp', `order${i}.docx`), output:path.resolve(process.cwd(), 'tmp', `order${i}.pdf`)}, function(error, pdf) { 
-                        if (error) { 
-                            console.log("Woops", error);
-                        } else {
-
-                        }
-                    });
-                    
-                });
-
-                let pdfBuf = await fs.readFile(path.resolve(process.cwd(), 'tmp', `order${i}.pdf`));
-
+                let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
+                let pdfBuf = await fs.readFile(pathOutput);
                 await merger.add(pdfBuf);
             }
             writeHeaders();
