@@ -57,7 +57,7 @@ function makeHandlerEnd(res, dataFromClient) {
         try {
             let emptyOrder = await readEmptyOrder();
             let deserializedData = processData(JSON.parse(dataFromClient.toString()));
-            let merger = new PDFMerger();
+            // let merger = new PDFMerger();
             for (let i = 0; i < deserializedData.length; i++) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
@@ -70,7 +70,7 @@ function makeHandlerEnd(res, dataFromClient) {
             }
             writeHeaders();
             // res.end(await merger.saveAsBuffer());
-            let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order${0}.docx`);
+            let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order ${deserializedData[0].number}.docx`);
             docx.save(pdfOrderPath, function(err){
                 if(err) console.log(err);
             });
