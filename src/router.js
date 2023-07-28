@@ -66,7 +66,7 @@ function makeHandlerEnd(res, dataFromClient) {
                 // let pdfBuf = await fs.readFile(pathOutput);
                 converter.generatePdf(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), (err, result) => {
                     writeHeaders();
-                    res.end(result);
+                    res.end(result.outputFile);
                 })
                     
                 // let pdfBuf = await fs.readFile(path.resolve(process.cwd(), 'tmp', `order${i}.pdf`));
