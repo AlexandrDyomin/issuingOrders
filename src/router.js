@@ -70,7 +70,7 @@ function makeHandlerEnd(res, dataFromClient) {
             }
             writeHeaders();
             // res.end(await merger.saveAsBuffer());
-            let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order${0}.pdf`);
+            let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order${0}.docx`);
             docx.save(pdfOrderPath, function(err){
                 if(err) console.log(err);
             });
