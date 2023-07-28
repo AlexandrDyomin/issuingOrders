@@ -4,8 +4,8 @@ const f = require('fs');
 const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
-// const { convertWordFiles } = require('convert-multiple-files-ul');
-var converter = require('office-converter')();
+const { convertWordFiles } = require('convert-multiple-files-ul');
+
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
 const { processData } = require('../utils/processData.js');
