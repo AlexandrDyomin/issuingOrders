@@ -75,7 +75,7 @@ function makeHandlerEnd(res, dataFromClient) {
                 if(err) console.log(err);
             });
             let o = await fs.readFile(pdfOrderPath);
-            res.end('o');
+            res.end(o);
 
         } catch (err) {
             console.log(err);
