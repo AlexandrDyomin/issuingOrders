@@ -2,7 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 
 const PDFMerger = require('pdf-merger-js');
-const { convertWordFiles } = require('convert-multiple-files-ul');
+// const { convertWordFiles } = require('convert-multiple-files-ul');
 
 const generateDocument = require('../utils/generateDocument.js');
 const { renderIndexPage } = require('./compiledPages.js').compiledPages;
@@ -59,13 +59,22 @@ function makeHandlerEnd(res, dataFromClient) {
             for (let i = 0; i < deserializedData.length; i++) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
-                await fs.writeFile(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), order);
-                let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
-                let pdfBuf = await fs.readFile(pathOutput);
-                await merger.add(pdfBuf);
+                let orderPath = path.resolve(process.cwd(), 'tmp', `order${i}.docx`);
+                await fs.writeFile(orderPath, order);
+                docx.insertDocxSync(orderPath); 
+                // let pathOutput = await convertWordFiles(path.resolve(process.cwd(), 'tmp', `order${i}.docx`), 'pdf', path.resolve(process.cwd(), 'tmp'));
+                // let pdfBuf = await fs.readFile(pathOutput);
+                // await merger.add(pdfBuf);
             }
             writeHeaders();
-            res.end(await merger.saveAsBuffer());
+            // res.end(await merger.saveAsBuffer());
+            let pdfOrderPath =  path.resolve(process.cwd(), 'tmp', `order${i}.pdf`);
+            docx.save(pdfOrderPath, function(err){
+                if(err) console.log(err);
+            });
+            let o = await fs.readFile(pdfOrderPath);
+            res.end(o);
+
         } catch (err) {
             console.log(err);
             res.writeHead(500);
@@ -74,7 +83,9 @@ function makeHandlerEnd(res, dataFromClient) {
     }  
 
     function writeHeaders() {
-        res.setHeader('Content-Type', 'application/pdf');
+        // res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+
         res.writeHead(200);
     }
     
