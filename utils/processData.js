@@ -67,7 +67,7 @@ function processData(dataFromClient) {
     let groups = prepareDataForTables(data.workers);
     let strings = prepareStringsWithWorkers(data.workers);
     let mission = arrayOfArraysToArrayOfObjects(
-        splitString(data.mission, [90, 105, 105, 105]),
+        splitString(data.mission, [85, 100, 100, 100]),
         ['mission1', 'mission2', 'mission3', 'mission4']
     );
 
@@ -143,8 +143,8 @@ function processData(dataFromClient) {
 
 
     function prepareStringsWithWorkers(workers, start = 0) {
-        const WORKERS_LINE_1_LENGTH = 88;
-        const WORKERS_LINE_2_LENGTH = 98;
+        const WORKERS_LINE_1_LENGTH = 83;
+        const WORKERS_LINE_2_LENGTH = 93;
         let strings = [];
         
         (function prepare(start) {
