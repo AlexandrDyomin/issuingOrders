@@ -441,8 +441,8 @@ html(lang="en")
                             
 
                             function handleSupportsChange(e) {
-                                let firstSupport = e.target.value.match(/\d+\s*-\s*\d*|\d+/)[0];
-                                mission.value = mission.value.replace(/ оп. № \d+\s*-\s*\d*| оп. № \d+|^$|$/i, ` оп. № ${firstSupport}`);
+                                let firstSupport = e.target.value.match(/[A-ZА-Я]?\d+\s*-\s*\d*|[A-ZА-Я]?\d+/)[0];
+                                mission.value = mission.value.replace(/ оп. № [A-ZА-Я]?\d+\s*-\s*\d*| оп. № [A-ZА-Я]?\d+|^$|$/i, ` оп. № ${firstSupport}`);
                             }
 
                             async function handleOverheadLinesChange(e) {
