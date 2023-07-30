@@ -67,7 +67,7 @@ function processData(dataFromClient) {
     let groups = prepareDataForTables(data.workers);
     let strings = prepareStringsWithWorkers(data.workers);
     let mission = arrayOfArraysToArrayOfObjects(
-        splitString(data.mission, [95, 110, 110, 110]),
+        splitString(data.mission, [90, 105, 105, 105]),
         ['mission1', 'mission2', 'mission3', 'mission4']
     );
 
