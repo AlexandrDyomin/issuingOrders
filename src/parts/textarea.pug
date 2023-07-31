@@ -10,7 +10,7 @@ style.
 script
     include ../../utils/debounce.js
 script(defer type="module"). 
-    let debouncedResize = debounce(resize, 800);
+    let debouncedResize = debounce(resize, 200);
 
     let textareas = document.querySelectorAll('.textarea');
     for (let i = 0; i < textareas.length; i++) {
@@ -22,6 +22,7 @@ script(defer type="module").
     }
     
     function resize(e) {
+        console.log(1)
         let target = e.target ? e.target : e;
         target.style.height = '2.5rem';
         target.style.height = `${target.scrollHeight}px`;

@@ -1,1 +1,1 @@
-powershell.exe -WindowStyle hidden -nologo -noninteractive node index.js
+powershell.exe -WindowStyle hidden -nologo -noninteractive -command node index.js

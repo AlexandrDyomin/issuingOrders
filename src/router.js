@@ -56,11 +56,14 @@ function makeHandlerEnd(res, dataFromClient) {
             let emptyOrder = await readEmptyOrder();
             let deserializedData = processData(JSON.parse(dataFromClient.toString()));
             let merger = new PDFMerger();
+            fs.mkdir(path.resolve(process.cwd(), 'tmp'), { recursive: true });
             for (let i = 0; i < deserializedData.length; i++) {
                 let emptyOrderCopy = Buffer.concat([emptyOrder]);
                 let order = await generateDocument(emptyOrderCopy, deserializedData[i]);
-                await fs.writeFile(path.resolve(__dirname, '../tmp', `order${i}.docx`), order);
-                let pathOutput = await convertWordFiles(path.resolve(__dirname, '../tmp', `order${i}.docx`), 'pdf', path.resolve(__dirname, '../tmp'));
+                let fileName = path.resolve(process.cwd(), 'tmp', `order${i}.docx`);
+                let outputDir = path.resolve(process.cwd(), 'tmp');
+                await fs.writeFile(fileName, order);
+                let pathOutput = await convertWordFiles(fileName, 'pdf', outputDir);
                 let pdfBuf = await fs.readFile(pathOutput);
                 await merger.add(pdfBuf);
             }
