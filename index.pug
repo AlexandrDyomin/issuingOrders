@@ -422,7 +422,7 @@ html(lang="en")
                         script. 
                             async function getActivities(url, line) {
                                 try {
-                                    let res = await fetch(`${url}?line=${line}`);
+                                    let res = await fetch(`${url}?line=${encodeURI(line)}`);
                                     let data = await res.json();
                                     return data;
                                 } catch (e) {
@@ -462,7 +462,6 @@ html(lang="en")
                                 let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
                                 let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
                                 dropdownList.innerHTML = '';
-                                console.log(activities)
                                 for(let value of Object.values(activities)) {
                                     dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
                                 }
