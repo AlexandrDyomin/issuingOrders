@@ -9,7 +9,8 @@ async function loadDataFromDb() {
     let masters = selectAll(workers, 'jobTitle', 'мастер');
     let electricians = selectAll(workers, 'jobTitle', 'электромонтёр');
     let bosses = selectAll(workers, 'jobTitle', 'начальник участка');
-    let workersWithFouthGroup = selectAll(workers, 'group', 'гр. IV');
+    let workersWithFouthGroup = selectAll(workers, 'group', 'гр. IV')
+        .filter((worker) => worker.name != 'Корнеев А.А.');
     let info = await fs.readFile('./src/db/overheadLines.csv', 'utf-8');
     let lines = CSVParse(info, ['name']);
     
