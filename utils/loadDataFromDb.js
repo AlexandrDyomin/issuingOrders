@@ -12,7 +12,16 @@ async function loadDataFromDb() {
     let workersWithFouthGroup = selectAll(workers, 'group', 'гр. IV')
         .filter((worker) => worker.name != 'Корнеев А.А.');
     let info = await fs.readFile('./src/db/overheadLines.csv', 'utf-8');
-    let lines = CSVParse(info, ['name']);
+    let lines = CSVParse(info, ['name']).
+        reduce((acc, line, i, lines) => {
+            for (i; i > 0; i--) {
+                if (line.name === lines[i - 1].name) {
+                    return acc;
+                }
+            }
+            acc.push(line);
+            return acc;
+        }, []);
     
     let activities = {};
     for (let item of CSVParse(info, ['line', 'electricalInstalation', 'box', 'actions'])) {
