@@ -238,10 +238,14 @@ html(lang="en")
                             }
                         script(defer type="module"). 
                             let date = new Date();
-                            let formatDate = date.toISOString().slice(0, 10);
+                            let year = date.getFullYear();
+                            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            let day = date.getDate().toString().padStart(2, '0');
+                            
+                            let formatDate = `${year}-${month}-${day}`;
+                            console.log(formatDate)
                             document.querySelectorAll('.custom-input[type=date]')
                                 .forEach((el) => el.value = formatDate);
-                            
                     
                     +workers("Ответственный руководитель работ")(class="leaders")
                         each worker in masters
