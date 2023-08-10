@@ -1,26 +1,18 @@
 const http = require('http');
 let { routes } = require('./src/router.js');
 const HOST = 'localhost';
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('db.sqlite3',  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE);
+const db = new sqlite3.Database('./src/db/db.sqlite3',  sqlite3.OPEN_READWRITE);
 
-// db.serialize(() => {
-//     db.run("CREATE TABLE lorem (info TEXT)");
+db.serialize(() => {
+    db.all("SELECT * FROM power_point", (err, row) => {
+        console.log(row);
+    });
+    db.close();
+});
 
-//     const stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-//     for (let i = 0; i < 10; i++) {
-//         stmt.run("Ipsum " + i);
-//     }
-//     stmt.finalize();
-
-//     db.each("SELECT rowid AS id, info FROM lorem", (err, row) => {
-//         console.log(row.id + ": " + row.info);
-//     });
-// });
-
-// db.close();
 
 const server = http.createServer();
 server.on('request', handleRequest);
