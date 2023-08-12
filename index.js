@@ -1,17 +1,17 @@
 const http = require('http');
 let { routes } = require('./src/router.js');
 const HOST = 'localhost';
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8000;
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./src/db/db.sqlite3',  sqlite3.OPEN_READWRITE);
+// const sqlite3 = require('sqlite3').verbose();
+// const db = new sqlite3.Database('./src/db/db.sqlite3',  sqlite3.OPEN_READWRITE);
 
-db.serialize(() => {
-    db.all("SELECT * FROM power_point", (err, row) => {
-        console.log(row);
-    });
-    db.close();
-});
+// db.serialize(() => {
+//     db.all("SELECT * FROM power_point", (err, row) => {
+//         console.log(row);
+//     });
+//     db.close();
+// });
 
 
 const server = http.createServer();
