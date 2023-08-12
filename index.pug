@@ -243,7 +243,6 @@ html(lang="en")
                             let day = date.getDate().toString().padStart(2, '0');
                             
                             let formatDate = `${year}-${month}-${day}`;
-                            console.log(formatDate)
                             document.querySelectorAll('.custom-input[type=date]')
                                 .forEach((el) => el.value = formatDate);
                     
@@ -447,6 +446,9 @@ html(lang="en")
                             function handleSupportsChange(e) {
                                 let firstSupport = e.target.value.match(/[A-ZА-Я]?\d+\s?-\s?[A-ZА-Я]?\d*|\d+(\s?\/\s?\d+)+|[A-ZА-Я]?\d+/)[0];
                                 mission.value = mission.value.replace(/ оп. № [A-ZА-Я]?\d+\s?-\s?[A-ZА-Я]?\d*| оп. № \d+(\s?\/\s?\d+)+| оп. № [A-ZА-Я]?\d+|^$|$/i, ` оп. № ${firstSupport}`);
+                                setTimeout(() => {
+                                    mission.setSelectionRange(mission.value.length, mission.value.length);
+                                }, 0)
                             }
 
                             async function handleOverheadLinesChange(e) {
