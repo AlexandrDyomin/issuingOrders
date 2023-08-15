@@ -442,10 +442,11 @@ html(lang="en")
                             let mission = document.querySelector('.workplace__mission .textarea');
      
                             
-
+                            
                             function handleSupportsChange(e) {
-                                let firstSupport = e.target.value.match(/[A-ZА-Я]?\d+\s?-\s?[A-ZА-Я]?\d*|\d+(\s?\/\s?\d+)+|[A-ZА-Я]?\d+/)[0];
-                                mission.value = mission.value.replace(/ оп. № [A-ZА-Я]?\d+\s?-\s?[A-ZА-Я]?\d*| оп. № \d+(\s?\/\s?\d+)+| оп. № [A-ZА-Я]?\d+|^$|$/i, ` оп. № ${firstSupport}`);
+                                let firstSupport = e.target.value.match(/([A-ZА-Я]?\d+(\/\d+)*)\s?-?\s?([A-ZА-Я]?\d+(\/\d+)*)?/)[0];
+                                mission.value = mission.value.replace(/ оп. № ([A-ZА-Я]?\d+(\/\d+)*)\s?-?\s?([A-ZА-Я]?\d+(\/\d+)*)?|^$|$/i, ` оп. № ${firstSupport}`);
+
                                 navigator.clipboard.writeText(mission.value.slice(3));
                                 setTimeout(() => {
                                     mission.setSelectionRange(mission.value.length, mission.value.length);
