@@ -1,10 +1,12 @@
+const os = require('os');
+
 function CSVParse(str, props) {
     return (splitIntoRows(str)
         .map(splitIntoCells))
         .map(ArrayToObject.bind(null, props));
 
     function splitIntoRows(str) {
-        return str.split('\r\n');
+        return str.split(os.EOL);
     }
 
     function splitIntoCells(row) {

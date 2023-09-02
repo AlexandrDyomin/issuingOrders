@@ -470,10 +470,12 @@ html(lang="en")
                                 let electricalInstalation = document.querySelector('.activities .custom-input[name^="electricalInstalation"]');
                                 let dropdownList = electricalInstalation.closest('.dropdown').querySelector('.dropdown__list');
                                 dropdownList.innerHTML = '';
-                                for(let value of Object.values(activities)) {
-                                    dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
+                                if (activities) {
+                                    for(let value of Object.values(activities)) {
+                                        dropdownList.innerHTML += `<li data-line="${e.target.value}">${value.name}</li>`;
+                                    }
+                                    dropdownList.firstChild.click();
                                 }
-                                dropdownList.firstChild.click();
                             }
 
                             function handlelineInputFocusout(e) {
@@ -641,9 +643,12 @@ html(lang="en")
                                     let input = dropdown.firstElementChild;
                                     input.addEventListener('pointerdown', openDropdown);
                                     dropdown.addEventListener('pointerdown', selectValue);
+                                    dropdown.addEventListener('pointerdown', highlightItem);
+                                    input.addEventListener('click', openDropdown);
+                                    dropdown.addEventListener('click', selectValue);
+                                    dropdown.addEventListener('click', highlightItem);
                                     input.addEventListener('blur', closeDropdown);
                                     input.addEventListener('input', closeDropdown);
-                                    dropdown.addEventListener('pointerdown', highlightItem);
 
 
                                     let electricalInstalationInput = electricalInstalationFragment.querySelector('.custom-input');
@@ -746,7 +751,7 @@ html(lang="en")
                 }
 
                 data.overheadLine = formData.get('overheadLine');
-                data.supports = `оп. № ${data.supports}`;
+                data.supports = data.supports ? `оп. № ${data.supports}` : '';
                 
                 let date = new Date();
                 data.timeIssue = date.toLocaleTimeString().slice(0, 5);
